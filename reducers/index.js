@@ -1,7 +1,9 @@
 import {combineReducers} from 'redux'
 import prova from './prova'
+import adminData from './adminData'
 
-console.log(prova,'prova')
+
 export default combineReducers({
-  prova
+  prova,
+  adminData
 });

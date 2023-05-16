@@ -1,23 +1,22 @@
-import '@/styles/globals.css'
 
+import styles from "../styles/globals.css";
 import { Provider } from 'react-redux'
-
-import { createStore } from "redux";
-import rootReducer from "../reducers";
-
-
-const store = createStore(rootReducer);
+import {SessionProvider} from 'next-auth/react'
+import makeStore from '../../store'
 
 
-export default function App({ Component, pageProps }) {
+console.log(makeStore)
+//const store = createStore(rootReducer);
+
+
+
+export default function App({ Component, pageProps, session }) {
   return (
-    <Provider store={store}>
-    
-   
+    <SessionProvider session={session}>
+     <Provider store={makeStore()}>
        <Component {...pageProps} />
-
-     
-    </Provider>
+     </Provider>
+    </SessionProvider>
   
   )
 }
