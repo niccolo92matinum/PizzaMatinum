@@ -7,11 +7,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
         port: '',
-        pathname: '/admin/Dashboard',
-      },
-    ],
+        pathname: '/admin/Dashboard'
+      }
+    ]
   },
-  "presets": ["next/babel"]
+  webpack (config) {
+    config.experiments = { ...config.experiments, topLevelAwait: true }
+    return config
+  }
 }
 
 module.exports = nextConfig

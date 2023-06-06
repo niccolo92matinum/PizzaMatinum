@@ -1,35 +1,52 @@
-import { db } from '@vercel/postgres';
+import { insertAllProductOnStore, insertProduct , deleteProductByTitle} from '../../services/database'
 
-export default async function handler(request, response) {
-   
-    const client = await db.connect();
+export default async function handler (request, response) {
+
+  if (request.method === 'GET') {
+
+    try {
+        const allProducts = await insertAllProductOnStore(request.query.adminId)
+
+        response.status(200).json({ product: allProducts })
+      } catch (err) {
+        response.status(500).send({message: ["Get not available"], error: error})
+      }
+
+
     
-    
-    if(request.method === 'GET'){
-        
-        const allProducts = await client.sql
-        `
-        SELECT *
-        FROM products
-        WHERE idadmin=${request.query.id}
-        `;
-        
-        response.status(200).json({product:allProducts.rows})
-        
-    }else if(request.method === 'POST'){
-        
+  } else if (request.method === 'POST') {
+
+    try {
         const product = request.body
+
+        const addProduct = await insertProduct(product)
+    
+        response.status(200).json('Product Inserted')
+      } catch (err) {
+        response.status(500).send({message: ["Post not available"], error: error})
+      }
+
+    
+  }else if(request.method === 'DELETE') {
+
+    try {
+        const product = JSON.parse(request.body)
+        
+        await deleteProductByTitle(product.productTitle)
        
-        // const dat = JSON.parse(request.body);
-        const addProduct = await client.sql
-        `
-        INSERT INTO products (title, description, category, price, img,idAdmin)
-        VALUES
-        (${product.title},${product.description},${product.category},${product.price},${product.img},${product.adminId})
-        `
-        response.status(200).json('OK');
-        
-        
-        
+        //const allProducts = await insertAllProductOnStore(request.query.adminId)
+        response.status(200).json('Product Deleted')
+      } catch (err) {
+       
+        response.status().send({message: ["Delation failed "], error: err})
+      }
+
+  }else if(request.method === 'PUT'){
+
+    try{
+
+    }catch (err) {
+
     }
+  }
 }

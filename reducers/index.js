@@ -1,9 +1,9 @@
-import {combineReducers} from 'redux'
-import prova from './prova'
+import { combineReducers } from 'redux'
 import adminData from './adminData'
-
+import productsData from './productsData'
 
 export default combineReducers({
-  prova,
-  adminData
-});
+
+  adminData,
+  productsData
+})

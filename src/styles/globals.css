@@ -51,3 +51,9 @@ body {
   display: none;
   overflow: hidden;
 }
+
+h2{
+  font-size: large;
+  color: red;
+}
+

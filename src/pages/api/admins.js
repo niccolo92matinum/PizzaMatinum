@@ -1,19 +1,20 @@
-import { db } from '@vercel/postgres';
+import { getAdminId } from "../../services/database"
 
-export default async function handler(request, response) {
-  const client = await db.connect();
+export default async function handler (request, response) {
 
-  
 
-  if (request.method === 'GET') {
-
-      const admins = await client.sql`select ID from admins where email = ${request.query.email}`;
+ if (request.method === "GET") {
+    try {
+        const admins = await getAdminId(request.query.email);
      
         response.status(200).json(admins)
+      } catch (err) {
+        response.status(500).send({message: ["Post not available"], error: error})
+      }
   
-  }else{
 
-  }
+}
+
 }
 
 

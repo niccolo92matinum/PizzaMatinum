@@ -1,14 +1,14 @@
-function adminData(state={}, action) {
+function adminData (state = {}, action) {
 
-    switch (action.type) {
-      case "STORE_ID_EMAIL":
-      
-       return action.payload
-     
-      
-      default:
-        return state
-    }
+ 
+  switch (action.type) {
+    case 'STORE_ID_EMAIL':
+
+      return action.payload
+
+    default:
+      return state
   }
-  
-  export default adminData
+}
+
+export default adminData

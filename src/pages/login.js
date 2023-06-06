@@ -1,37 +1,28 @@
-import React from 'react'
-import {useSession,signIn,signOut} from 'next-auth/react'
-import styles from "../styles/Login.module.css";
-import { useRouter } from "next/router";
-import Navbar from '../components/Navbar'
+import { useSession, signIn } from 'next-auth/react'
+import styles from '../styles/Login.module.css'
 
-const Login = () =>{
-    const {data:session} = useSession()
+import Navbar from '../Components/Navbar'
 
-
-    
-
-
-
-    if(session) {
-        return  (
+function Login(){
+  const { data: session } = useSession()
+console.log()
+  if (session) {
+    return (
             <>
               <Navbar></Navbar>
-               
+
             </>
-        )
-    }else{
-        return(
+    )
+  } else {
+    return (
             <>
             <Navbar></Navbar>
             <div>
                 <p>You are not sign in</p>
-                <button onClick={()=>signIn()} className={styles.button}>Sign In</button>
+                <button onClick={() => signIn()} className={styles.button}>Sign In</button>
             </div>
             </>
-        )
-    }
-    
-    
-    
+    )
+  }
 }
 export default Login
