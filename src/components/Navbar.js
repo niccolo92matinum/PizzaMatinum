@@ -1,16 +1,13 @@
+/* eslint-disable no-unused-vars */
 import Image from 'next/image'
 import styles from '../styles/Navbar.module.css'
 import { connect } from 'react-redux'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 
-
-
 import { useRouter } from 'next/router'
 
-function Navbar ({ state, setIdEmailToStore }){
-
-  
+function Navbar ({ state, setIdEmailToStore }) {
   const { data: session } = useSession()
 
   const router = useRouter()
@@ -88,14 +85,13 @@ function Navbar ({ state, setIdEmailToStore }){
   }
 }
 
-
-//________ACTION START___________
+// ________ACTION START___________
 
 export const setIdEmailToStore = (data) => ({
   type: 'STORE_ID_EMAIL',
   payload: data
 })
-//__________ACTION DONE ____________
+// __________ACTION DONE ____________
 
 const mapStateToProps = (state) => ({
   state
@@ -105,6 +101,5 @@ const mapDispatchToProps = {
   setIdEmailToStore
 
 }
-     
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

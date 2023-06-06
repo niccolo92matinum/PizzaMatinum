@@ -28,11 +28,10 @@ export const getAdminId = async (email) => {
   return final
 }
 
-
-export const deleteProductByTitle = async (title) =>{
-    const final =  await client.sql`
+export const deleteProductByTitle = async (title) => {
+  const final = await client.sql`
     DELETE FROM products WHERE title=${title}
     `
 
-    return final
+  return final
 }

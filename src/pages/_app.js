@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import { Provider } from 'react-redux'
 import { SessionProvider } from 'next-auth/react'
 import makeStore from '../../store'

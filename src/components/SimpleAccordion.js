@@ -1,36 +1,27 @@
-
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useSession } from 'next-auth/react'
 
 function SimpleAccordion ({ state, setShowModal, insertProductsOnStore, deleteProduct }) {
-  
   const { data: session } = useSession()
 
-const deleteProductFromRedux = (productToDelete) =>{
-  const prodData = state.productsData
+  const deleteProductFromRedux = (productToDelete) => {
+    const prodData = state.productsData
 
-  const deleteProduct = prodData[productToDelete.category].filter((product)=>{
+    const deleteProduct = prodData[productToDelete.category].filter((product) => {
+      return product.id !== productToDelete.id
+    })
 
-    return product.id !==  productToDelete.id
-   })
-   
-   prodData[productToDelete.category] = deleteProduct 
+    prodData[productToDelete.category] = deleteProduct
 
-   const newState = {prodData}
+    const newState = { prodData }
 
-return newState
+    return newState
+  }
 
-   
-   
-}
-
-  
-//____________API________start_____
+  // ____________API________start_____
   useEffect(() => {
-   
     const getAllProducts = async () => {
-    
       try {
         const response = await fetch(
      `/api/products?adminId=${state.adminData.ID}`,
@@ -49,64 +40,51 @@ return newState
 
         return final
       } catch (error) {
-        return {error:'get all products failed'}
+        return { error: 'get all products failed' }
       }
     }
-      getAllProducts()
-
+    getAllProducts()
   }, [])
 
-
-  const deleteProductApi = async (product) =>{
-
-    try{
+  const deleteProductApi = async (product) => {
+    try {
       const response = await fetch(
-        `/api/products`
+        '/api/products'
         ,
-      {
-         method: 'DELETE',
-        'Content-Type': 'application/json',
-       Authorization: session.accessToken,
-       body: JSON.stringify({
-        productTitle:product.title
-       })
-      }
+        {
+          method: 'DELETE',
+          'Content-Type': 'application/json',
+          Authorization: session.accessToken,
+          body: JSON.stringify({
+            productTitle: product.title
+          })
+        }
       )
 
       const final = await response.json()
 
-       
-       deleteProduct(deleteProductFromRedux(product))
-   
+      deleteProduct(deleteProductFromRedux(product))
+
       return final
-
-    }catch(err){
-      return {error:'delation failed'}
+    } catch (err) {
+      return { error: 'delation failed' }
     }
-
   }
-
-
-
-  const modifyProductApi = async () =>{
+  /*
+  const modifyProductApi = async () => {
     const response = await fetch(
-      `/api/products`
+      '/api/products'
       ,
-    {
-       method: 'PUT',
-      'Content-Type': 'application/json',
-     Authorization: session.accessToken,
-   
-    }
+      {
+        method: 'PUT',
+        'Content-Type': 'application/json',
+        Authorization: session.accessToken
+
+      }
     )
-
- 
-
-  
   }
-
-//____________API________end_____
-
+*/
+  // ____________API________end_____
 
   const splitAllKeyValueStore = Object.keys(state.productsData).map(key => ({ [key]: state.productsData[key] }))
 
@@ -124,10 +102,9 @@ return newState
            <>
             <div>
              {arrCategory.map((singleProduct) => {
-              
                return (
                <>
-                <p key={Math.random()}> {singleProduct.title} <button  onClick={() => setShowModal(true)}  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Modify</button> <button onClick={()=>deleteProductApi(singleProduct)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Delete</button></p>
+                <p key={Math.random()}> {singleProduct.title} <button onClick={() => setShowModal(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Modify</button> <button onClick={() => deleteProductApi(singleProduct)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Delete</button></p>
                </>
                )
              })}
@@ -162,20 +139,18 @@ function filterProductsByCategory (obj, prop) {
     return acc
   }, {})
 }
-//______ACTION______START_____
+// ______ACTION______START_____
 export const insertProductsOnStore = (data) => ({
   type: 'STORE_PRODUCTS',
   payload: data
 })
 
-
-
- export const deleteProduct = (data) => ({
+export const deleteProduct = (data) => ({
   type: 'DELETE_PRODUCT',
   payload: data.prodData
 
- })
-//_______ACTION______DONE__________
+})
+// _______ACTION______DONE__________
 
 const mapStateToProps = (state) => ({
   state
@@ -188,4 +163,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SimpleAccordion)
-

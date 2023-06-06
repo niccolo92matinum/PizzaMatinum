@@ -1,11 +1,9 @@
-import Navbar from './/../../Components/Navbar'
-
-function Dashboard(){
-
-    console.log()
+// eslint-disable-next-line no-unused-vars
+import Navbar from '../../Components/Navbar'
+function Dashboard () {
   return (
   <div>
-   <Navbar></Navbar>
+   <Navbar> </Navbar>
    <h1>DASHBOARD</h1>
   </div>
   )

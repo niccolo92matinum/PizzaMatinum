@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import Navbar from '../../Components/Navbar'
 import SimpleAccordion from '../../Components/SimpleAccordion'
 import Modalmodify from '../../Components/Modalmodify'
 import { useSession } from 'next-auth/react'
 import { connect } from 'react-redux'
-
 
 function InsertProducts ({ state, insertProductRedux }) {
   const { data: session } = useSession()
@@ -51,36 +51,33 @@ function InsertProducts ({ state, insertProductRedux }) {
 
     return {}
   }
-  
+
   // ____________________________________________________________
 
   const insertProduct = async (e) => {
     e.preventDefault()
-  
+
     try {
-        const response = await fetch(
+      const response = await fetch(
 
-                '/api/products',
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-          
-                  },
-                  Authorization: session.accessToken,
-                  body: JSON.stringify(product)
-                })
-              await response.json()
-          
-              const final = insertInstantlyObjInStore(state, product)
-          
-              insertProductRedux(final)
-               
+        '/api/products',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+
+          },
+          Authorization: session.accessToken,
+          body: JSON.stringify(product)
+        })
+      await response.json()
+
+      const final = insertInstantlyObjInStore(state, product)
+
+      insertProductRedux(final)
     } catch (error) {
-        console.log(error)
+      console.log(error)
     }
-
-    
   }
 
   if (session?.admin) {
@@ -158,7 +155,7 @@ function InsertProducts ({ state, insertProductRedux }) {
       <h1>Check all your Products</h1>
 
    <SimpleAccordion setShowModal={setShowModal}></SimpleAccordion>
-   <Modalmodify setShowModal={setShowModal}  showModal={showModal}></Modalmodify>
+   <Modalmodify setShowModal={setShowModal} showModal={showModal}></Modalmodify>
 
      </div>
     </div>
@@ -176,10 +173,9 @@ function InsertProducts ({ state, insertProductRedux }) {
 }
 
 export const insertProductRedux = (data) => ({
-        type: 'STORE_SINGLE_PRODUCT',
-        payload: data
-      })
-
+  type: 'STORE_SINGLE_PRODUCT',
+  payload: data
+})
 
 const mapStateToProps = (state) => ({
   state

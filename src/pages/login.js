@@ -1,11 +1,12 @@
 import { useSession, signIn } from 'next-auth/react'
 import styles from '../styles/Login.module.css'
 
+// eslint-disable-next-line no-unused-vars
 import Navbar from '../Components/Navbar'
 
-function Login(){
+function Login () {
   const { data: session } = useSession()
-console.log()
+  console.log()
   if (session) {
     return (
             <>

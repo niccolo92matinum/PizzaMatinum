@@ -1,10 +1,7 @@
-import React from 'react'
-
+/* eslint-disable multiline-ternary */
 export default function Modalmodify (setShowModal, showModal) {
-  console.log(setShowModal)
   return (
   <>
-  
 
    {setShowModal.showModal ? (
     <>

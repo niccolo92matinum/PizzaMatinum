@@ -5,7 +5,7 @@ module.exports = {
     es2021: true
   },
   extends: [
-    'plugin:react/recommended',
+    'plugin:@next/next/recommended',
     'standard'
   ],
   overrides: [
@@ -20,6 +20,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-react': 'off',
     'react/prop-types': 'off',
-    'eslint-disable-next-line multiline-ternary'
+    'next-line multiline-ternary': 'off'
+
   }
 }
