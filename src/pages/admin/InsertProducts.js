@@ -184,4 +184,4 @@ const mapDispatchToProps = {
   insertProductRedux
 }
 
-connect(mapStateToProps, mapDispatchToProps)(InsertProducts)
+export default connect(mapStateToProps, mapDispatchToProps)(InsertProducts)
