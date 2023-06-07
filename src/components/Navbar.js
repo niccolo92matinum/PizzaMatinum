@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 function Navbar ({ state, setIdEmailToStore }) {
   const { data: session } = useSession()
-
+  // prova
   const router = useRouter()
 
   const goToPage = async (path) => {
