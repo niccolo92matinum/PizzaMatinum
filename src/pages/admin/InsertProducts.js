@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import { useState } from 'react'
-import Navbar from '../../Components/Navbar'
-import SimpleAccordion from '../../Components/SimpleAccordion'
-import Modalmodify from '../../Components/Modalmodify'
+import Navbar from '../../components/Navbar'
+import SimpleAccordion from '../../components/SimpleAccordion'
+import Modalmodify from '../../components/Modalmodify'
 import { useSession } from 'next-auth/react'
 import { connect } from 'react-redux'
 
@@ -185,4 +184,4 @@ const mapDispatchToProps = {
   insertProductRedux
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InsertProducts)
+connect(mapStateToProps, mapDispatchToProps)(InsertProducts)

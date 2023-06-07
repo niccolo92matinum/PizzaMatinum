@@ -1,12 +1,10 @@
-import { useSession, signIn } from 'next-auth/react'
 import styles from '../styles/Login.module.css'
+import { useSession, signIn } from 'next-auth/react'
+import Navbar from '../components/Navbar'
 
-// eslint-disable-next-line no-unused-vars
-import Navbar from '../Components/Navbar'
-
-function Login () {
+export default function Login () {
   const { data: session } = useSession()
-  console.log()
+
   if (session) {
     return (
             <>
@@ -26,4 +24,3 @@ function Login () {
     )
   }
 }
-export default Login

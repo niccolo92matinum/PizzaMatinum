@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Image from 'next/image'
 import styles from '../styles/Navbar.module.css'
 import { connect } from 'react-redux'
