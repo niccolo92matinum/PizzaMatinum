@@ -1,8 +1,9 @@
 import NextAuth from 'next-auth/next'
 import GoogleProvider from 'next-auth/providers/google'
-import { db } from '@vercel/postgres'
+// import { db } from '@vercel/postgres'
+import { createClient } from '@vercel/postgres'
 
-const client = await db.connect()
+// const client = await db.connect()
 
 export const authOptions = {
   providers: [
@@ -27,11 +28,20 @@ export const authOptions = {
     async session ({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
 
+      const client = createClient()
+      await client.connect()
+
       const prova = await client.sql`
-            SELECT ID FROM admins WHERE email=${session.user.email}
-            `
-      session.accessToken = token.accessToken
+    SELECT ID FROM admins WHERE email=${session.user.email}
+    `
+      const restaurantId = await client.sql`
+    SELECT idrestaurant FROM admins WHERE email=${session.user.email}
+    `
+     const final = await restaurantId.rows[0].idrestaurant
+   
       session.admin = prova
+      session.restaurantId = final
+      session.accessToken = token.accessToken
 
       return session
     }

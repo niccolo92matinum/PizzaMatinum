@@ -1,4 +1,4 @@
-import { insertAllProductOnStore, insertProduct, deleteProductByTitle } from '../../services/database'
+import { insertAllProductOnStore, insertProduct, deleteProductById, modifyProduct } from '../../services/database'
 
 export default async function handler (request, response) {
   if (request.method === 'GET') {
@@ -17,20 +17,29 @@ export default async function handler (request, response) {
 
       response.status(200).json('Product Inserted')
     } catch (err) {
-      response.status(500).send({ message: ['Post not available'], err })
+      response.status(500).json('Insert FAILED')
     }
   } else if (request.method === 'DELETE') {
     try {
-      const product = JSON.parse(request.body)
+      const product = request.query.productId
 
-      await deleteProductByTitle(product.productTitle)
+        await deleteProductById(product)
 
       // const allProducts = await insertAllProductOnStore(request.query.adminId)
       response.status(200).json('Product Deleted')
     } catch (err) {
-      response.status().send({ message: ['Delation failed '], error: err })
+      response.status(500).json('Elimination Failed ')
+      // response.status().send({ message: ['Delation failed '], error: err })
     }
-  } else if (request.method === 'PUT') {
-    return null
+  } else if (request.method === 'PATCH') {
+    try {
+      const product = request.body
+       
+      await modifyProduct(product)
+
+      response.status(200).json('Product Modified')
+    } catch (err) {
+      response.status(500).json({ 'Operation FAILED': err })
+    }
   }
 }

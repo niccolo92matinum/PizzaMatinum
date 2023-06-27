@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 function Navbar ({ state, setIdEmailToStore }) {
   const { data: session } = useSession()
-  // prova
+
   const router = useRouter()
 
   const goToPage = async (path) => {
@@ -16,11 +16,20 @@ function Navbar ({ state, setIdEmailToStore }) {
       setIdEmailToStore(
         {
           email: session.user.email,
-          ID: session.admin.rows[0].id
+          ID: session.admin.rows[0].id,
+          restaurantId: session.restaurantId
         })
     }
 
     router.push(`/Admin/${path}`)
+  }
+
+  const goToPageSimpleUser = (path) => {
+    router.push(`/User/${path}`)
+  }
+
+  const goToCartPage = () => {
+    router.push('/User/cartpage')
   }
 
   if (session?.admin) {
@@ -39,6 +48,8 @@ function Navbar ({ state, setIdEmailToStore }) {
       <li className={styles.listItem} onClick={() => goToPage('Dashboard')}><a>Home page</a></li>
 
       <li className={styles.listItem} onClick={() => goToPage('InsertProducts')}>Insert Products</li>
+
+      <li className={styles.listItem} onClick={() => goToPage('Dashboard')}>Dashboard</li>
 
       <li className={styles.listItem}>Menu</li>
      </ul>
@@ -63,15 +74,11 @@ function Navbar ({ state, setIdEmailToStore }) {
       <Link href="/" passHref>
        <li className={styles.listItem}>Homepage</li>
       </Link>
-      <li className={styles.listItem}>Products</li>
-      <li className={styles.listItem}>Menu</li>
-      <Image src="/img/logo.png" alt="" width={0} height={69}/>
-      <li className={styles.listItem}>Events</li>
-      <li className={styles.listItem}>Blog</li>
-      <li className={styles.listItem}>Contact</li>
+      <li className={styles.listItem} onClick={() => goToPageSimpleUser('Menu')}>Menu</li>
+
      </ul>
     </div>
-    <Link href="/cart" passHref>
+    <Link href="/User/cartpage" passHref>
      <div className={styles.item}>
       <div className={styles.cart}>
        <Image src="/img/cart.png" alt="" width={30} height={30} />
@@ -79,6 +86,7 @@ function Navbar ({ state, setIdEmailToStore }) {
       </div>
      </div>
     </Link>
+
    </div>
     )
   }

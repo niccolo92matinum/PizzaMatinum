@@ -7,22 +7,25 @@ function productsData (state = {}, action) {
 
     case 'STORE_SINGLE_PRODUCT':
 
-     
+      return action.payload
+
+      case 'MODIFY_SINGLE_PRODUCT':
+      
       return action.payload
 
     case 'DELETE_PRODUCT':
-     const result = action.payload
-  
-   const d = Object.keys(result).map((i)=>{
-   
-    if(result[i].length === 0){
-     
-      delete result[i]
-    }
-  
-  })
+      const result = action.payload
+
+      const d = Object.keys(result).map((i) => {
+        if (result[i].length === 0) {
+          delete result[i]
+        }
+      })
+
+      return { ...state, ...result }
+
     
-      return {...state,...result}
+
     default:
       return state
   }
