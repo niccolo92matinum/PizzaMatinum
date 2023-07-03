@@ -14,7 +14,7 @@ function AccordionOrder ({ products, showProductOnChoosen, state }) {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value)
   }
-// il componente viene renderizzato prima delle props  perciò bisogna usare lo use effect
+  // il componente viene renderizzato prima delle props  perciò bisogna usare lo use effect
   useEffect(() => {
     const accordionVariable = <Fragment>
     {

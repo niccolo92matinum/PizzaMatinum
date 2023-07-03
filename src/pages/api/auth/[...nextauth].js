@@ -37,8 +37,8 @@ export const authOptions = {
       const restaurantId = await client.sql`
     SELECT idrestaurant FROM admins WHERE email=${session.user.email}
     `
-     const final = await restaurantId.rows[0].idrestaurant
-   
+      const final = await restaurantId.rows[0].idrestaurant
+
       session.admin = prova
       session.restaurantId = final
       session.accessToken = token.accessToken

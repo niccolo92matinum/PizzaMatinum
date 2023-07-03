@@ -30,10 +30,10 @@ function MakeOrder ({ state }) {
 
         <div className='main  flex justify-center '>
             <div className="left w-1/2 pt-12">
-              <AccordionOrder products={products} showProductOnChoosen={showProductOnChoosen}></AccordionOrder>
+              <AccordionOrder products={products} showProductOnChoosen={showProductOnChoosen} ></AccordionOrder>
             </div>
             <div className="rigth w-1/2">
-                <CardMakeOrder productsChoosen={productsChoosen}></CardMakeOrder>
+                <CardMakeOrder productsChoosen={productsChoosen} setProductsChoosen={setProductsChoosen}></CardMakeOrder>
             </div>
 
         </div>

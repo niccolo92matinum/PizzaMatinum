@@ -36,21 +36,29 @@ function Home ({ state, insertRestaurantIdRedux }) {
   // _____API_________end
 
   const handlerOnSelect = (e) => {
-
     setIdRe(Number(e.target.value))
   }
 
   const onButtonMakeOrder = () => {
     const objRest = restaurants.filter((singleObj) => {
-     
       return singleObj.restaurantid === idRe
     })
 
     const idToInsert = objRest[0].restaurantid
     insertRestaurantIdRedux(idToInsert)
- 
+
     router.push('User/MakeOrder')
   }
+
+  /* (async () => {
+    const stripe = await stripePromise
+    const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret)
+    if (error) {
+      // Handle error here
+    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+
+    }
+  })() */
 
   return (
     <div>

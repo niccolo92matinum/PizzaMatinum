@@ -89,8 +89,8 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
 
   const setDataOnClickModifyButton = (singleProduct) => {
     setModify(true)
-  console.log(singleProduct.ingredients,'9999')
-  const parsedIngredient = JSON.parse(singleProduct.ingredients)
+    console.log(singleProduct.ingredients, '9999')
+    const parsedIngredient = JSON.parse(singleProduct.ingredients)
     setProduct({
       title: singleProduct.title,
       description: singleProduct.description,
@@ -99,7 +99,7 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
       img: singleProduct.img,
       id: singleProduct.id,
       restaurantId: state.adminData.restaurantId,
-      ingredients: parsedIngredient 
+      ingredients: parsedIngredient
 
     })
   }

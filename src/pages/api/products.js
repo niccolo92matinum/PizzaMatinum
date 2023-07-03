@@ -23,7 +23,7 @@ export default async function handler (request, response) {
     try {
       const product = request.query.productId
 
-        await deleteProductById(product)
+      await deleteProductById(product)
 
       // const allProducts = await insertAllProductOnStore(request.query.adminId)
       response.status(200).json('Product Deleted')
@@ -34,7 +34,7 @@ export default async function handler (request, response) {
   } else if (request.method === 'PATCH') {
     try {
       const product = request.body
-       
+
       await modifyProduct(product)
 
       response.status(200).json('Product Modified')

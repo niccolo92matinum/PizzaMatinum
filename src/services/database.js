@@ -10,9 +10,10 @@ export const insertProduct = async (product) => {
   const strngIngredients = JSON.stringify(product.ingredients)
 
   const final = await client.sql`
-      INSERT INTO products (title, description, category, price, img,idAdmin,id,ingredients,idRestaurant)
+      INSERT INTO products (title, description, category, price, img,idAdmin,id,ingredients,idrestaurant)
       VALUES
-      (${product.title},${product.description},${product.category},${product.price},${product.img},${product.adminId},${product.id},${strngIngredients},${product.idRestaurant})
+      (${product.title},${product.description},${product.category},${product.price},${product.img},${product.adminId},${product.id},${strngIngredients},${product.restaurantId
+      })
       `
   return final
 }
@@ -66,6 +67,17 @@ export const getAllRestaurants = async () => {
   await client.connect()
   const final = await client.sql`
   select * from restaurants
+  `
+  return final
+}
+
+export const insertOrder = async (order) => {
+  const client = createClient()
+  await client.connect()
+  const final = await client.sql`
+  INSERT INTO orders (orderid, ordertime, clientname, clientsurname,clientemail, clientphone,clientphone2,orderdetails,extimatedwait,idrestaurant)
+  VALUES
+  (${order.orderid},${order.ordertime},${order.name},${order.surname},${order.email},${order.phone},${order.phone2},${order.details},${order.extimatedwait},${order.idrestaurant})
   `
   return final
 }

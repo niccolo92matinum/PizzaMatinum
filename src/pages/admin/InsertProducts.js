@@ -17,7 +17,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     category: 'Dish',
     ingredients: ''
   })
-  console.log(product,'000')
+
   const [singleProductSelected, setSingleProductSelected] = useState({})
   const [modify, setModify] = useState(false)
 
@@ -41,7 +41,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
   // cosi da poter aggiornare l'accordion senza chiamre l'endpoint ogni volta
   const insertInstantlyObjInStore = (store, objtoPush) => {
     objtoPush.ingredients = JSON.stringify(objtoPush.ingredients)
-   
+
     const allCategoryStore = Object.keys(store.productsData)
 
     const categorySingleObj = objtoPush.category
@@ -115,7 +115,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     })
     newProduct.ingredients = JSON.stringify(newProduct.ingredients)
     const prevState = state.productsData
- 
+
     const arrVuoto = []
     const newState = {}
 
@@ -157,10 +157,11 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
         }
       })
     } else {
+     
       Object.keys(prevState).map((categoryKey) => {
         if (newProduct.category === categoryKey) {
           const mergeNewProductWithArray3 = [...deleteObj, newProduct]
-          console.log('dentro')
+
           newState[categoryKey] = mergeNewProductWithArray3
         } else {
           newState[categoryKey] = prevState[categoryKey]

@@ -3,6 +3,7 @@ import styles from '../styles/Navbar.module.css'
 import { connect } from 'react-redux'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -24,13 +25,24 @@ function Navbar ({ state, setIdEmailToStore }) {
     router.push(`/Admin/${path}`)
   }
 
+  const [counter, setCounter] = useState(0)
+  const orders = state.order
+  useEffect(() => {
+    const counterOrders = orders.map((singleObj) => {
+      return singleObj.quantity
+    })
+
+    const final = counterOrders.reduce((a, b) => a + b, 0)
+    setCounter(final)
+  }, [orders])
+
   const goToPageSimpleUser = (path) => {
     router.push(`/User/${path}`)
   }
 
-  const goToCartPage = () => {
+  /* const goToCartPage = () => {
     router.push('/User/cartpage')
-  }
+  } */
 
   if (session?.admin) {
     return (
@@ -82,7 +94,8 @@ function Navbar ({ state, setIdEmailToStore }) {
      <div className={styles.item}>
       <div className={styles.cart}>
        <Image src="/img/cart.png" alt="" width={30} height={30} />
-       <div className={styles.counter}></div>
+       <div className={styles.counter}>{counter}</div>
+
       </div>
      </div>
     </Link>
