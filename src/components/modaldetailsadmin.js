@@ -24,7 +24,7 @@ function Modal({state, setShowModal,showModal}){
     
                 },
                 Authorization: session.accessToken,
-                body:
+                body:'ciao'
               })
             await response.json()
         
