@@ -6,6 +6,7 @@ import {
   Typography,
   Button
 } from '@material-tailwind/react'
+import Image from 'next/image'
 import { connect } from 'react-redux'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
@@ -76,16 +77,16 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
       category: product.category,
       price: product.price,
       img: product.img,
-      idadmin: product.idadmin,
       id: product.id,
       ingredients: product.ingredients,
-      idrestaurant: product.idrestaurant,
       quantity: counter,
-      orderId: createId()
+     
     })
     setCounter(0)
     setProductsChoosen({})
   }
+
+ 
 
   if (Object.keys(productsChoosen).length > 0) {
     return (
@@ -94,7 +95,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
             <div className="left  pt-12">
             <Card className="mt-6 w-96">
         <CardHeader color="blue-gray" className="relative h-56">
-          <Img src={productsChoosen.img} alt="img-blur-shadow" layout="fill" />
+         {(productsChoosen.img !== null ) &&<Image src={productsChoosen.img} alt="img-blur-shadow" layout="fill" />}
         </CardHeader>
         <CardBody>
           <Typography variant="h5" color="blue-gray" className="mb-2">

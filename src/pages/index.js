@@ -8,7 +8,7 @@ function Home ({ state, insertRestaurantIdRedux }) {
   const [restaurants, setRestaurants] = useState([])
   const [idRe, setIdRe] = useState(0)
   const router = useRouter()
-  console.log(state, 'state')
+
 
   // _______API_________start
   useEffect(() => {

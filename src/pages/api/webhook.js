@@ -1,47 +1,56 @@
-//import Stripe from 'stripe'
-//import { buffer } from 'micro'
-import { insertOrder } from '../../services/database'
+import { buffer } from "micro";
+import {changeOrderStatus} from '../../services/database'
 
-const stripe = 'sk_test_9W1R4v0cz6AtC9PVwHFzywti'
 
-// Replace this endpoint secret with your endpoint's unique secret
-// If you are testing with the CLI, find the secret by running 'stripe listen'
-// If you are using an endpoint defined with the API or dashboard, look in your webhook settings
-// at https://dashboard.stripe.com/webhooks
-const endpointSecret = 'whsec_74fc048a949ca00728782dafe8e4f60fcfd7031de7754493ddee3ecea8e990d5'
+const Stripe = require('stripe');
 
-export default async (req, res) => {
-  console.log(req)
-  if (req.method === 'POST') {
-    const requestbuffer = await buffer(req)
-    const payload = requestbuffer.toString()
-    const sig = req.headers['stripe-signature']
-
-    let event
-
-    try {
-      event = stripe.webhooks.constructEvent(payload, sig, endpointSecret)
-    } catch (err) {
-      console.log('ERR', err.message)
-      return res.status(400).send(`Webhook error: ${err.message}`)
-    }
-
-    if (event.type === 'checkout.session.completed') {
-      const session = event.data.object
-      console.log(session, '000')
-
-      /* const bodyparsed = JSON.parse(req.body)
-    const stringifyDetails = JSON.stringify(bodyparsed.details)
-    bodyparsed.details = stringifyDetails
-    await insertOrder(bodyparsed).then(()=> res.status(200)).catch((err)=> res.status(400).send('Webhook Error:' ${err.message}))
-*/   return session
-    }
-  }
-}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2020-08-27'
+});
+const webhookSecret = process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET;
 
 export const config = {
-  api: {
-    bodyParser: false,
-    externalResolver: true
+    api: {
+        bodyParser: false,
+    },
+};
+
+
+const handler = async (req, res) => {
+    if (req.method === "POST") {
+        
+        const buf = await buffer(req);
+        const sig = req.headers["stripe-signature"];
+        let stripeEvent;
+
+        try {
+   
+            stripeEvent = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
+          
+            //console.log( 'stripeEvent', stripeEvent );
+        } catch (err) {
+            res.status(400).send(`Webhook Error: ${err.message}`);
+            return;
+        }
+
+        
+        if ( 'checkout.session.completed' === stripeEvent.type ) {
+            const session = stripeEvent.data.object;
+
+            changeOrderStatus(session.metadata.orderId)
+    
+
+          
+            //await insertOrder(session.metadata)
+         
+// Do something here on payment success, like update order etc.        }
+
+        res.json({ received: true });
+    } else {
+        res.setHeader("Allow", "POST");
+        res.status(405).end("Method Not Allowed");
+    }
   }
-}
+};
+
+export default handler;

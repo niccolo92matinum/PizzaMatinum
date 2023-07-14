@@ -18,16 +18,27 @@ export const insertProduct = async (product) => {
   return final
 }
 
-export const insertAllProductOnStore = async (adminId) => {
+export const insertAllProductOnStore = async (nameColumn, id) => {
   const client = createClient()
   await client.connect()
-
-  const final = await client.sql`
+  
+  if(nameColumn === 'idadmin'){
+    const final = await client.sql`
     SELECT *
     FROM products
-    WHERE idadmin=${adminId}
-    `
+    WHERE idadmin=${id}`
+    
   return final.rows
+  }else{
+    const final = await client.sql`
+    SELECT *
+    FROM products
+    WHERE idrestaurant=${id}`
+    
+  return final.rows
+  }
+  
+  
 }
 
 export const getAdminId = async (email) => {
@@ -72,12 +83,41 @@ export const getAllRestaurants = async () => {
 }
 
 export const insertOrder = async (order) => {
+  const parseOrder = JSON.parse(order)
+
+  const client = createClient()
+  await client.connect()
+const stringifyDetails = JSON.stringify(parseOrder.details)
+
+  const final = await client.sql`
+  INSERT INTO orders (orderid, ordertime, clientname, clientsurname,clientemail, clientphone,clientphone2,orderdetails,extimatedwait,idrestaurant,status)
+  VALUES
+  (${parseOrder.orderId},${parseOrder.ordertime},${parseOrder.userDetails.name},${parseOrder.userDetails.surname},${parseOrder.userDetails.email},${parseOrder.userDetails.phone},${parseOrder.userDetails.phone2},${stringifyDetails},${parseOrder.extimatedwait},${parseOrder.restaurantid},'Pending')
+  `
+
+  return final
+}
+
+export const changeOrderStatus = async (id) => {
   const client = createClient()
   await client.connect()
   const final = await client.sql`
-  INSERT INTO orders (orderid, ordertime, clientname, clientsurname,clientemail, clientphone,clientphone2,orderdetails,extimatedwait,idrestaurant)
-  VALUES
-  (${order.orderid},${order.ordertime},${order.name},${order.surname},${order.email},${order.phone},${order.phone2},${order.details},${order.extimatedwait},${order.idrestaurant})
+  UPDATE Orders
+SET Status = 'Payed'
+WHERE orderid = ${id};
   `
   return final
+}
+
+export const getAllOrdersByRestaurantId = async (id) =>{
+
+  const client = createClient()
+  await client.connect()
+  const final = await client.sql`
+  SELECT *
+  FROM orders
+  WHERE idrestaurant=${id}
+  `
+  return final
+
 }

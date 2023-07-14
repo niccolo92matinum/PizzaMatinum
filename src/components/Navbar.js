@@ -25,6 +25,9 @@ function Navbar ({ state, setIdEmailToStore }) {
     router.push(`/Admin/${path}`)
   }
 
+
+
+
   const [counter, setCounter] = useState(0)
   const orders = state.order
   useEffect(() => {
@@ -57,7 +60,7 @@ function Navbar ({ state, setIdEmailToStore }) {
     </div>
     <div className={styles.item}>
      <ul className={styles.list}>
-      <li className={styles.listItem} onClick={() => goToPage('Dashboard')}><a>Home page</a></li>
+      <li className={styles.listItem} onClick={() => router.push(`/`)}><a>Home page</a></li>
 
       <li className={styles.listItem} onClick={() => goToPage('InsertProducts')}>Insert Products</li>
 

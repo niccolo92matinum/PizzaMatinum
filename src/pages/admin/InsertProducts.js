@@ -13,10 +13,16 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     adminId: state.adminData.ID,
     restaurantId: state.adminData.restaurantId,
     id: createId(),
-    img: '',
+    img:null,
     category: 'Dish',
-    ingredients: ''
+    ingredients: []
   })
+
+ const getOnlyValueIngredientToApiInsert = (e) =>{
+
+  console.log()
+
+ }
 
   const [singleProductSelected, setSingleProductSelected] = useState({})
   const [modify, setModify] = useState(false)
@@ -40,7 +46,8 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
   // funzione che inserisce il prodotto nello store redux prima del rendering
   // cosi da poter aggiornare l'accordion senza chiamre l'endpoint ogni volta
   const insertInstantlyObjInStore = (store, objtoPush) => {
-    objtoPush.ingredients = JSON.stringify(objtoPush.ingredients)
+    const getOnlyIdsIngredients = objtoPush.ingredients.map(ingredient => ingredient.value)
+    objtoPush.ingredients = JSON.stringify(getOnlyIdsIngredients)
 
     const allCategoryStore = Object.keys(store.productsData)
 
@@ -66,6 +73,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     return {}
   }
 
+
   // ____________________________________________________________
 
   // _______START____API__FUNCTIONS__________________
@@ -73,6 +81,9 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
   const insertProductApi = async (e) => {
     if (!modify) {
       e.preventDefault()
+
+      
+    
 
       try {
         const response = await fetch(
@@ -113,7 +124,9 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     const deleteObj = state.productsData[productSelected.category].filter((singleObj) => {
       return singleObj.id !== productSelected.id
     })
-    newProduct.ingredients = JSON.stringify(newProduct.ingredients)
+const getOnlyValueIngredients = newProduct.ingredients.map((ingredient => ingredient.value))
+
+    newProduct.ingredients = JSON.stringify(getOnlyValueIngredients)
     const prevState = state.productsData
 
     const arrVuoto = []
@@ -180,6 +193,8 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     if (modify) {
       e.preventDefault()
 
+     
+
       try {
         const response = await fetch(
 
@@ -204,15 +219,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
   }
   // _______END____API__FUNCTION__________________
 
-  const options = [
-    { value: 'mozzarella', label: 'Mozzarella' },
-    { value: 'pomodoro', label: 'Pomodoro' },
-    { value: 'basilico', label: 'Basilico' },
-    { value: 'funghi', label: 'Funghi' },
-    { value: 'peperoni', label: 'Peperoni' },
-    { value: 'salame', label: 'Salame' },
-    { value: 'carciofi', label: 'Carciofi' }
-  ]
+ 
   let hiddenMultiSelect = false
   if (product.category === 'Wine' || product.category === 'Drink') {
     hiddenMultiSelect = true
@@ -286,7 +293,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-city">
                {modify ? 'Change Image' : 'Insert Image'}
         </label>
-        <input onChange={(e) => { convertImgSetToProduct(e.target.files[0]) }} accept="image/jpeg, image/png" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="file" />
+        <input  onChange={(e) => { convertImgSetToProduct(e.target.files[0]) }} accept="image/jpeg, image/png" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="file" />
        </div>
        <div>
 
@@ -354,3 +361,14 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InsertProducts)
+
+
+export const options = [
+  { value: 1, label: 'Mozzarella'},
+  { value: 2, label: 'Pomodoro'},
+  { value: 3, label: 'Basilico' },
+  { value: 4, label: 'Funghi' },
+  { value: 5, label: 'Peperoni' },
+  { value: 6, label: 'Salame' },
+  { value: 7, label: 'Carciofi' }
+]

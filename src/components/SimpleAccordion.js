@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useSession } from 'next-auth/react'
+import {options} from '../pages/Admin/InsertProducts'
 
 function SimpleAccordion ({ state, setProduct, setModify, modify, insertProductsOnStore, deleteProduct, setSingleProductSelected }) {
   const { data: session } = useSession()
@@ -24,7 +25,7 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
     const getAllProducts = async () => {
       try {
         const response = await fetch(
-     `/api/products?adminId=${state.adminData.ID}`,
+     `/api/products?idadmin=${state.adminData.ID}`,
      {
        method: 'GET',
        'Content-Type': 'application/json',
@@ -71,6 +72,8 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
       return { error: 'delation failed' }
     }
   }
+
+
   /*
   const modifyProductApi = async () => {
     const response = await fetch(
@@ -89,8 +92,17 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
 
   const setDataOnClickModifyButton = (singleProduct) => {
     setModify(true)
-    console.log(singleProduct.ingredients, '9999')
     const parsedIngredient = JSON.parse(singleProduct.ingredients)
+
+    const vu = []
+
+    parsedIngredient.forEach((num)=>{
+    
+     const createOptionsObj = options.filter( s => s.value === num)
+     vu.push(...createOptionsObj)
+  
+   })
+
     setProduct({
       title: singleProduct.title,
       description: singleProduct.description,
@@ -99,7 +111,7 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
       img: singleProduct.img,
       id: singleProduct.id,
       restaurantId: state.adminData.restaurantId,
-      ingredients: parsedIngredient
+      ingredients: vu
 
     })
   }

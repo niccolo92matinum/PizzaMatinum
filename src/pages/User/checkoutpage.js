@@ -3,41 +3,40 @@ import PreviewPage from '../../components/stripe'
 import { connect } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
+import { createId } from '@paralleldrive/cuid2'
+
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  process.env.stripe_public_key
 )
 
 function CheckoutPage ({ state, storeUserDetailsRedux }) {
+  
   const [userDetails, setUserDetails] = useState({})
-
-  const dateToSendAsBodyCheckOut = {
-    ...userDetails,
-    ...{
-      orderid: state.order[0]?.orderId,
-      idrestaurant: state.order[0]?.idrestaurant,
-      ordertime: new Date(),
-      details: state.order
-    }
-  }
+console.log(state)
   // ${order.orderid},${order.orderTime},${order.name},${order.surname},${order.email}${order.phone},${order.phone2},${order.details},${order.extimatedwait},${order.idrestaurant
 
-  useEffect(() => {
 
-  }, [state])
+
+
 
   const goToStriePage = async (e) => {
     e.preventDefault()
 
+    const order = { ordertime: new Date(),userDetails,details: state.order, orderId:createId(), restaurantid:state.restaurantId}
+  
+
+  storeUserDetailsRedux(userDetails)
     const stripe = await stripePromise
 
+    const final = JSON.stringify(order)
     // Call your backend to create the Checkout Session
     const response = await fetch('/api/checkout_sessions', {
       method: 'POST',
-      body: JSON.stringify(dateToSendAsBodyCheckOut)
+      body:final
     })
 
     const session = await response.json()
-
+  
     // When the customer clicks on the button, redirect them to Checkout.
     const result = await stripe.redirectToCheckout({
       sessionId: session.id
@@ -50,10 +49,14 @@ function CheckoutPage ({ state, storeUserDetailsRedux }) {
       // using `result.error.message`.
     }
 
-    storeUserDetailsRedux(userDetails)
+  
+
   }
 
   const onChangeInput = (e, key) => {
+
+    
+
     setUserDetails({ ...userDetails, ...{ [key]: e.target.value } })
   }
 
