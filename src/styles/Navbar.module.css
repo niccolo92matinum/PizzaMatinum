@@ -1,13 +1,28 @@
 .container {
   height: 100px;
   padding: 0px 50px;
-  background-color: #486fe4;
+  background-color: #0E66A6;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 999;
+}
+
+.container_admin {
+  height: 100px;
+  padding: 0px 50px;
+  background-color:black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.button_admin {
+background-color: white;
 }
 
 .item {
@@ -25,11 +40,10 @@
 }
 
 .callButton {
-  background-color: white;
-  border-radius: 50%;
-  padding: 10px;
-  width: 50px;
-  height: 50px;
+  
+  margin:20px;
+  width: 100px;
+  height: 64px;
 }
 
 .texts {

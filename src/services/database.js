@@ -109,6 +109,28 @@ WHERE orderid = ${id};
   return final
 }
 
+export const changeOrderStatus2 = async (id) => {
+  const client = createClient()
+  await client.connect()
+  const final = await client.sql`
+  UPDATE Orders
+SET Status = 'Delivered'
+WHERE orderid = ${id};
+  `
+  return final
+}
+
+export const deleteOrderByAdmin = async (id) => {
+  const client = createClient()
+  await client.connect()
+  const final = await client.sql`
+  DELETE FROM Orders WHERE orderid=${id};
+  `
+  return final
+}
+
+
+
 export const getAllOrdersByRestaurantId = async (id) =>{
 
   const client = createClient()
@@ -121,3 +143,7 @@ export const getAllOrdersByRestaurantId = async (id) =>{
   return final
 
 }
+
+
+
+

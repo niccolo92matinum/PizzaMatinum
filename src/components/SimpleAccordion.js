@@ -118,6 +118,14 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
 
   const splitAllKeyValueStore = Object.keys(state.productsData).map(key => ({ [key]: state.productsData[key] }))
 
+  /*const ordersSortedByTitle = Object.values(splitAllKeyValueStore).sort(function (a, b) {
+    const textA = a.title.toUpperCase()
+    const textB = b.title.toUpperCase()
+    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
+  })*/
+
+  console.log( splitAllKeyValueStore,'elle')
+
   return (
     <>
       {

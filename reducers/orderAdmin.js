@@ -4,7 +4,8 @@ function orderAdmin (state = [], action) {
   
         return action.payload
   
-       
+       case 'CHANGE_STATUS_ORDERS_ARRAY':
+        return  action.payload
   
       default:
         return state

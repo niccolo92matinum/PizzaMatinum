@@ -2,7 +2,9 @@ import Navbar from '../../components/Navbar'
 import { connect } from 'react-redux'
 import {useEffect} from 'react'
 
-function SuccessPage ({resetOrder,resetUserData}) {
+function SuccessPage ({state, resetOrder,resetUserData}) {
+
+  console.log(state)
 
 useEffect(()=>{
 

@@ -15,11 +15,13 @@ function CartPage ({ state, modifyQuantityOrderRedux }) {
   // una volta fatto l'ordine viene dato all'utente la possibilità di cambiare le quantità dei prodotti ordinati
   // andando ad apportare le modifiche nello stato redux
   const changeQuantityOrder = (order, num) => {
+
     //prendo tutti i prodotti selezionati  meno quello che sto modificando
 const ordersWithoutModifiedSingleOrder = orders.filter( singleOrder =>singleOrder.id !==  order.id )
   //se la quantita del prodotto selezionato è maggiore di 1 o è uguale a uno e si va a fare un piu 1 sul prodotto
     if (order.quantity > 1 || (order.quantity === 1 && num === 1)) {
     //prendo il prodotto selezionato
+   
       const takeOffOrder = orders.filter((singleObj) => {
         return singleObj.orderId !== order.orderId
       })
@@ -33,7 +35,7 @@ const ordersWithoutModifiedSingleOrder = orders.filter( singleOrder =>singleOrde
     } else if (order.quantity === 1 && num === -1) {
 
       const takeOffOrder2 = orders.filter((singleObj) => {
-        return singleObj.orderId !== order.orderId
+        return singleObj.id !== order.id
       })
       modifyQuantityOrderRedux(takeOffOrder2)
     }

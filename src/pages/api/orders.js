@@ -1,5 +1,6 @@
-import { getAllOrdersByRestaurantId } from '../../services/database'
-import {changeOrderStatus} from '../../services/database'
+import { getAllOrdersByRestaurantId, changeOrderStatus2,deleteOrderByAdmin} from '../../services/database'
+
+
 
 export default async function handler (request, response) {
     if (request.method === 'GET') {
@@ -14,12 +15,24 @@ export default async function handler (request, response) {
     } else if (request.method === 'POST') {
 
         try {
-            const orderStatus = request.body
-         
+            const orderId = request.body
+             console.log(orderId,'cazzo')
            
-            await changeOrderStatus(orderStatus)
+            await changeOrderStatus2(orderId)
       
             response.status(200).json('Status Changed')
+          } catch (err) {
+            response.status(500).json('Action FAILED')
+          }
+    }else if(request.method === 'DELETE'){
+      
+        try {
+            const orderId = request.query.orderid
+            
+           
+            await deleteOrderByAdmin(orderId)
+      
+            response.status(200).json('Order Deleted')
           } catch (err) {
             response.status(500).json('Action FAILED')
           }

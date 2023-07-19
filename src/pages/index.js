@@ -1,8 +1,11 @@
 import Navbar from '../components/Navbar'
+
 import { useEffect, useState } from 'react'
 import { createId } from '@paralleldrive/cuid2'
 import { connect } from 'react-redux'
 import { useRouter } from 'next/router'
+
+
 
 function Home ({ state, insertRestaurantIdRedux }) {
   const [restaurants, setRestaurants] = useState([])
@@ -50,26 +53,20 @@ function Home ({ state, insertRestaurantIdRedux }) {
     router.push('User/MakeOrder')
   }
 
-  /* (async () => {
-    const stripe = await stripePromise
-    const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret)
-    if (error) {
-      // Handle error here
-    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-
-    }
-  })() */
-
+ 
   return (
-    <div>
+    <div className="div_background">
+      <img src="/img/sky.jpg" className="img_index" alt="Flowbite Logo"/>
+
+     
      <Navbar></Navbar>
 
      <div className="grid  place-items-center  pt-56" >
       <div>
-     <h1>Choose the restaurant</h1>
+     <h1 className="h1_index_page">Choose the restaurant</h1>
       </div>
 
-     <select value={idRe || 0} onChange={(e) => { handlerOnSelect(e) } } className="block appearance-none w-1/2 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" required>
+     <select value={idRe || 0} onChange={(e) => { handlerOnSelect(e) } } className="block appearance-none w-1/2 bg-blue-50 border-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-200 focus:bg-blue-100" id="grid-state" required>
       <option></option>
       {restaurants.map((singleObj) => {
         return (
@@ -78,9 +75,10 @@ function Home ({ state, insertRestaurantIdRedux }) {
       })}
 
          </select>
-         <button onClick={() => onButtonMakeOrder()} className="middle mt-4 ml-4 none center rounded-lg bg-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">Make order</button>
+         <button onClick={() => onButtonMakeOrder()} className="  middle mt-20   none center rounded-lg bg-red-600 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Make order</button>
      </div>
-    </div>
+     </div>
+    
 
   )
 }

@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,600&family=Josefin+Sans:wght@500&family=Roboto:wght@500;900&family=VT323&family=Ysabeau+Infant:wght@100;300&display=swap');
+
+
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -18,13 +24,29 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+ 
+   background-color: #F2F2F2;
+  
+ 
 }
+
+
+
+.img_index{
+  
+  background-repeat:no-repeat;
+   background-size:cover;
+   height: 100%;
+   width: 100%;
+   position:absolute;
+   opacity:0.3;
+   z-index: -1;
+   
+}
+
+
+
+
 
 /*accordion insert product*/
 .accordion {
@@ -57,3 +79,23 @@ h2{
   color: red;
 }
 
+.h1_index_page{
+  font-family: 'VT323', monospace;
+   font-size: 25px;
+   color: #6F88A4;
+   padding-bottom: 15px;
+ 
+}
+select{
+  font-family: 'VT323', monospace;
+  text-align: center;
+}
+
+/*___________accordion component __________*/
+.category_accordion{
+  background-color: #EEF6FE;
+  border: 2px solid red;
+  border-radius: 50px 20px;
+  
+}
+/*___________accordion component  END__________*/

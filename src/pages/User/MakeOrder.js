@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import styles from '../../styles/Makeorder.module.css'
 import Navbar from '../../components/Navbar'
 import AccordionOrder from '../../components/accordion'
 import CardMakeOrder from '../../components/card'
@@ -25,42 +26,7 @@ function MakeOrder ({ state,insertProductsOnStore }) {
   }
 
 
- /*useEffect(()=>{
-
-    if(Object.keys(state.adminData).length === 0){
-
-      const getAllProducts = async () => {
-        try {
-          const response = await fetch(
-       `/api/products?idrestaurant=${state.restaurantId}`,
-       {
-         method: 'GET',
-         'Content-Type': 'application/json',
-       }
-          )
-    
-          const final = await response.json()
-    
-          const prod = await filterProductsByCategory(final.product, 'category')
-    
-          await insertProductsOnStore(prod)
-    
-          return final
-    
-        
-        } catch (error) {
-          return { error: 'get all products failed' }
-        }
-      }
-      getAllProducts()
-
-    
-    }
-
-  },[])*/
-
-
-
+ 
   
 
 
@@ -70,11 +36,17 @@ function MakeOrder ({ state,insertProductsOnStore }) {
         <>
         <Navbar></Navbar>
 
-        <div className='main  flex justify-center '>
-            <div className="left w-1/2 pt-12">
+        <div className='main flex justify-center pt-36 ' >
+          
+            <div className="place-content-center  w-1/2  pt-8">
+              <div className={styles.container_accordion_makeorder}>
               <AccordionOrder  showProductOnChoosen={showProductOnChoosen} ></AccordionOrder>
+              </div>
+              
+              
+             
             </div>
-            <div className="rigth w-1/2">
+            <div className="rigth w-1/2 pt-8">
                 <CardMakeOrder productsChoosen={productsChoosen} setProductsChoosen={setProductsChoosen}></CardMakeOrder>
             </div>
 
