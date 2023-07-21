@@ -6,7 +6,7 @@ import CardMakeOrder from '../../components/card'
 import { connect } from 'react-redux'
 import { useRouter } from 'next/router'
 
-function MakeOrder ({ state,insertProductsOnStore }) {
+function MakeOrder ({ state, insertProductsOnStore }) {
   const [productsChoosen, setProductsChoosen] = useState({})
 
   const router = useRouter()
@@ -19,32 +19,21 @@ function MakeOrder ({ state,insertProductsOnStore }) {
     redirectIfNoRestaurantChoosen()
   }, [])
 
-
-
   const showProductOnChoosen = (product) => {
     setProductsChoosen(product)
   }
-
-
- 
-  
-
-
-
 
   return (
         <>
         <Navbar></Navbar>
 
         <div className='main flex justify-center pt-36 ' >
-          
+
             <div className="place-content-center  w-1/2  pt-8">
               <div className={styles.container_accordion_makeorder}>
-              <AccordionOrder  showProductOnChoosen={showProductOnChoosen} ></AccordionOrder>
+              <AccordionOrder showProductOnChoosen={showProductOnChoosen} ></AccordionOrder>
               </div>
-              
-              
-             
+
             </div>
             <div className="rigth w-1/2 pt-8">
                 <CardMakeOrder productsChoosen={productsChoosen} setProductsChoosen={setProductsChoosen}></CardMakeOrder>
@@ -55,7 +44,6 @@ function MakeOrder ({ state,insertProductsOnStore }) {
         </>
   )
 }
-
 
 function filterProductsByCategory (obj, prop) {
   return obj.reduce(function (acc, item) {
@@ -70,7 +58,6 @@ function filterProductsByCategory (obj, prop) {
     return acc
   }, {})
 }
-
 
 export const insertProductsOnStore = (data) => ({
   type: 'STORE_PRODUCTS',

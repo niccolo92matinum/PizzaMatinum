@@ -4,7 +4,8 @@
 
 
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,600&family=Josefin+Sans:wght@500&family=Roboto:wght@500;900&family=VT323&family=Ysabeau+Infant:wght@100;300&display=swap');
+
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,600&family=Bebas+Neue&family=Josefin+Sans:wght@500&family=Oswald:wght@700&family=Roboto:wght@500;900&family=VT323&family=Ysabeau+Infant:wght@100;300&display=swap');
 
 
 
@@ -74,18 +75,24 @@ body {
   overflow: hidden;
 }
 
-h2{
-  font-size: large;
-  color: red;
-}
 
-.h1_index_page{
+
+.h1_index_page {
   font-family: 'VT323', monospace;
-   font-size: 25px;
-   color: #6F88A4;
+   font-size: 30px;
+   color: #0E66A6;
    padding-bottom: 15px;
  
 }
+
+.name_category_accordion{
+  font-family: 'VT323', monospace;
+  font-size: 30px;
+  color: #323232;
+  padding-bottom: 15px;
+}
+
+
 select{
   font-family: 'VT323', monospace;
   text-align: center;
@@ -94,8 +101,21 @@ select{
 /*___________accordion component __________*/
 .category_accordion{
   background-color: #EEF6FE;
-  border: 2px solid red;
+
   border-radius: 50px 20px;
   
 }
+
+.h1_accordion_title{
+  font-family: 'Bebas Neue', sans-serif;
+ font-weight: 600;
+ font-size: 20px;
+ color: #0E66A6;
+
+}
 /*___________accordion component  END__________*/
+
+
+.card_makeorder{
+  background-color: red;
+}

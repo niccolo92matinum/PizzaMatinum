@@ -6,11 +6,12 @@ import {
   Typography,
   Button
 } from '@material-tailwind/react'
-import Image from 'next/image'
+
 import { connect } from 'react-redux'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { createId } from '@paralleldrive/cuid2'
+
+import styles from '../styles/makeorder.module.css'
 
 function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrderRedux, mergeAllOrderWithSameId }) {
   const [counter, setCounter] = useState(0)
@@ -79,61 +80,58 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
       img: product.img,
       id: product.id,
       ingredients: product.ingredients,
-      quantity: counter,
-     
+      quantity: counter
+
     })
     setCounter(0)
     setProductsChoosen({})
   }
-
- 
-
+  console.log(productsChoosen,'???')
   if (Object.keys(productsChoosen).length > 0) {
+   
     return (
-    <>
-     <div className='flex justify-center '>
-            <div className="left  pt-12">
-            <Card className="mt-6 w-96">
-        <CardHeader color="blue-gray" className="relative h-56">
-         {(productsChoosen.img !== null ) &&<Image src={productsChoosen.img} alt="img-blur-shadow" layout="fill" />}
-        </CardHeader>
-        <CardBody>
-          <Typography variant="h5" color="blue-gray" className="mb-2">
-            <div className="main  flex justify-center">
-            <div className="left w-1/2">
-            <h1>{productsChoosen.title}</h1>
-            </div>
-            <div className="right w-3/4 flex items-stretch ">
 
-              <button onClick={() => { setCounter((prevState) => counter > 0 ? prevState - 1 : counter) }} className="middle mt-4 ml-4 none center rounded-lg bg-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">-</button>
-               <p className="middle mt-4 ml-4 none center rounded-lg  py-3   text-xs font-bold uppercase">{counter}</p>
-               <button onClick={() => { setCounter((prevState) => prevState + 1) }} className="middle mt-4 ml-4 none center rounded-lg bg-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">+</button>
-            </div>
-            </div>
+    <div className="max-w-2xl mx-auto">
 
-          </Typography>
+<div className=" rounded-lg  dark:bg-gray-800 dark:border-gray-700" className={styles.card_makeorder}>
 
-          <Typography>
-           {productsChoosen.description}
+{(productsChoosen.img !== null) && <img className=" p-8" src={productsChoosen.img} className={styles.image_card_makeorder} alt="product image" />}
 
-          </Typography>
-        </CardBody>
-        <CardFooter className="pt-0">
+    <div className="px-5 pb-5">
+      <div className="grid grid-cols-1  gap-4">
+        <div className="place-content-center">
+        <h2>{productsChoosen.title}</h2>
+        </div>
+      </div>
 
-          {counter > 0 ? <Button onClick={() => { OnClickAddToCart(productsChoosen) }}>Add to Cart</Button> : ''}
-        </CardFooter>
-      </Card>
-            </div>
-            <div className="rigth   pt-12">
-              <div className="grid h-screen place-items-center pl-12">
-
-              </div>
-
-            </div>
-
+      <div className="grid grid-cols-3 gap-4">
+        <div className="flex flex-col items-center">
+          <button type="button"
+        className="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" onClick={() => { setCounter((prevState) => counter > 0 ? prevState - 1 : counter) }}>-</button>
+        </div>
+        <div className="flex items-center justify-center">
+        <p className="">{counter}</p>
+        </div>
+        <div className="flex flex-col items-center">
+        <button type="button"
+        className="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+        onClick={() => { setCounter((prevState) => prevState + 1) }}>+</button>
         </div>
 
-      </>
+      </div>
+
+               <div>
+                <p> {productsChoosen.description}</p>
+               </div>
+
+          <div>
+          {counter > 0 ? <button onClick={() => { OnClickAddToCart(productsChoosen) }}>Add to Cart</button> : ''}
+          </div>
+
+    </div>
+</div>
+</div>
+
     )
   } else {
     return (

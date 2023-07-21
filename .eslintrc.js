@@ -21,8 +21,7 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/prop-types': 'off',
     'next-line multiline-ternary': 'off',
-    'react/jsx-uses-vars': [2],
-    'eslint-disable-next-line array-callback-return'
-
+    'react/jsx-uses-vars': [2]
   }
+
 }
