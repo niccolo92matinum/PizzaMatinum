@@ -63,7 +63,7 @@ function Home ({ state, insertRestaurantIdRedux }) {
 
      <div className="grid  place-items-center  pt-56" >
       <div>
-     <h1 className="h1_index_page">Choose the restaurant</h1>
+     <h1 className="h1_index_page">Choose your restaurant</h1>
       </div>
 
      <select value={idRe || 0} onChange={(e) => { handlerOnSelect(e) } } className="block appearance-none w-1/2 bg-blue-50 border-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-200 focus:bg-blue-100" id="grid-state" required>

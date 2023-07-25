@@ -28,7 +28,91 @@ border-radius:  50px 20px 0px 0px;
   color: #0E66A6;
 }
 
-
+.h2_card_title{
+  color: #0E66A6;
+  margin-top: 20px;
+  font-size: 30px;
+  font-family: 'VT323', monospace;
   
+}
+
+.body_decription_accordion_card{
+  height: 100%;
+        padding: 40px; 
+}
+
+.p_card_makeorder{
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 20px;
+    top: 0;
+    right: 0;
+    left: 0;
+  
+    text-align:center;
+ 
+}
+
+.text_when_hidden_card_makeorder{
+
+  color: #323232;
+  font-size: 20px;
+  font-family: 'VT323', monospace;
+}
+
+
+
+  .div_text_card1{
+    box-shadow: 5px 10px #ccc;
+    border-radius: 50px 20px;
+    background-color:#FAFAFA;
+    padding:30px;
+    margin: 0 25px 25px 250px;
+   
+  }
+  .div_text_card2{
+    box-shadow: 5px 10px #ccc;
+    border-radius: 50px 20px;
+    background-color:#FAFAFA;
+    padding:30px;
+    margin: 0 350px 25px 120px;
+   
+  }
+  .div_text_card3{
+    box-shadow: 5px 10px #ccc;
+    border-radius: 50px 20px;
+    background-color:#FAFAFA;
+    padding:30px;
+    margin: 0 150px 25px 0;
+   
+   
+  }
+
+
+  /*.prova{
+    position: absolute;
+    -webkit-animation: linear;
+    -webkit-animation-name: run;
+    -webkit-animation-duration: 0.7s;
+    
+  }
+  @keyframes run {
+    0% {
+      right: 0;
+    }
+    50%{
+      right: 30%;
+    }
+
+    75%{
+      right: 30%;
+    }
+   
+    100% {
+      right: 30%;    
+    }
+  }*/
+ 
 
   

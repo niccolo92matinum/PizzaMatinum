@@ -51,47 +51,40 @@ function Navbar ({ state, setIdEmailToStore }) {
     router.push('/User/cartpage')
   } */
 
-  if (session?.admin || router.pathname === '/Admin/Login') {
-    return (
-
-   <div className={styles.container_admin}>
-    <div className={styles.item}>
-     <div className={styles.callButton}>
-     </div>
-     <div className={styles.texts}>
-      <div className={styles.text}>Welcome</div>
-      <div className={styles.text}>{session?.user.name}</div>
-     </div>
-    </div>
-    <div className={styles.item}>
-     <ul className={styles.list}>
-    {/* <li className={styles.listItem} onClick={() => router.push(`/`)}><a>Home page</a></li> */}
-
-      <li className={styles.listItem} onClick={() => goToPage('InsertProducts')}>Insert Products</li>
-
-      <li className={styles.listItem} onClick={() => goToPage('Dashboard')}>Dashboard</li>
-
-      <li className={styles.listItem}>Menu</li>
-     </ul>
-    </div>
-    {buttonSignInOut}
-
-   </div>
-    )
-  } else {
+    const homePage = router.pathname
     return (
 
 <nav className="bg-sky-700 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-  <a href="https://flowbite.com/" className="flex items-center ">
+  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
+  <a href="/" className="flex items-center ">
       <img src="/img/PiazzaDelivery.svg" className=" mr-3 w-52 h-24" alt="Flowbite Logo"/>
   </a>
-  <div className="flex md:order-2">
-  <a href="https://flowbite.com/" className="flex items-center">
-      <img src="/img/cart.png" className="h-8 mr-3" alt="Flowbite Logo"/>
-  </a>
+  {homePage === '/'
+    ?  <div className="flex md:order-2">
+    <Link href="/User/cartpage" passHref>
+       <div >
+        <div >
+       
+         <div ></div>
+  
+        </div>
+       </div>
+      </Link>
+  
+    </div> 
+    : <div className="flex md:order-2">
+  <Link href="/User/cartpage" passHref>
+     <div className={styles.item}>
+      <div className={styles.cart}>
+       <Image src="/img/cart.png" alt="" width={30} height={30} />
+       <div className={styles.counter}>{counter}</div>
 
-  </div>
+      </div>
+     </div>
+    </Link>
+
+  </div> }
+
   <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
     <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border md:flex-row md:space-x-8 md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
       <li className="  transition duration-500 hover:scale-125 ">
@@ -107,7 +100,7 @@ function Navbar ({ state, setIdEmailToStore }) {
 </nav>
 
     )
-  }
+  
 }
 
 // ________ACTION START___________

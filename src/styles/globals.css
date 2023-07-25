@@ -119,3 +119,19 @@ select{
 .card_makeorder{
   background-color: red;
 }
+
+
+.button_cartpage_left{
+  font-size: 10px;
+}
+
+
+/*________Login page_________*/
+
+.h1_loginpage{
+  
+  font-size: 60px;
+  font-family: 'VT323', monospace;
+}
+
+/*_________end Login page______*/

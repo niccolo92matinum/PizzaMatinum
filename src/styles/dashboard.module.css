@@ -1,0 +1,31 @@
+.h1_dash_tabledash{
+    font-family: 'VT323', monospace;
+  font-size: 30px;
+  color: #323232;
+  
+}
+.p_dash_tabledash{
+    font-family: 'VT323', monospace;
+    padding-top: 10px;
+    margin-left:5px;
+}
+
+.p_dash_modalpop{
+    font-family: 'VT323', monospace;
+    color: red;
+    margin-left:5px;
+}
+
+.p_dash_modalpop2{
+    font-family: 'VT323', monospace;
+    text-align: center;
+    margin-left:5px;
+    color: red;
+}
+
+.p_dash_modapop_product{
+    font-family: 'Bebas Neue', sans-serif;
+    margin-left: 5px;
+    font-weight: 500;
+    
+}

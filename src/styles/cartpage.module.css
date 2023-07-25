@@ -1,0 +1,25 @@
+.div_cartpage_leftside{
+    width: 100%;
+    text-align: center;
+}
+
+.div_cartpage_leftside_nested{
+    
+    margin: 0 auto;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.h1_cartpage{
+ font-family: 'VT323', monospace;
+  font-size: 30px;
+  text-align: center;
+}
+
+
+.p_title_product_cartpage{
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: #0E66A6;
+}

@@ -1,28 +1,39 @@
-import { useState } from 'react'
-import Navbar from '../../components/Navbar'
+import { useState, useEffect } from 'react'
+import Navbaradmin from '../../components/Navbaradmin'
 import SimpleAccordion from '../../components/SimpleAccordion'
 import { useSession } from 'next-auth/react'
 import { connect } from 'react-redux'
 import { createId } from '@paralleldrive/cuid2'
 import Select from 'react-select'
+import styles from '../../styles/insertproduct.module.css'
+import { useRouter } from 'next/router'
 
 function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
   const { data: session } = useSession()
+
+  const router = useRouter()
+  useEffect(() => {
+    if (session?.admin) {
+      console.log('session = true')
+      
+    } else {
+      // maybe go to login page
+      router.push('/')
+    }
+  }, [router, session])
 
   const [product, setProduct] = useState({
     adminId: state.adminData.ID,
     restaurantId: state.adminData.restaurantId,
     id: createId(),
-    img:null,
+    img: null,
     category: 'Dish',
     ingredients: []
   })
 
- const getOnlyValueIngredientToApiInsert = (e) =>{
+  const getOnlyValueIngredientToApiInsert = (e) => {
 
-  console.log()
-
- }
+  }
 
   const [singleProductSelected, setSingleProductSelected] = useState({})
   const [modify, setModify] = useState(false)
@@ -73,7 +84,6 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     return {}
   }
 
-
   // ____________________________________________________________
 
   // _______START____API__FUNCTIONS__________________
@@ -81,9 +91,6 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
   const insertProductApi = async (e) => {
     if (!modify) {
       e.preventDefault()
-
-      
-    
 
       try {
         const response = await fetch(
@@ -124,7 +131,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     const deleteObj = state.productsData[productSelected.category].filter((singleObj) => {
       return singleObj.id !== productSelected.id
     })
-const getOnlyValueIngredients = newProduct.ingredients.map((ingredient => ingredient.value))
+    const getOnlyValueIngredients = newProduct.ingredients.map(ingredient => ingredient.value)
 
     newProduct.ingredients = JSON.stringify(getOnlyValueIngredients)
     const prevState = state.productsData
@@ -170,7 +177,6 @@ const getOnlyValueIngredients = newProduct.ingredients.map((ingredient => ingred
         }
       })
     } else {
-     
       Object.keys(prevState).map((categoryKey) => {
         if (newProduct.category === categoryKey) {
           const mergeNewProductWithArray3 = [...deleteObj, newProduct]
@@ -192,8 +198,6 @@ const getOnlyValueIngredients = newProduct.ingredients.map((ingredient => ingred
   const modifyProductApi = async (e) => {
     if (modify) {
       e.preventDefault()
-
-     
 
       try {
         const response = await fetch(
@@ -219,42 +223,42 @@ const getOnlyValueIngredients = newProduct.ingredients.map((ingredient => ingred
   }
   // _______END____API__FUNCTION__________________
 
- 
   let hiddenMultiSelect = false
   if (product.category === 'Wine' || product.category === 'Drink') {
     hiddenMultiSelect = true
   }
 
-  if (session) {
     return (
    <>
-    <Navbar></Navbar>
-    <div className='main  flex justify-center '>
+    <Navbaradmin></Navbaradmin>
+    <div className='main  flex justify-center pt-8 '>
      {/* comntainer sinistra */}
-     <div className='left w-1/2 '>
-      <form id='Form-Insert-Product' onSubmit={(e) => { insertProductApi(e); modifyProductApi(e); clearStateProduct() }} className="">
-       <div className='pb-4'> <h1>Insert Product here</h1></div>
+     <div className='left  place-content-center  w-1/2 pl-28 pr-28 '>
 
-       <div className="flex flex-wrap -mx-3 mb-6">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
+      <form className="w-full" id='Form-Insert-Product' onSubmit={(e) => { insertProductApi(e); modifyProductApi(e); clearStateProduct() }}>
+      <div className='flex flex-wrap place-content-center pb-4 '>
+       <h1 className={styles.h1_insertproduct}>Products Details</h1>
+       </div>
+
+       <div className="">
+       <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2 " htmlFor="grid-first-name">
                 Title
          </label>
-         <input value={product.title || ''} onChange={(e) => setProduct({ ...product, ...{ title: e.target.value } })} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="title" type="text" placeholder="Title" required/>
+         <input value={product.title || ''} onChange={(e) => setProduct({ ...product, ...{ title: e.target.value } })} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-grey-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="title" type="text" placeholder="Title" required/>
+       </div>
 
-         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+       <div>
+       <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2 mt-8" htmlFor="grid-last-name">
                 Description
          </label>
          <textarea value={product.description || ''} onChange={(e) => setProduct({ ...product, ...{ description: e.target.value } })} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Insert Description" required/>
-        </div>
-
        </div>
 
-       <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-state">
+       <div className="w-2/6">
+       <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2 mt-8" htmlFor="grid-state">
                 Category
         </label>
-        <div className="relative">
+
          <select value={product.category || ''} onChange={(e) => setProduct({ ...product, ...{ category: e.target.value } })} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" required>
           <option>Dish</option>
           <option>Pizza</option>
@@ -263,14 +267,14 @@ const getOnlyValueIngredients = newProduct.ingredients.map((ingredient => ingred
           <option>Wine</option>
 
          </select>
-
-         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-          <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-         </div>
-        </div>
        </div>
-         <div className="pt-3 pb-3" hidden={hiddenMultiSelect}>
-          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-state">
+
+       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-sky-700">
+          <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+
+       </div>
+         <div className="pt-3 pb-3 mt-4" hidden={hiddenMultiSelect}>
+          <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2" htmlFor="grid-state">
               Ingredient
         </label>
           <Select
@@ -283,46 +287,50 @@ const getOnlyValueIngredients = newProduct.ingredients.map((ingredient => ingred
            />
          </div>
 
-       <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-city">
+         <div className="w-2/6 mt-4">
+         <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2" htmlFor="grid-city">
                 Price
         </label>
         <input value={product.price || ''} onChange={(e) => setProduct({ ...product, ...{ price: e.target.value } })} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" min='1' placeholder="Insert Price" required/>
-       </div>
-       <div className='pt-4'>
-        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-city">
+         </div>
+
+         <div className='pt-4  w-3/6 mt-4'>
+        <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2" htmlFor="grid-city">
                {modify ? 'Change Image' : 'Insert Image'}
         </label>
-        <input  onChange={(e) => { convertImgSetToProduct(e.target.files[0]) }} accept="image/jpeg, image/png" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="file" />
+        <input onChange={(e) => { convertImgSetToProduct(e.target.files[0]) }} accept="image/jpeg, image/png" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="file" />
        </div>
-       <div>
 
-        <button
-         form='Form-Insert-Product'
-         style={modify ? { display: 'none' } : {} }
-         type='submit'
-         className="middle mt-4 ml-4 none center rounded-lg bg-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-         data-ripple-light="true"
-        >
-                Insert
-        </button>
-        <button
-         form='Form-Insert-Product'
-         style={!modify ? { display: 'none' } : {} }
+       <div className="flex flex-col items-center mt-8">
 
-         type='submit'
-         className="middle mt-4 ml-4 none center rounded-lg bg-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-         data-ripple-light="true"
-        >
-                Modify Product
-        </button>
-       </div>
-      </form>
-     </div>
+<button
+ form='Form-Insert-Product'
+ style={modify ? { display: 'none' } : {} }
+ type='submit'
+ className="middle  none center rounded-lg bg-red-600 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+ data-ripple-light="true"
+>
+        Insert
+</button>
+<button
+ form='Form-Insert-Product'
+ style={!modify ? { display: 'none' } : {} }
 
+ type='submit'
+ className="middle  none center rounded-lg bg-red-600 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+>
+        Modify Product
+</button>
+</div>
+
+        </form>
+
+      </div>
      {/* comntainer destra */}
-     <div className='rigth w-1/2  '>
-      <h1>Check all your Products</h1>
+     <div className='rigth w-1/2 pr-4   '>
+      <div className="flex flex-wrap place-content-center pb-4">
+      <h1 className={styles.h1_insertproduct}>Check all your Products</h1>
+      </div>
 
    <SimpleAccordion setProduct={setProduct} setModify={setModify} modify={modify} setSingleProductSelected={setSingleProductSelected} ></SimpleAccordion>
 
@@ -331,14 +339,7 @@ const getOnlyValueIngredients = newProduct.ingredients.map((ingredient => ingred
    </>
 
     )
-  } else {
-    return (
-   <div>
-    <h1>ALLOWED ONLY FOR ADMIN</h1>
-
-   </div>
-    )
-  }
+  
 }
 
 export const insertProductRedux = (data) => ({
@@ -362,10 +363,9 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(InsertProducts)
 
-
 export const options = [
-  { value: 1, label: 'Mozzarella'},
-  { value: 2, label: 'Pomodoro'},
+  { value: 1, label: 'Mozzarella' },
+  { value: 2, label: 'Pomodoro' },
   { value: 3, label: 'Basilico' },
   { value: 4, label: 'Funghi' },
   { value: 5, label: 'Peperoni' },

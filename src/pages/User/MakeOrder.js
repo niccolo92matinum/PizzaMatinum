@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import styles from '../../styles/Makeorder.module.css'
+import styles from '../../styles/makeorder.module.css'
 import Navbar from '../../components/Navbar'
 import AccordionOrder from '../../components/accordion'
 import CardMakeOrder from '../../components/card'
@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 
 function MakeOrder ({ state, insertProductsOnStore }) {
   const [productsChoosen, setProductsChoosen] = useState({})
+  const [show, setShow] = useState(false)
 
   const router = useRouter()
   useEffect(() => {
@@ -31,12 +32,12 @@ function MakeOrder ({ state, insertProductsOnStore }) {
 
             <div className="place-content-center  w-1/2  pt-8">
               <div className={styles.container_accordion_makeorder}>
-              <AccordionOrder showProductOnChoosen={showProductOnChoosen} ></AccordionOrder>
+              <AccordionOrder showProductOnChoosen={showProductOnChoosen} setShow={setShow} ></AccordionOrder>
               </div>
 
             </div>
             <div className="rigth w-1/2 pt-8">
-                <CardMakeOrder productsChoosen={productsChoosen} setProductsChoosen={setProductsChoosen}></CardMakeOrder>
+                <CardMakeOrder productsChoosen={productsChoosen} setProductsChoosen={setProductsChoosen} setShow={setShow} show={show}></CardMakeOrder>
             </div>
 
         </div>

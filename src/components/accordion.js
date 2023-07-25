@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
-import { useId, Fragment, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import styles from '../styles/makeorder.module.css'
+import Image from 'next/image'
 
-
-function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore }) {
+function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, setShow }) {
   const [open, setOpen] = useState(0)
   const [isClient, setIsClient] = useState(false)
 
@@ -71,6 +71,7 @@ function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore })
           <img
           src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png"
           className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180"
+          
           />
           </div>
           <div
@@ -78,14 +79,14 @@ function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore })
           >
             {categoryArr.map((singleObj) => {
               return (
-                    <div className='' key={singleObj.id}>
+                    <div className={styles.accordion_main_div_makeorder} key={singleObj.id}>
                       <div className='grid grid-cols-2 gap-4 '>
                         <div className="grid grid-cols-2  gap-4">
                         <h1 className=' h1_accordion_title text-stone-700' >{singleObj.title} </h1>
                         <h2 className={styles.h2_accordion_title} >{singleObj.price} €</h2>
                         </div>
                         <div>
-                        <button onClick={() => { showProductOnChoosen(singleObj) }} className="  middle mb-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Order</button>
+                        <button onClick={() => { showProductOnChoosen(singleObj); setShow(true) }} className="middle mb-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Order</button>
                         </div>
 
                       </div>
