@@ -1,6 +1,4 @@
 function adminData (state = {}, action) {
-
- 
   switch (action.type) {
     case 'STORE_ID_EMAIL':
 

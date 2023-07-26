@@ -5,13 +5,10 @@ import { createId } from '@paralleldrive/cuid2'
 import { connect } from 'react-redux'
 import { useRouter } from 'next/router'
 
-
-
 function Home ({ state, insertRestaurantIdRedux }) {
   const [restaurants, setRestaurants] = useState([])
   const [idRe, setIdRe] = useState(0)
   const router = useRouter()
-
 
   // _______API_________start
   useEffect(() => {
@@ -53,12 +50,10 @@ function Home ({ state, insertRestaurantIdRedux }) {
     router.push('User/MakeOrder')
   }
 
- 
   return (
     <div className="div_background">
       <img src="/img/sky.jpg" className="img_index" alt="Flowbite Logo"/>
 
-     
      <Navbar></Navbar>
 
      <div className="grid  place-items-center  pt-56" >
@@ -78,7 +73,6 @@ function Home ({ state, insertRestaurantIdRedux }) {
          <button onClick={() => onButtonMakeOrder()} className="  middle mt-20   none center rounded-lg bg-red-600 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Make order</button>
      </div>
      </div>
-    
 
   )
 }

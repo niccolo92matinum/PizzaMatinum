@@ -4,7 +4,7 @@ function userData (state = {}, action) {
 
       return action.payload
 
-      case 'RESET_USERDATA':
+    case 'RESET_USERDATA':
       return {}
 
     default:

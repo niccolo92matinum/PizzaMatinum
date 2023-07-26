@@ -11,8 +11,8 @@ const nextConfig = {
       }
     ]
   },
-  env:{
-    stripe_public_key:process.env.STRIPE_PUBLIC_KEY
+  env: {
+    stripe_public_key: process.env.STRIPE_PUBLIC_KEY
   },
   webpack (config) {
     config.experiments = { ...config.experiments, topLevelAwait: true }

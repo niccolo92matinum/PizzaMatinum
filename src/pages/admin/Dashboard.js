@@ -8,7 +8,7 @@ import Modal from '../../components/modaldetailsadmin'
 function Dashboard ({ state, insertOrderAdminRedux }) {
   const [showModal, setShowModal] = useState(false)
 
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
 
   const restaurantIdAdmin = state.adminData.restaurantId
 
@@ -41,28 +41,40 @@ function Dashboard ({ state, insertOrderAdminRedux }) {
   const orderPayed = state.orderAdmin.filter(order => order.status === 'Payed')
   const orderDoneOrNotPayed = state.orderAdmin.filter(order => order.status !== 'Payed')
 
-  return (
-  <div>
-   <Navbaradmin> </Navbaradmin>
-  
-   <div className="main  flex justify-center pt-8">
+  if (status !== 'unauthenticated') {
+    return (
+      <div>
+       <Navbaradmin> </Navbaradmin>
 
-    <div className="left w-1/2">
-   <TableDashboard props={orderPayed} setShowModal={setShowModal}/>
-    </div>
+       <div className="main  flex justify-center pt-8">
 
-    <div className="rigth w-1/2">
-    <TableDashboard props={orderDoneOrNotPayed} setShowModal={setShowModal}/>
-    </div>
+        <div className="left w-1/2">
+       <TableDashboard props={orderPayed} setShowModal={setShowModal}/>
+        </div>
 
-   </div>
+        <div className="rigth w-1/2">
+        <TableDashboard props={orderDoneOrNotPayed} setShowModal={setShowModal}/>
+        </div>
 
-   <div>
-    <Modal setShowModal={setShowModal} showModal={showModal} ></Modal>
-   </div>
+       </div>
 
-  </div>
-  )
+       <div>
+        <Modal setShowModal={setShowModal} showModal={showModal} ></Modal>
+       </div>
+
+      </div>
+    )
+  } else {
+    return (
+      <>
+      <Navbaradmin></Navbaradmin>
+      <div className=" h-screen flex items-center justify-center">
+      <h1 className="h1_loginpage">You are not logged in </h1>
+
+       </div>
+      </>
+    )
+  }
 }
 
 export const insertOrderAdminRedux = (data) => ({

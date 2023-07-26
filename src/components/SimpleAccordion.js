@@ -114,20 +114,9 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
     })
   }
 
- 
-
-  /* const ordersSortedByTitle = Object.values(splitAllKeyValueStore).sort(function (a, b) {
-    const textA = a.title.toUpperCase()
-    const textB = b.title.toUpperCase()
-    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
-  }) */
-
-  
-
   return (
     <div className="m-2 space-y-2 pt-4">
     { Object.values(state.productsData).map((categoryArr, i) => {
-      console.log(categoryArr, 'Arr')
       return (
         <div key={Math.random()}
       className="group flex flex-col gap-2 rounded-lg bg-neutral-50 p-5 text-white"
@@ -150,24 +139,17 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
                   <div className='grid grid-cols-2 gap-4 '>
                     <div className="">
                     <h1 className=' h1_accordion_title text-stone-700' >{singleObj.title} </h1>
-                    
+
                     </div>
                     <div>
                     <button onClick={ () => { setDataOnClickModifyButton(singleObj); setSingleProductSelected(singleObj) }} className="middle mb-8 mr-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Modify</button>
                     <button onClick={() => deleteProductApi(singleObj)} className="middle mb-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Delete</button>
                     </div>
                     <div>
-                   
-                         
+
                     </div>
 
                   </div>
-
-               {/*
-               <div>
-                <p className='bg-red-300 0'>{singleObj.description}</p>
-                </div>
-               */}
 
                 </div>
 

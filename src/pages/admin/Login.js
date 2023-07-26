@@ -1,5 +1,4 @@
-import styles from '../../styles/Login.module.css'
-import { useSession, signIn } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import Navbaradmin from '../../components/Navbaradmin'
 
 export default function Login () {

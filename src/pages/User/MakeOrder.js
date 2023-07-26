@@ -46,20 +46,6 @@ function MakeOrder ({ state, insertProductsOnStore }) {
   )
 }
 
-function filterProductsByCategory (obj, prop) {
-  return obj.reduce(function (acc, item) {
-    const key = item[prop]
-
-    if (!acc[key]) {
-      acc[key] = []
-    }
-
-    acc[key].push(item)
-
-    return acc
-  }, {})
-}
-
 export const insertProductsOnStore = (data) => ({
   type: 'STORE_PRODUCTS',
   payload: data

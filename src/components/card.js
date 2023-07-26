@@ -94,7 +94,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
 
     <div className="max-w-2xl mx-auto">
 
-<div className=" rounded-lg  dark:bg-gray-800 dark:border-gray-700 " className={styles.card_makeorder}>
+<div className={styles.card_makeorder}>
   <div className="">
   <button onClick={() => { setShow(false) }} type="button" className=" float-right mr-4 mt-4 bg-white rounded-md  inline-flex items-center justify-center text-red-700 hover:text-white hover:bg-red-700 ">
               <span className="sr-only">Close menu</span>

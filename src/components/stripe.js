@@ -24,7 +24,7 @@ export default function PreviewPage () {
           Checkout
         </button>
       </div>
-      
+
     </>
   )
 }

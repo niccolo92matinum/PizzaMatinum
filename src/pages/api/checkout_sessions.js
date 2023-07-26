@@ -1,24 +1,20 @@
-import Stripe from 'stripe'
-import { buffer } from 'micro'
-import {insertOrder} from '../../services/database'
+import { insertOrder } from '../../services/database'
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 export default async function handler (req, res) {
-let data = req.body
-let parsedData = JSON.parse(data)
-const orderId = parsedData.orderId
+  const data = req.body
+  const parsedData = JSON.parse(data)
+  const orderId = parsedData.orderId
 
   if (req.method === 'POST') {
-
     insertOrder(data)
-
 
     try {
       // const insertOrderIntoDb = await insertOrder(order)
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        metadata:{orderId},
+        metadata: { orderId },
         line_items: [
           {
             price_data: {
@@ -36,9 +32,8 @@ const orderId = parsedData.orderId
         success_url: 'http://localhost:3000/Stripe/successpage',
         cancel_url: 'http://localhost:3000/Stripe/failpage'
       })
-      
+
       res.json(session)
-      
     } catch (err) {
       res.status(500).json({ statusCode: 500, message: err.message })
     }
@@ -56,5 +51,3 @@ const orderId = parsedData.orderId
     res.status(405).end('Method Not Allowed')
   }
 }
-
-

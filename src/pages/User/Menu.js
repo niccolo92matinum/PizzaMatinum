@@ -1,13 +1,8 @@
-
 import Navbar from '../../components/Navbar'
-
 
 import { connect } from 'react-redux'
 
 function Menu () {
-  
-
-
   return (
         <>
         <Navbar></Navbar>

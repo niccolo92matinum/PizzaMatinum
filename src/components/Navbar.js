@@ -3,28 +3,13 @@ import styles from '../styles/Navbar.module.css'
 
 import { connect } from 'react-redux'
 import Link from 'next/link'
-import { useSession, signOut, signIn } from 'next-auth/react'
+
 import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/router'
 
 function Navbar ({ state, setIdEmailToStore }) {
-  const { data: session } = useSession()
-
   const router = useRouter()
-
-  const goToPage = async (path) => {
-    if (!state.adminData.ID) {
-      setIdEmailToStore(
-        {
-          email: session.user.email,
-          ID: session.admin.rows[0].id,
-          restaurantId: session.restaurantId
-        })
-    }
-
-    router.push(`/Admin/${path}`)
-  }
 
   const [counter, setCounter] = useState(0)
   const orders = state.order
@@ -37,22 +22,8 @@ function Navbar ({ state, setIdEmailToStore }) {
     setCounter(final)
   }, [orders])
 
-  const goToPageSimpleUser = (path) => {
-    router.push(`/User/${path}`)
-  }
-
-  let buttonSignInOut = <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={() => signIn()} >Sign In</button>
-
-  if (session?.admin) {
-    buttonSignInOut = <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={() => signOut()} >Sign Out</button>
-  }
-
-  /* const goToCartPage = () => {
-    router.push('/User/cartpage')
-  } */
-
-    const homePage = router.pathname
-    return (
+  const homePage = router.pathname
+  return (
 
 <nav className="bg-sky-700 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
@@ -60,18 +31,18 @@ function Navbar ({ state, setIdEmailToStore }) {
       <img src="/img/PiazzaDelivery.svg" className=" mr-3 w-52 h-24" alt="Flowbite Logo"/>
   </a>
   {homePage === '/'
-    ?  <div className="flex md:order-2">
+    ? <div className="flex md:order-2">
     <Link href="/User/cartpage" passHref>
        <div >
         <div >
-       
+
          <div ></div>
-  
+
         </div>
        </div>
       </Link>
-  
-    </div> 
+
+    </div>
     : <div className="flex md:order-2">
   <Link href="/User/cartpage" passHref>
      <div className={styles.item}>
@@ -99,8 +70,7 @@ function Navbar ({ state, setIdEmailToStore }) {
   </div>
 </nav>
 
-    )
-  
+  )
 }
 
 // ________ACTION START___________

@@ -2,7 +2,6 @@ import Image from 'next/image'
 import styles from '../styles/Navbar.module.css'
 
 import { connect } from 'react-redux'
-import Link from 'next/link'
 import { useSession, signOut, signIn } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
@@ -37,17 +36,11 @@ function Navbaradmin ({ state, setIdEmailToStore }) {
     setCounter(final)
   }, [orders])
 
- 
-
   let buttonSignInOut = <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={() => signIn()} >Sign In</button>
 
   if (session?.admin) {
     buttonSignInOut = <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={() => signOut()} >Sign Out</button>
   }
-
-  /* const goToCartPage = () => {
-    router.push('/User/cartpage')
-  } */
 
   return (
 <>
@@ -67,7 +60,6 @@ function Navbaradmin ({ state, setIdEmailToStore }) {
     </div>
     <div className={styles.item}>
 
-    {/* <li className={styles.listItem} onClick={() => router.push(`/`)}><a>Home page</a></li> */}
 {session?.admin
   ? <ul className={styles.list}>
 <li className={styles.listItem} onClick={() => goToPage('InsertProducts')}>Insert Products</li>

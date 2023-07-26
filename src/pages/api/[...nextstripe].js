@@ -1,4 +1,4 @@
-import NextStripe from 'next-stripe' 
+import NextStripe from 'next-stripe'
 export default NextStripe({
-    stripe_key: process.env.STRIPE_SECRET_KEY
+  stripe_key: process.env.STRIPE_SECRET_KEY
 })

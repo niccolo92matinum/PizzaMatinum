@@ -21,24 +21,22 @@ export const insertProduct = async (product) => {
 export const insertAllProductOnStore = async (nameColumn, id) => {
   const client = createClient()
   await client.connect()
-  
-  if(nameColumn === 'idadmin'){
+
+  if (nameColumn === 'idadmin') {
     const final = await client.sql`
     SELECT *
     FROM products
     WHERE idadmin=${id}`
-    
-  return final.rows
-  }else{
+
+    return final.rows
+  } else {
     const final = await client.sql`
     SELECT *
     FROM products
     WHERE idrestaurant=${id}`
-    
-  return final.rows
+
+    return final.rows
   }
-  
-  
 }
 
 export const getAdminId = async (email) => {
@@ -87,7 +85,7 @@ export const insertOrder = async (order) => {
 
   const client = createClient()
   await client.connect()
-const stringifyDetails = JSON.stringify(parseOrder.details)
+  const stringifyDetails = JSON.stringify(parseOrder.details)
 
   const final = await client.sql`
   INSERT INTO orders (orderid, ordertime, clientname, clientsurname,clientemail, clientphone,clientphone2,orderdetails,extimatedwait,idrestaurant,status)
@@ -129,10 +127,7 @@ export const deleteOrderByAdmin = async (id) => {
   return final
 }
 
-
-
-export const getAllOrdersByRestaurantId = async (id) =>{
-
+export const getAllOrdersByRestaurantId = async (id) => {
   const client = createClient()
   await client.connect()
   const final = await client.sql`
@@ -141,9 +136,4 @@ export const getAllOrdersByRestaurantId = async (id) =>{
   WHERE idrestaurant=${id}
   `
   return final
-
 }
-
-
-
-

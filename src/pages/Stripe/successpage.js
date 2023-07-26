@@ -1,28 +1,25 @@
 import Navbar from '../../components/Navbar'
 import { connect } from 'react-redux'
-import {useEffect} from 'react'
+import { useEffect } from 'react'
 
-function SuccessPage ({state, resetOrder,resetUserData}) {
-
+function SuccessPage ({ state, resetOrder, resetUserData }) {
   console.log(state)
 
-useEffect(()=>{
-
-  resetOrder()
-  resetUserData()
-
-},[])
-
+  useEffect(() => {
+    resetOrder()
+    resetUserData()
+  }, [])
 
   return (
         <div>
           <Navbar></Navbar>
-            <p>Success</p>
+          <div className=" h-screen flex items-center justify-center">
+          <h1 className="h1_loginpage"> Success </h1>
+
+            </div>
         </div>
   )
 }
-
-
 
 export const resetOrder = (data) => ({
   type: 'RESET_ORDER'
@@ -31,7 +28,6 @@ export const resetOrder = (data) => ({
 export const resetUserData = (data) => ({
   type: 'RESET_USERDATA'
 })
-
 
 const mapStateToProps = (state) => ({
   state
@@ -43,5 +39,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SuccessPage)
-
-

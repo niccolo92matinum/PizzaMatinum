@@ -11,8 +11,8 @@ function order (state = [], action) {
     case 'MERGE_ALL_ORDER_WITH_SAME_ID':
       return action.payload
 
-      case 'RESET_ORDER':
-        return []
+    case 'RESET_ORDER':
+      return []
     default:
       return state
   }

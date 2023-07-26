@@ -1,10 +1,8 @@
 import { connect } from 'react-redux'
 import { useState, useEffect } from 'react'
 import styles from '../styles/makeorder.module.css'
-import Image from 'next/image'
 
 function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, setShow }) {
-  const [open, setOpen] = useState(0)
   const [isClient, setIsClient] = useState(false)
 
   // Ensure that the component renders the same content server-side as it does during the initial
@@ -53,10 +51,6 @@ function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, s
     }, {})
   }
 
-
-  
-
-  // il componente viene renderizzato prima delle props  perciò bisogna usare lo use effect
   if (isClient) {
     return (
         <div className="m-2 space-y-2">
@@ -71,7 +65,7 @@ function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, s
           <img
           src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png"
           className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180"
-          
+
           />
           </div>
           <div
@@ -113,7 +107,15 @@ function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, s
 
     )
   } else {
-      <h1>Waiting</h1>
+    return (
+      <>
+
+      <div className=" h-screen flex items-center justify-center">
+        <h1 className="h1_loginpage">Loading....</h1>
+      </div>
+
+      </>
+    )
   }
 }
 

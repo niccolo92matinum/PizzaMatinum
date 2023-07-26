@@ -127,8 +127,6 @@ X
 
   </div>
 
-  
-
   <div className="flex items-center justify-center p-6 border-t border-solid border-slate-200 rounded-b">
 
   <button
@@ -149,9 +147,6 @@ X
   </button>}
 
   </div>
-
-
-
 
   </div>
   </div>

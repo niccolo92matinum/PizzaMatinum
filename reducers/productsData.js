@@ -1,5 +1,4 @@
 function productsData (state = {}, action) {
- 
   switch (action.type) {
     case 'STORE_PRODUCTS':
 
@@ -9,22 +8,19 @@ function productsData (state = {}, action) {
 
       return action.payload
 
-      case 'MODIFY_SINGLE_PRODUCT':
-      
+    case 'MODIFY_SINGLE_PRODUCT':
+
       return action.payload
 
     case 'DELETE_PRODUCT':
-      const result = action.payload
 
-      const d = Object.keys(result).map((i) => {
-        if (result[i].length === 0) {
-          delete result[i]
+      Object.keys(action.payload).map((i) => {
+        if (action.payload[i].length === 0) {
+          delete action.payload[i]
         }
       })
 
-      return { ...state, ...result }
-
-    
+      return { ...state, ...action.payload }
 
     default:
       return state

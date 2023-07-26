@@ -1,11 +1,10 @@
 import Navbar from '../../components/Navbar'
 import { connect } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+
 import CheckoutPage from '../../components/checkout'
 import PreviewPage from '../../components/stripe'
 import styles from '../../styles/cartpage.module.css'
-import Image from 'next/image'
 
 function CartPage ({ state, modifyQuantityOrderRedux }) {
   const orders = state.order
@@ -49,11 +48,6 @@ function CartPage ({ state, modifyQuantityOrderRedux }) {
     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
   })
 
-  const router = useRouter()
-  const goToCheckoutPage = () => {
-    router.push('/User/checkoutpage')
-  }
-
   return (
         <>
          <Navbar></Navbar>
@@ -66,10 +60,6 @@ function CartPage ({ state, modifyQuantityOrderRedux }) {
             <div className={styles.div_cartpage_leftside}>
                 {isClient
                   ? <div className={styles.div_cartpage_leftside_nested}>
-
-
-
-
 
 <ul className="list-none ">
 {ordersSortedByTitle.map((order) => {
@@ -84,14 +74,14 @@ function CartPage ({ state, modifyQuantityOrderRedux }) {
           <p className={styles.p_title_product_cartpage}>
           {order.title}
           </p>
-         
+
        </div>
        <div className="ml-4 mr-4 ">
        <button onClick={() => changeQuantityOrder(order, -1)} className="button_cartpage_left middle none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">REMOVE</button>
        </div>
        <div className="w-8 inline-flex  items-center justify-center text-base font-semibold text-gray-900 dark:text-white">
         <p >{order.quantity}</p>
-       
+
        </div>
        <div className="ml-4 mr-4 ">
        <button onClick={() => changeQuantityOrder(order, 1)} className="button_cartpage_left middle none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">ADD</button>
