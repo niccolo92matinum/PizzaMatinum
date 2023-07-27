@@ -7,6 +7,16 @@ import Image from 'next/image'
 function SimpleAccordion ({ state, setProduct, setModify, modify, insertProductsOnStore, deleteProduct, setSingleProductSelected }) {
   const { data: session } = useSession()
 
+  const options = [
+    { value: 1, label: 'Mozzarella' },
+    { value: 2, label: 'Pomodoro' },
+    { value: 3, label: 'Basilico' },
+    { value: 4, label: 'Funghi' },
+    { value: 5, label: 'Peperoni' },
+    { value: 6, label: 'Salame' },
+    { value: 7, label: 'Carciofi' }
+  ]
+
   const deleteProductFromRedux = (productToDelete) => {
     const prodData = state.productsData
 
