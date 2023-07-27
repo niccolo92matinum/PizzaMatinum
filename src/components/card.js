@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-
+import Image from 'next/image'
 
 import styles from '../styles/makeorder.module.css'
 
@@ -110,7 +110,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
             </button>
   </div>
 
-{(productsChoosen.img !== null) && <img className=" p-8" src={productsChoosen.img} className={styles.image_card_makeorder} alt="product image" />}
+{(productsChoosen.img !== null) && <Image className=" p-8" src={productsChoosen.img} className={styles.image_card_makeorder} width={600} height={600} alt="product image" />}
 
     <div className="px-5 pb-5">
       <div className="grid grid-cols-1  gap-4">
