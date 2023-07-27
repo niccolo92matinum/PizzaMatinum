@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useSession } from 'next-auth/react'
-import { options } from '../pages/Admin/InsertProducts'
 import styles from '../styles/makeorder.module.css'
 import Image from 'next/image'
 
