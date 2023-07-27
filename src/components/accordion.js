@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { useState, useEffect } from 'react'
 import styles from '../styles/makeorder.module.css'
+import Image from 'next/image'
 
 function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, setShow }) {
   const [isClient, setIsClient] = useState(false)
@@ -62,8 +63,10 @@ function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, s
           >
           <div className="flex cursor-pointer items-center justify-between">
           <span className='name_category_accordion'>{categoryArr[0].category}</span>
-          <img
+          <Image
           src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png"
+          width={30} height={30}
+          alt="icon nav"
           className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180"
 
           />

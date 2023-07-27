@@ -25,14 +25,6 @@ function Modal ({ state, setShowModal, showModal, changeStatusOrderRedux, change
     parsedDetails = JSON.parse(state.orderSelectedByAdmin.orderdetails)
   }
 
-  let statusToSend
-
-  if (order.status === 'Payed') {
-    statusToSend = 'Delivered'
-  } else {
-    statusToSend = 'Payed'
-  }
-
   const changeStatusApi = async () => {
     try {
       const response = await fetch(

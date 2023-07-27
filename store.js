@@ -8,9 +8,7 @@ const devMode = process.env.NODE_ENV === 'development'
 const sagaMiddleware = createSagaMiddleware()
 
 const composeEnhancers =
-  (process.browser &&
-    typeof window !== 'undefined' &&
-    window.REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose)
+  (process.browser && typeof window !== 'undefined' && window.REDUX_DEVTOOLS_EXTENSION_COMPOSE) || compose
 
 const { load, save } = configurePersist({ doNotSave: ['status'] })
 

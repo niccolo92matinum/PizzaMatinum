@@ -82,12 +82,14 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
     const arr = JSON.parse(productsChoosen.ingredients)
     const arrVuoto = []
 
-    const final = arr.map((singlNumber) => {
-      options.filter((option) => {
+    arr.map((singlNumber) => {
+      return (options.filter((option) => {
         if (singlNumber === option.value) {
-          arrVuoto.push(option.label)
+          return arrVuoto.push(option.label)
         }
+        return arrVuoto
       })
+      )
     })
 
     return (
@@ -105,7 +107,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
             </button>
   </div>
 
-{(productsChoosen.img !== null) && <img className=" p-8" src={productsChoosen.img} className={styles.image_card_makeorder} alt="product image" />}
+{(productsChoosen.img !== null) && <Image className=" p-8" src={productsChoosen.img} className={styles.image_card_makeorder} alt="product image" />}
 
     <div className="px-5 pb-5">
       <div className="grid grid-cols-1  gap-4">

@@ -1,10 +1,8 @@
 import { connect } from 'react-redux'
-import { Fragment, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import styles from '../styles/dashboard.module.css'
 
 function TableDashboard ({ state, props, setShowModal, insertSelectedOrderByAdmin }) {
-  const order = state
-
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {

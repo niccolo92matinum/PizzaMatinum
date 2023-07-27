@@ -14,12 +14,6 @@ function productsData (state = {}, action) {
 
     case 'DELETE_PRODUCT':
 
-      Object.keys(action.payload).map((i) => {
-        if (action.payload[i].length === 0) {
-          delete action.payload[i]
-        }
-      })
-
       return { ...state, ...action.payload }
 
     default:

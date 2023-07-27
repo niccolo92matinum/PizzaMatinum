@@ -1,9 +1,9 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Navbar.module.css'
 
 import { connect } from 'react-redux'
 import { useSession, signOut, signIn } from 'next-auth/react'
-import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -25,17 +25,6 @@ function Navbaradmin ({ state, setIdEmailToStore }) {
     router.push(`/Admin/${path}`)
   }
 
-  const [counter, setCounter] = useState(0)
-  const orders = state.order
-  useEffect(() => {
-    const counterOrders = orders.map((singleObj) => {
-      return singleObj.quantity
-    })
-
-    const final = counterOrders.reduce((a, b) => a + b, 0)
-    setCounter(final)
-  }, [orders])
-
   let buttonSignInOut = <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={() => signIn()} >Sign In</button>
 
   if (session?.admin) {
@@ -50,9 +39,9 @@ function Navbaradmin ({ state, setIdEmailToStore }) {
      <div className={styles.texts}>
       {session?.admin
         ? <div className={styles.text}>{session?.user.name}</div>
-        : <a href="/" className="flex items-center ">
-      <img src="/img/PiazzaDelivery.svg" className=" mr-3 w-52 h-24" alt="Flowbite Logo"/>
-  </a>
+        : <Link href="/" className="flex items-center ">
+      <Image src="/img/PiazzaDelivery.svg" width={30} height={30} className=" mr-3 w-52 h-24" alt="Flowbite Logo"/>
+  </Link>
    }
 
     </div>

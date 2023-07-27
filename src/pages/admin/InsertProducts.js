@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { createId } from '@paralleldrive/cuid2'
 import Select from 'react-select'
 import styles from '../../styles/insertproduct.module.css'
-import { useRouter } from 'next/router'
 
 import { useSession } from 'next-auth/react'
 
@@ -19,8 +18,6 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     setIsClient(true)
   }, [])
 
-  const router = useRouter()
-
   const [product, setProduct] = useState({
     adminId: state.adminData.ID,
     restaurantId: state.adminData.restaurantId,
@@ -29,10 +26,6 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     category: 'Dish',
     ingredients: []
   })
-
-  const getOnlyValueIngredientToApiInsert = (e) => {
-
-  }
 
   const [singleProductSelected, setSingleProductSelected] = useState({})
   const [modify, setModify] = useState(false)
@@ -142,38 +135,48 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
       Object.keys(prevState).map((categoryKey) => {
         if (categoryKey !== productSelected.category) {
           arrVuoto.push(categoryKey)
+          return arrVuoto
         }
+        return arrVuoto
       })
       arrVuoto.map((category) => {
         if (category === newProduct.category) {
           const mergeNewProductWithArray = [...prevState[category], newProduct]
           newState[category] = mergeNewProductWithArray
+          return newState
         } else {
           newState[category] = prevState[category]
+          return newState
         }
       })
 
       if (!arrVuoto.includes(newProduct.category)) {
         newState[newProduct.category] = [newProduct]
+        return newState
       }
+      return newState
     } else if (productSelected.category !== newProduct.category) {
       const arrVuoto2 = []
 
       Object.keys(prevState).map((categoryKey) => {
-        arrVuoto2.push[categoryKey]
         if (categoryKey === productSelected.category) {
           newState[categoryKey] = deleteObj
+          return newState
         }
         if (categoryKey === newProduct.category) {
           const mergeNewProductWithArray2 = [...prevState[categoryKey], newProduct]
           newState[categoryKey] = mergeNewProductWithArray2
+          return newState
         }
         if (categoryKey !== productSelected.category && categoryKey !== newProduct.category) {
           newState[categoryKey] = prevState[categoryKey]
+          return newState
         }
         if (!arrVuoto2.includes(newProduct.category)) {
           newState[newProduct.category] = [newProduct]
+          return newState
         }
+        return newState
       })
     } else {
       Object.keys(prevState).map((categoryKey) => {
@@ -181,8 +184,10 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
           const mergeNewProductWithArray3 = [...deleteObj, newProduct]
 
           newState[categoryKey] = mergeNewProductWithArray3
+          return newState
         } else {
           newState[categoryKey] = prevState[categoryKey]
+          return newState
         }
       })
 

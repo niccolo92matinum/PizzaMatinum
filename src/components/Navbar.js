@@ -27,9 +27,9 @@ function Navbar ({ state, setIdEmailToStore }) {
 
 <nav className="bg-sky-700 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
-  <a href="/" className="flex items-center ">
-      <img src="/img/PiazzaDelivery.svg" className=" mr-3 w-52 h-24" alt="Flowbite Logo"/>
-  </a>
+  <Link href="/" className="flex items-center ">
+      <Image src="/img/PiazzaDelivery.svg" width={30} height={30} alt='icon' className=" mr-3 w-52 h-24" alt="Flowbite Logo"/>
+  </Link>
   {homePage === '/'
     ? <div className="flex md:order-2">
     <Link href="/User/cartpage" passHref>
@@ -47,7 +47,7 @@ function Navbar ({ state, setIdEmailToStore }) {
   <Link href="/User/cartpage" passHref>
      <div className={styles.item}>
       <div className={styles.cart}>
-       <Image src="/img/cart.png" alt="" width={30} height={30} />
+       <Image src="/img/cart.png" alt="" width={30} height={30} width={30} height={30} alt='icon' />
        <div className={styles.counter}>{counter}</div>
 
       </div>
@@ -59,10 +59,10 @@ function Navbar ({ state, setIdEmailToStore }) {
   <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
     <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border md:flex-row md:space-x-8 md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
       <li className="  transition duration-500 hover:scale-125 ">
-        <a href="#" className="block py-2 pl-3 pr-4 text-white rounded hover:bg-red-600 md:hover:bg-transparent md:hover:text-red-600 md:p-0 md:dark:hover:text-red-600 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Menu</a>
+        <Link href="#" className="block py-2 pl-3 pr-4 text-white rounded hover:bg-red-600 md:hover:bg-transparent md:hover:text-red-600 md:p-0 md:dark:hover:text-red-600 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Menu</Link>
       </li>
       <li className="transition duration-500 hover:scale-125 ">
-        <a href="#" className="block py-2 pl-3 pr-4 text-white rounded hover:bg-red-600 md:hover:bg-transparent md:hover:text-red-600 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
+        <Link href="#" className="block py-2 pl-3 pr-4 text-white rounded hover:bg-red-600 md:hover:bg-transparent md:hover:text-red-600 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</Link>
       </li>
 
     </ul>

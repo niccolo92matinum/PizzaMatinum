@@ -1,7 +1,7 @@
 import Navbar from '../../components/Navbar'
 import { connect } from 'react-redux'
 import { useEffect, useState } from 'react'
-
+import Image from 'next/image'
 import CheckoutPage from '../../components/checkout'
 import PreviewPage from '../../components/stripe'
 import styles from '../../styles/cartpage.module.css'
@@ -24,9 +24,6 @@ function CartPage ({ state, modifyQuantityOrderRedux }) {
     if (order.quantity > 1 || (order.quantity === 1 && num === 1)) {
     // prendo il prodotto selezionato
 
-      const takeOffOrder = orders.filter((singleObj) => {
-        return singleObj.orderId !== order.orderId
-      })
       // +1 o -1 sulla quantity
       order.quantity = order.quantity + num
       // aggiorno lo store con  tutti i prodotti selezionati  meno quello che sto modificando + il prodotto modificato
@@ -68,7 +65,9 @@ function CartPage ({ state, modifyQuantityOrderRedux }) {
     <li key={order.orderId} className="pb-3 pt-4 sm:pb-4">
     <div className="flex items-center">
        <div className="flex-shrink-0 w-1/5 h-20">
-          <img className="w-20 h-20  m-auto rounded-full" src={order.img} alt="Neil image"/>
+
+          { order.img && <Image className="w-20 h-20  m-auto rounded-full" width={30} height={30} src={order.img} alt="Neil image"/>}
+
        </div>
        <div className="ml-4 mr-4 w-2/5 ">
           <p className={styles.p_title_product_cartpage}>

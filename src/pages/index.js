@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar'
-
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { createId } from '@paralleldrive/cuid2'
 import { connect } from 'react-redux'
@@ -52,7 +52,7 @@ function Home ({ state, insertRestaurantIdRedux }) {
 
   return (
     <div className="div_background">
-      <img src="/img/sky.jpg" className="img_index" alt="Flowbite Logo"/>
+      <Image src="/img/sky.jpg" width={30} height={30} className="img_index" alt="Flowbite Logo"/>
 
      <Navbar></Navbar>
 

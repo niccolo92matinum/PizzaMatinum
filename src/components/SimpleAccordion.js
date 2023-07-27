@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { useSession } from 'next-auth/react'
 import { options } from '../pages/Admin/InsertProducts'
 import styles from '../styles/makeorder.module.css'
+import Image from 'next/image'
 
 function SimpleAccordion ({ state, setProduct, setModify, modify, insertProductsOnStore, deleteProduct, setSingleProductSelected }) {
   const { data: session } = useSession()
@@ -16,9 +17,14 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
 
     prodData[productToDelete.category] = deleteProduct
 
-    const newState = { prodData }
+    const newStateFinal = Object.keys(prodData).map((i) => {
+      if (prodData[i].length === 0) {
+        delete prodData[i]
+      }
+      return prodData
+    })
 
-    return newState
+    return newStateFinal
   }
 
   // ____________API________start_____
@@ -124,8 +130,10 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
       >
       <div className="flex cursor-pointer items-center justify-between">
       <span className='name_category_accordion'>{categoryArr[0]?.category}</span>
-      <img
+      <Image
       src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png"
+      width={30} height={30}
+      alt='icon'
       className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180"
 
       />
