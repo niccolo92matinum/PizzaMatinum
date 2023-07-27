@@ -79,8 +79,6 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
     setProductsChoosen({})
   }
 
- 
-
   if (show) {
     const arr = JSON.parse(productsChoosen.ingredients)
     const arrVuoto = []
