@@ -29,8 +29,8 @@ export default async function handler (req, res) {
         ],
         payment_intent_data: { metadata: { orderID: 'orderID' } },
         mode: 'payment',
-        success_url: 'http://localhost:3000/Stripe/successpage',
-        cancel_url: 'http://localhost:3000/Stripe/failpage'
+        success_url: 'https://pizza-matinum.vercel.app/Stripe/successpage',
+        cancel_url: 'https://pizza-matinum.vercel.app/Stripe/failpage'
       })
 
       res.json(session)
