@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import Navbaradmin from '../../components/Navbaradmin'
 import SimpleAccordion from '../../components/SimpleAccordion'
-
+import ModalIngredients from '../../components/modalingredients'
 import { connect } from 'react-redux'
 import { createId } from '@paralleldrive/cuid2'
 import Select from 'react-select'
 import styles from '../../styles/insertproduct.module.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 
 import { useSession } from 'next-auth/react'
 
@@ -232,6 +234,13 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     hiddenMultiSelect = true
   }
 
+  // ________ code modal ingredient _____
+
+  const [showModal, setShowModal] = useState(false)
+  const [witchModal, setWitchModal] = useState('')
+
+  // ________ end code modal ingredient ______
+
   if (isClient && status !== 'unauthenticated') {
     return (
       <>
@@ -279,8 +288,9 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
 
           </div>
-            <div className="pt-3 pb-3 mt-4" hidden={hiddenMultiSelect}>
-             <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2" htmlFor="grid-state">
+            <div className=" flex flex-row pt-3 pb-3 mt-4 " hidden={hiddenMultiSelect}>
+              <div className="w-full mr-4">
+              <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2" htmlFor="grid-state">
                  Ingredient
            </label>
              <Select
@@ -291,6 +301,18 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
               value={product.ingredients}
               isMulti
               />
+              </div>
+              <div className="cursor-pointer mt-4">
+
+                <FontAwesomeIcon onClick={() => { setWitchModal('add'); setShowModal(true) }} icon={faPlus} beat style={{ color: '#ff0000' }} />
+                <FontAwesomeIcon className="mt-4" onClick={() => { setWitchModal('remove'); setShowModal(true) }} icon={faMinus} beat style={{ color: '#ff0000' }} />
+
+                 </div>
+
+            </div>
+
+            <div>
+              <ModalIngredients showModal={showModal} setShowModal={setShowModal} witchModal={witchModal} ></ModalIngredients>
             </div>
 
             <div className="w-2/6 mt-4">

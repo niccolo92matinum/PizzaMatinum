@@ -5,7 +5,7 @@
 
 
 
-  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,600&family=Bebas+Neue&family=Josefin+Sans:wght@500&family=Oswald:wght@700&family=Roboto:wght@500;900&family=VT323&family=Ysabeau+Infant:wght@100;300&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,600&family=Bebas+Neue&family=Josefin+Sans:wght@500&family=Oswald:wght@700&family=Roboto:wght@500;900&family=VT323&family=Ysabeau+Infant:wght@100;300&display=swap&family=Montserrat:wght@500&display=swap');
 
 
 
@@ -13,6 +13,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --monser: 'Montserrat', sans-serif
 }
 
 @media (prefers-color-scheme: dark) {
@@ -78,7 +79,7 @@ body {
 
 
 .h1_index_page {
-  font-family: 'VT323', monospace;
+  font-family: --monser;
    font-size: 30px;
    color: #0E66A6;
    padding-bottom: 15px;
@@ -86,7 +87,7 @@ body {
 }
 
 .name_category_accordion{
-  font-family: 'VT323', monospace;
+  font-family: --monser;
   font-size: 30px;
   color: #323232;
   padding-bottom: 15px;
@@ -94,7 +95,7 @@ body {
 
 
 select{
-  font-family: 'VT323', monospace;
+  font-family: --monser;
   text-align: center;
 }
 
@@ -107,7 +108,7 @@ select{
 }
 
 .h1_accordion_title{
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: --monser;
  font-weight: 600;
  font-size: 20px;
  color: #0E66A6;
@@ -131,7 +132,7 @@ select{
 .h1_loginpage{
   
   font-size: 60px;
-  font-family: 'VT323', monospace;
+  font-family: --monser;
 }
 
 /*_________end Login page______*/

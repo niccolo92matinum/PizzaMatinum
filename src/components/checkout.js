@@ -7,15 +7,15 @@ const stripePromise = loadStripe(
   process.env.stripe_public_key
 )
 
-function CheckoutPage ({ state, storeUserDetailsRedux }) {
+function CheckoutPage ({ state, storeUserDetailsRedux, price }) {
   const [userDetails, setUserDetails] = useState({})
-  console.log(state)
+
   // ${order.orderid},${order.orderTime},${order.name},${order.surname},${order.email}${order.phone},${order.phone2},${order.details},${order.extimatedwait},${order.idrestaurant
 
   const goToStriePage = async (e) => {
     e.preventDefault()
 
-    const order = { ordertime: new Date(), userDetails, details: state.order, orderId: createId(), restaurantid: state.restaurantId }
+    const order = { ordertime: new Date(), userDetails, details: state.order, orderId: createId(), restaurantid: state.restaurantId, price }
 
     storeUserDetailsRedux(userDetails)
     const stripe = await stripePromise
@@ -53,7 +53,7 @@ function CheckoutPage ({ state, storeUserDetailsRedux }) {
     action="/api/checkout_sessions" method="POST"
      id="myform"
      onSubmit={(e) => goToStriePage(e)}
-    className="w-full margin_auto max-w-lg">
+    className="w-full margin_auto pl-16 pr-16">
   <div className="flex flex-wrap -mx-3 mb-6">
     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
@@ -105,15 +105,7 @@ function CheckoutPage ({ state, storeUserDetailsRedux }) {
       name="phone2"/>
     </div>
     <div className="w-full md:w-1/2 px-3">
-      <label className="block uppercase tracking-wide text-red-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-        Total To PAY
-      </label>
-      <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name"
-      type="number"
-      placeholder="Amount"
-       readOnly
-      id="amount"
-      name="amount"/>
+
     </div>
   </div>
 </form>

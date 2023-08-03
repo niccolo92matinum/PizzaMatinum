@@ -53,6 +53,8 @@ function Navbaradmin ({ state, setIdEmailToStore }) {
   ? <ul className={styles.list}>
 <li className={styles.listItem} onClick={() => goToPage('InsertProducts')}>Insert Products</li>
 
+<li className={styles.listItem} >Add </li>
+
 <li className={styles.listItem} onClick={() => goToPage('Dashboard')}>Dashboard</li>
 
 <li className={styles.listItem}>Menu</li>

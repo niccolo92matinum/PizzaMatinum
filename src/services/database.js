@@ -137,3 +137,16 @@ export const getAllOrdersByRestaurantId = async (id) => {
   `
   return final
 }
+
+export const addIngredientsByAdmin = async (id, arrIngredients) => {
+  
+  const strinIngredient = JSON.stringify(arrIngredients)
+  const client = createClient()
+  await client.connect()
+  const final = await client.sql`
+  UPDATE admins
+SET ingredients = ${strinIngredient}
+WHERE id = ${id};
+  `
+  return final
+}

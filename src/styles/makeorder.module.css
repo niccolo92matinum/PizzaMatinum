@@ -32,7 +32,7 @@ border-radius:  50px 20px 0px 0px;
   color: #0E66A6;
   margin-top: 20px;
   font-size: 30px;
-  font-family: 'VT323', monospace;
+  font-family: --monser;
   
 }
 
@@ -42,7 +42,7 @@ border-radius:  50px 20px 0px 0px;
 }
 
 .p_card_makeorder{
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: --monser;
   font-weight: 600;
   font-size: 16px;
   margin-top: 20px;
@@ -58,7 +58,7 @@ border-radius:  50px 20px 0px 0px;
 
   color: #323232;
   font-size: 20px;
-  font-family: 'VT323', monospace;
+  font-family: --monser;
 }
 
 
@@ -89,7 +89,15 @@ border-radius:  50px 20px 0px 0px;
    
   }
 
+  .h1_cartpage{
+    font-family: --monser;
+    font-size: 30px;
+  }
 
+  .arrow_card{
+    color: red;
+    font-size: 60px;
+  }
   /*.prova{
     position: absolute;
     -webkit-animation: linear;

@@ -1,6 +1,7 @@
 .div_cartpage_leftside{
     width: 100%;
     text-align: center;
+    
 }
 
 .div_cartpage_leftside_nested{
@@ -11,15 +12,35 @@
 }
 
 .h1_cartpage{
- font-family: 'VT323', monospace;
+    font-family: --monser;
   font-size: 30px;
   text-align: center;
 }
 
 
 .p_title_product_cartpage{
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: --monser;
     font-weight: 600;
     font-size: 15px;
     color: #0E66A6;
+}
+
+.div_cartpage_paymentmethod{
+    width: 60%;
+    background-color: #FAFAFA;
+    box-shadow: 5px 10px #ccc;
+    border-radius: 50px 20px;
+    padding:30px 60px 60px 60px
+    
+}
+
+.font_cartpagesummary{
+    font-family: --monser;
+}
+
+.font_cartpagesummary_rigth{
+    font-family: --monser;
+    color: red;
+    font-size: 20px;
+
 }

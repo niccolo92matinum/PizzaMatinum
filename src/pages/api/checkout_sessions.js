@@ -7,9 +7,9 @@ export default async function handler (req, res) {
   const parsedData = JSON.parse(data)
   const orderId = parsedData.orderId
 
-  if (req.method === 'POST') {
-    insertOrder(data)
+  const price = parsedData.price * 100
 
+  if (req.method === 'POST') {
     try {
       // const insertOrderIntoDb = await insertOrder(order)
       const session = await stripe.checkout.sessions.create({
@@ -22,30 +22,23 @@ export default async function handler (req, res) {
               product_data: {
                 name: 'Pagamento'
               },
-              unit_amount: 100
+              unit_amount: price
             },
             quantity: 1
           }
         ],
         payment_intent_data: { metadata: { orderID: 'orderID' } },
         mode: 'payment',
-        success_url: 'https://pizza-matinum.vercel.app/Stripe/successpage',
-        cancel_url: 'https://pizza-matinum.vercel.app/Stripe/failpage'
+        success_url: 'http://localhost:3000/Stripe/successpage',
+        cancel_url: 'http://localhost:3000/Stripe/failpage'
       })
+
+      insertOrder(data)
 
       res.json(session)
     } catch (err) {
       res.status(500).json({ statusCode: 500, message: err.message })
     }
-
-    /* (async () => {
-      const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret)
-      if (error) {
-        // Handle error here
-      } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-        // Handle successful payment here
-      }
-    })() */
   } else {
     res.setHeader('Allow', 'POST')
     res.status(405).end('Method Not Allowed')
