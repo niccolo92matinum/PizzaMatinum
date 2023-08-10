@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import Select from 'react-select'
 
 import styles from '../styles/makeorder.module.css'
 
@@ -11,8 +12,6 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
   const [counter, setCounter] = useState(0)
 
   const [isClient, setIsClient] = useState(false)
-
-  console.log(state.order.length > 0)
 
   useEffect(() => {
     setIsClient(true)
@@ -42,27 +41,68 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
     // merge del nuovo prodotto con quelli esistenti
     const mergeNewOrderWithOrders = [...orders, newOrder]
 
-    const arrVuot = []
+    // nel caso in cui io vado ad aggiungere un prodotto cambiando gli ingredienti non devo fare il merge
+    // in pratica prendo gli elementi con lo stesso id e vedo se l'array degli ingredienti è uguale
+    const checkOrderWithSameIdAndIngredients = () => {
+      const sortIngredient = (arr) => {
+        const ingSort = arr.sort(function (a, b) {
+          const textA = a.label.toUpperCase()
+          const textB = b.label.toUpperCase()
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
+        })
+        return ingSort
+      }
 
+      const checkIfOrdersAreEqual = orders.map((singleOrder) => {
+        const sortedIngredientSingleOrder = sortIngredient(singleOrder.ingredients)
+        const sortedIngredientNewOrder = sortIngredient(newOrder.ingredients)
+
+        console.log(sortedIngredientSingleOrder, sortedIngredientNewOrder, 'sorted')
+
+        if (singleOrder.id === newOrder.id) {
+          const x = JSON.stringify(sortedIngredientSingleOrder) === JSON.stringify(sortedIngredientNewOrder)
+          return x
+        }
+        return false
+      })
+
+      const equalOrderWithEqualIngredient = checkIfOrdersAreEqual.includes(true)
+
+      return equalOrderWithEqualIngredient
+    }
+
+    console.log(checkOrderWithSameIdAndIngredients(), 'prova')
+
+    const arrVuot = []
+    const booleanVerify = checkOrderWithSameIdAndIngredients()
     // controllo se ci sono elementi con lo stesso id , se ci sono vado a sommare le quantità di ogni singolo elemento
     mergeNewOrderWithOrders.map((sing) => {
       // pusho il primo ordine nell' arrVuoto
       if (arrVuot.length === 0) {
+        console.log('cazzo')
         arrVuot.push(sing)
       } else {
+        console.log('cazzo1')
         // dal secondo ordine in poi controllo se l'ultimo ordine inserito nell'arrayVuot abbia lo stesso id di quello che
         // sto per inserire
         const arrObjectsWihSameId = arrVuot.filter(x => x.id === sing.id)
+
         if (arrObjectsWihSameId.length > 0) {
-          // se la condizione appena detta è vera prendo il quantity dell'ultimo obj
-          const getAllQuantity = arrObjectsWihSameId.map(x => x.quantity).slice(-1)[0]
-          // e lo sommo all'odine che sto ciclando(sing)
-          const totalSum = getAllQuantity + sing.quantity
-          // merge dell'odine che sto ciclando con il value quantity nuovo
-          const objWithNewQuantity = { ...sing, ...{ quantity: totalSum } }
-          // pusho nell'arrayVuot
-          arrVuot.push(objWithNewQuantity)
+          if (booleanVerify) {
+            console.log('cazzo3')
+            // se la condizione appena detta è vera prendo il quantity dell'ultimo obj
+            const getAllQuantity = arrObjectsWihSameId.map(x => x.quantity).slice(-1)[0]
+            // e lo sommo all'odine che sto ciclando(sing)
+            const totalSum = getAllQuantity + sing.quantity
+            // merge dell'odine che sto ciclando con il value quantity nuovo
+            const objWithNewQuantity = { ...sing, ...{ quantity: totalSum } }
+            // pusho nell'arrayVuot
+            arrVuot.push(objWithNewQuantity)
+          } else {
+            arrVuot.push(sing)
+          }
         } else {
+          console.log('cazzo4')
           // 'ultimo ordine inserito nell'arrayVuot non ha lo stesso id di quello ciclato
           // inserisco quello ciclato senza modifiche
           arrVuot.push(sing)
@@ -79,6 +119,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
     // raccolgo tutti gli ordini in array diversi in base all'id
     const groupById = group(arrVuot, 'id')
     // prendo per ogni array l'elemento con la quantity maggiore
+    console.log(groupById, 'grouped')
     const final = groupById.map((x) => {
       return x.reduce((prev, current) => (prev.quantity > current.quantity) ? prev : current)
     })
@@ -126,19 +167,6 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
   }
 
   if (show) {
-    const arr = JSON.parse(productsChoosen.ingredients)
-    const arrVuoto = []
-
-    arr.map((singlNumber) => {
-      return (options.filter((option) => {
-        if (singlNumber === option.value) {
-          return arrVuoto.push(option.label)
-        }
-        return arrVuoto
-      })
-      )
-    })
-
     return (
 
     <div className="max-w-2xl mx-auto ">
@@ -174,7 +202,20 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
 
       <div className="flex flex-col items-center ">
 
-        <p className={styles.p_card_makeorder} >{arrVuoto.toString()}</p>
+      <div className="w-full mr-4">
+              <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2" htmlFor="grid-state">
+                 Ingredient
+           </label>
+             <Select
+
+             onChange={(e) => setProductsChoosen({ ...productsChoosen, ...{ ingredients: e } })}
+              options={state.ingredients }
+              closeMenuOnSelect={false}
+              value={productsChoosen.ingredients}
+              isMulti
+              />
+        </div>
+
       </div>
 
       <div className="grid grid-cols-3 gap-4 mt-8  ">
@@ -296,13 +337,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardMakeOrder)
-
-const options = [
-  { value: 1, label: 'Mozzarella' },
-  { value: 2, label: 'Pomodoro' },
-  { value: 3, label: 'Basilico' },
-  { value: 4, label: 'Funghi' },
-  { value: 5, label: 'Peperoni' },
-  { value: 6, label: 'Salame' },
-  { value: 7, label: 'Carciofi' }
-]

@@ -1,18 +1,32 @@
 import { useState, useEffect } from 'react'
 import Navbaradmin from '../../components/Navbaradmin'
 import SimpleAccordion from '../../components/SimpleAccordion'
-import ModalIngredients from '../../components/modalingredients'
+
 import { connect } from 'react-redux'
 import { createId } from '@paralleldrive/cuid2'
 import Select from 'react-select'
 import styles from '../../styles/insertproduct.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-
+import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 
-function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
+function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdEmailToStore, insertIngredientsRedux }) {
   const { data: session, status } = useSession()
+  const { push } = useRouter()
+  //  nel caso in cui l'admin è gia nella pagina Insert product e fa il login avrà i dati della sessione nello store redux
+  useEffect(() => {
+    if (status === 'authenticated') {
+      setIdEmailToStore(
+        {
+          email: session.user.email,
+          ID: session.admin.rows[0].id,
+          restaurantId: session.restaurantId
+        })
+    } else if (status === 'unauthenticated') {
+      push('/Admin/Login')
+    }
+  }, [status])
 
   const [isClient, setIsClient] = useState(false)
 
@@ -51,8 +65,8 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
   // funzione che inserisce il prodotto nello store redux prima del rendering
   // cosi da poter aggiornare l'accordion senza chiamre l'endpoint ogni volta
   const insertInstantlyObjInStore = (store, objtoPush) => {
-    const getOnlyIdsIngredients = objtoPush.ingredients.map(ingredient => ingredient.value)
-    objtoPush.ingredients = JSON.stringify(getOnlyIdsIngredients)
+   // const getOnlyIdsIngredients = objtoPush.ingredients.map(ingredient => ingredient.value)
+    //objtoPush.ingredients = JSON.stringify(getOnlyIdsIngredients)
 
     const allCategoryStore = Object.keys(store.productsData)
 
@@ -102,7 +116,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
         await response.json()
 
         const final = insertInstantlyObjInStore(state, product)
-
+        // inserisco  i prodotti nello store redux
         insertProductRedux(final)
       } catch (error) {
         console.log(error)
@@ -125,9 +139,9 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
     const deleteObj = state.productsData[productSelected.category].filter((singleObj) => {
       return singleObj.id !== productSelected.id
     })
-    const getOnlyValueIngredients = newProduct.ingredients.map(ingredient => ingredient.value)
+   // const getOnlyValueIngredients = newProduct.ingredients.map(ingredient => ingredient.value)
 
-    newProduct.ingredients = JSON.stringify(getOnlyValueIngredients)
+   // newProduct.ingredients = JSON.stringify(getOnlyValueIngredients)
     const prevState = state.productsData
 
     const arrVuoto = []
@@ -236,8 +250,40 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
 
   // ________ code modal ingredient _____
 
-  const [showModal, setShowModal] = useState(false)
-  const [witchModal, setWitchModal] = useState('')
+  const arrIngredient = state.ingredients
+
+  useEffect(() => {
+    console.log('dentro')
+    if (status === 'authenticated') {
+      const getAllIngredients = async () => {
+        try {
+          const response = await fetch(
+     `/api/ingredients?adminid=${state.adminData.ID}`,
+     {
+       method: 'GET',
+       'Content-Type': 'application/json',
+       Authorization: session.accessToken
+     }
+          )
+
+          const final = await response.json()
+
+          // inserisco  gli ingredienti nello store redux
+
+          await insertIngredientsRedux(final)
+
+          return final
+        } catch (error) {
+          return { error: 'Not allowed get Ingredients' }
+        }
+      }
+
+      getAllIngredients()
+    }
+  }, [state.adminData.ID])
+
+
+ 
 
   // ________ end code modal ingredient ______
 
@@ -296,7 +342,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
              <Select
 
               onChange={(e) => setProduct({ ...product, ...{ ingredients: e } })}
-              options={options}
+              options={arrIngredient }
               closeMenuOnSelect={false}
               value={product.ingredients}
               isMulti
@@ -309,10 +355,6 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux }) {
 
                  </div>
 
-            </div>
-
-            <div>
-              <ModalIngredients showModal={showModal} setShowModal={setShowModal} witchModal={witchModal} ></ModalIngredients>
             </div>
 
             <div className="w-2/6 mt-4">
@@ -391,23 +433,30 @@ export const modifyProductRedux = (data) => ({
   payload: data
 })
 
+export const setIdEmailToStore = (data) => ({
+  type: 'STORE_ID_EMAIL',
+  payload: data
+})
+
+export const insertIngredientsRedux = (data) => ({
+  type: 'INSERT_ALL_INGREDIENTS',
+  payload: data
+
+})
+
 const mapStateToProps = (state) => ({
   state
 })
 
 const mapDispatchToProps = {
   insertProductRedux,
-  modifyProductRedux
+  modifyProductRedux,
+  setIdEmailToStore,
+  insertIngredientsRedux
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InsertProducts)
 
-export const options = [
-  { value: 1, label: 'Mozzarella' },
-  { value: 2, label: 'Pomodoro' },
-  { value: 3, label: 'Basilico' },
-  { value: 4, label: 'Funghi' },
-  { value: 5, label: 'Peperoni' },
-  { value: 6, label: 'Salame' },
-  { value: 7, label: 'Carciofi' }
-]
+/*  <div>
+<ModalIngredients showModal={showModal} setShowModal={setShowModal} witchModal={witchModal} ></ModalIngredients>
+</div> */

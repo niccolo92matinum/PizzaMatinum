@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import styles from '../styles/makeorder.module.css'
 import Image from 'next/image'
 
-function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, setShow }) {
+function AccordionOrder ({ showProductOnChoosen, state, setShow }) {
   const [isClient, setIsClient] = useState(false)
 
   // Ensure that the component renders the same content server-side as it does during the initial
@@ -13,45 +13,7 @@ function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, s
     setIsClient(true)
   }, [])
 
-  useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const response = await fetch(
-          `/api/products?idrestaurant=${state.restaurantId}`,
-          {
-            method: 'GET',
-            'Content-Type': 'application/json'
-          }
-        )
-
-        const final = await response.json()
-
-        const prod = await filterProductsByCategory(final.product, 'category')
-
-        await insertProductsOnStore(prod)
-
-        return final
-      } catch (error) {
-        return { error: 'get all products failed' }
-      }
-    }
-    getAllProducts()
-  }, [])
-
-  function filterProductsByCategory (obj, prop) {
-    return obj.reduce(function (acc, item) {
-      const key = item[prop]
-
-      if (!acc[key]) {
-        acc[key] = []
-      }
-
-      acc[key].push(item)
-
-      return acc
-    }, {})
-  }
-
+  
   if (isClient) {
     return (
         <div className="m-2 space-y-2">
@@ -122,19 +84,13 @@ function AccordionOrder ({ showProductOnChoosen, state, insertProductsOnStore, s
   }
 }
 
-export const insertProductsOnStore = (data) => ({
-  type: 'STORE_PRODUCTS',
-  payload: data
-})
+
+
 
 const mapStateToProps = (state) => ({
   state
 })
 
-const mapDispatchToProps = {
 
-  insertProductsOnStore
 
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AccordionOrder)
+export default connect(mapStateToProps, null)(AccordionOrder)

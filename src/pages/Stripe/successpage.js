@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { useEffect } from 'react'
 
 function SuccessPage ({ state, resetOrder, resetUserData }) {
-  console.log(state)
+
 
   useEffect(() => {
     resetOrder()

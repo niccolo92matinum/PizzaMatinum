@@ -5,7 +5,7 @@ function order (state = [], action) {
       return [...state, action.payload]
 
     case 'MODIFY_QUANTITY_ORDER':
-      console.log(action)
+    
 
       return action.payload
     case 'MERGE_ALL_ORDER_WITH_SAME_ID':

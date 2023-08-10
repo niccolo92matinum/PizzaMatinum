@@ -13,7 +13,7 @@ export default async function handler (request, response) {
   } else if (request.method === 'POST') {
     try {
       const orderId = request.body
-      console.log(orderId, 'cazzo')
+
 
       await changeOrderStatus2(orderId)
 

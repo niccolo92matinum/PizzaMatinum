@@ -9,14 +9,13 @@ export default async function handler (request, response) {
     } catch (err) {
       response.status(500).send({ message: ['Post not available'], err })
     }
-  } else if (request.method === 'PATCH') {
+  } else if (request.method === 'POST') {
     try {
-      const adminId = request.body.id
-      const arrIngredients = request.body.ingredients
+      const ingredient = request.body
 
-      const getIngresients = await addIngredientsByAdmin(adminId, arrIngredients)
+      const getIngresient = await addIngredientsByAdmin(ingredient)
 
-      response.status(200).json(getIngresients)
+      response.status(200).json(getIngresient)
     } catch (err) {
       response.status(500).send({ message: ['Insert Failed'], err })
     }

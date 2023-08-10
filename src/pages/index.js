@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 function Home ({ state, insertRestaurantIdRedux }) {
   const [restaurants, setRestaurants] = useState([])
   const [idRe, setIdRe] = useState(0)
-  console.log(restaurants,'res')
+
   const router = useRouter()
 
   // _______API_________start

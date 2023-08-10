@@ -138,15 +138,54 @@ export const getAllOrdersByRestaurantId = async (id) => {
   return final
 }
 
-export const addIngredientsByAdmin = async (id, arrIngredients) => {
-  
-  const strinIngredient = JSON.stringify(arrIngredients)
+export const addIngredientsByAdmin = async (ingredient) => {
+
+  // const strinIngredient = JSON.pars(ingredient)
   const client = createClient()
   await client.connect()
   const final = await client.sql`
-  UPDATE admins
-SET ingredients = ${strinIngredient}
-WHERE id = ${id};
+  INSERT INTO ingredients (price, label, value, adminid, restaurantid)
+  VALUES (${ingredient.price}, ${ingredient.label}, ${ingredient.value},${ingredient.adminid},${ingredient.restaurantid})
   `
   return final
 }
+
+export const getAllIngredientsByAdminId = async (adminid) => {
+  const client = createClient()
+  await client.connect()
+  const final = await client.sql`
+  SELECT *
+  FROM ingredients
+  WHERE adminid=${adminid}
+  `
+  return final
+}
+
+
+export const getAllIngredientsByRestaurantId = async (restaurantid) => {
+  const client = createClient()
+  await client.connect()
+  const final = await client.sql`
+  SELECT *
+  FROM ingredients
+  WHERE restaurantid=${restaurantid}
+  `
+  return final
+}
+
+
+
+
+export const deleteIngredientAdmin = async (id) => {
+  const client = createClient()
+  await client.connect()
+  const final = await client.sql`
+  DELETE FROM ingredients WHERE value=${id};
+  `
+  return final
+}
+/*
+
+  INSERT INTO ingredients (id, label, value,adminid, restaurantid)
+VALUES ('jsjddsjfjhs', 'prova', 3, 1,1);
+*/

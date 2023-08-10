@@ -6,6 +6,7 @@ import order from './order'
 import userData from './userData'
 import orderAdmin from './orderAdmin'
 import orderSelectedByAdmin from './orderSelectedByAdmin'
+import ingredients from './ingredients'
 
 export default combineReducers({
 
@@ -15,5 +16,6 @@ export default combineReducers({
   order,
   userData,
   orderAdmin,
-  orderSelectedByAdmin
+  orderSelectedByAdmin,
+  ingredients
 })

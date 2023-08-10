@@ -44,6 +44,11 @@ export const authOptions = {
       session.accessToken = token.accessToken
 
       return session
+    },
+    async redirect ({ url, baseUrl }) {
+      // Allows relative callback URLs
+     
+      return `${baseUrl}/Admin/InsertProducts`
     }
 
   }

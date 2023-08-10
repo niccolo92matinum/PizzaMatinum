@@ -15,7 +15,7 @@ function CartPage ({ state, modifyQuantityOrderRedux }) {
   const price = state.order.map(singleOrder => singleOrder.price * singleOrder.quantity).reduce((acc, curr) => acc + curr, 0)
   const numOfProductOrdered = state.order.map(singleOrder => singleOrder.quantity).reduce((acc, curr) => acc + curr, 0)
 
-  console.log(price)
+
 
   return (
         <>

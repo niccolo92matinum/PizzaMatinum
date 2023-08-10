@@ -15,7 +15,7 @@ export const config = {
 }
 
 const handler = async (req, res) => {
-  console.log('ciao dentro')
+  
   if (req.method === 'POST') {
     const buf = await buffer(req)
     const sig = req.headers['stripe-signature']
@@ -30,7 +30,7 @@ const handler = async (req, res) => {
 
     if (stripeEvent.type === 'checkout.session.completed') {
       const session = stripeEvent.data.object
-      console.log('dentro webhook2')
+
       changeOrderStatus(session.metadata.orderId)
 
       res.json({ received: true })

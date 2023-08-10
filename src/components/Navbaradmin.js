@@ -13,15 +13,6 @@ function Navbaradmin ({ state, setIdEmailToStore }) {
   const router = useRouter()
 
   const goToPage = async (path) => {
-    if (!state.adminData.ID) {
-      setIdEmailToStore(
-        {
-          email: session.user.email,
-          ID: session.admin.rows[0].id,
-          restaurantId: session.restaurantId
-        })
-    }
-
     router.push(`/Admin/${path}`)
   }
 
@@ -53,7 +44,7 @@ function Navbaradmin ({ state, setIdEmailToStore }) {
   ? <ul className={styles.list}>
 <li className={styles.listItem} onClick={() => goToPage('InsertProducts')}>Insert Products</li>
 
-<li className={styles.listItem} >Add </li>
+<li className={styles.listItem}onClick={() => goToPage('InsertIngredients')} >Insert Ingredients </li>
 
 <li className={styles.listItem} onClick={() => goToPage('Dashboard')}>Dashboard</li>
 

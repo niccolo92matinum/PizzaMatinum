@@ -14,9 +14,6 @@ export default async function handler (request, response) {
   } else if (request.method === 'POST') {
     try {
       const product = request.body
-      const getOnlyValueIngredient = product.ingredients.map(i => i.value)
-
-      product.ingredients = getOnlyValueIngredient
 
       await insertProduct(product)
 

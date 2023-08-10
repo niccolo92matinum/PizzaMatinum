@@ -5,17 +5,7 @@ import styles from '../styles/makeorder.module.css'
 import Image from 'next/image'
 
 function SimpleAccordion ({ state, setProduct, setModify, modify, insertProductsOnStore, deleteProduct, setSingleProductSelected }) {
-  const { data: session } = useSession()
-
-  const options = [
-    { value: 1, label: 'Mozzarella' },
-    { value: 2, label: 'Pomodoro' },
-    { value: 3, label: 'Basilico' },
-    { value: 4, label: 'Funghi' },
-    { value: 5, label: 'Peperoni' },
-    { value: 6, label: 'Salame' },
-    { value: 7, label: 'Carciofi' }
-  ]
+  const { data: session, status } = useSession()
 
   const deleteProductFromRedux = (productToDelete) => {
     const prodData = state.productsData
@@ -38,43 +28,61 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
 
   // ____________API________start_____
   useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const response = await fetch(
-     `/api/products?idadmin=${state.adminData.ID}`,
-     {
-       method: 'GET',
-       'Content-Type': 'application/json',
-       Authorization: session.accessToken
-     }
-        )
+    if (status === 'authenticated') {
+      const getAllProducts = async () => {
+        try {
+          const response = await fetch(
+            `/api/products?idadmin=${state.adminData.ID}`,
+            {
+              method: 'GET',
+              'Content-Type': 'application/json',
+              Authorization: session.accessToken
+            }
+          )
 
-        const final = await response.json()
+          const final = await response.json()
+          const finalProduct = await convertBufferIngredient(final.product)
+          console.log(finalProduct, 'dio porco')
+          const prod = await filterProductsByCategory(finalProduct, 'category')
 
-        const prod = await filterProductsByCategory(final.product, 'category')
+          await insertProductsOnStore(prod)
 
-        await insertProductsOnStore(prod)
-
-        return final
-      } catch (error) {
-        return { error: 'get all products failed' }
+          return final
+        } catch (error) {
+          return { error: 'get all products failed' }
+        }
       }
+
+      getAllProducts()
     }
-    getAllProducts()
-  }, [])
+  }, [state.adminData.ID])
+
+  const convertBufferIngredient = (objProducts) => {
+    Object.values(objProducts).map((singleCategory) => {
+      if (singleCategory.ingredients !== null) {
+        const buf = singleCategory.ingredients.data
+
+        const str = String.fromCharCode.apply(String, buf)
+        const obj = JSON.parse(str)
+
+        singleCategory.ingredients = obj
+      }
+    })
+    return objProducts
+  }
 
   const deleteProductApi = async (product) => {
     try {
       const response = await fetch(
-        `/api/products?productId=${product.id}`
-        ,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: session.accessToken
+          `/api/products?productId=${product.id}`
+          ,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: session.accessToken
+            }
           }
-        }
       )
 
       const final = await response.json()
@@ -90,32 +98,32 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
   }
 
   /*
-  const modifyProductApi = async () => {
-    const response = await fetch(
-      '/api/products'
-      ,
-      {
-        method: 'PUT',
-        'Content-Type': 'application/json',
-        Authorization: session.accessToken
+      const modifyProductApi = async () => {
+        const response = await fetch(
+          '/api/products'
+          ,
+          {
+            method: 'PUT',
+            'Content-Type': 'application/json',
+            Authorization: session.accessToken
 
-      }
-    )
-  }
-*/
+          }
+          )
+        }
+        */
   // ____________API________end_____
 
   const setDataOnClickModifyButton = (singleProduct) => {
     setModify(true)
-    const parsedIngredient = JSON.parse(singleProduct.ingredients)
+    /* const parsedIngredient = JSON.parse(singleProduct.ingredients)
 
-    const vu = []
+          const vu = []
 
-    parsedIngredient.forEach((num) => {
-      const createOptionsObj = options.filter(s => s.value === num)
-      vu.push(...createOptionsObj)
-    })
-
+          parsedIngredient.forEach((num) => {
+            const createOptionsObj = options.filter(s => s.value === num)
+            vu.push(...createOptionsObj)
+          }) */
+    console.log(singleProduct.ingredients, 'sin')
     setProduct({
       title: singleProduct.title,
       description: singleProduct.description,
@@ -124,63 +132,63 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
       img: singleProduct.img,
       id: singleProduct.id,
       restaurantId: state.adminData.restaurantId,
-      ingredients: vu
+      ingredients: singleProduct.ingredients
 
     })
   }
 
   return (
-    <div className="m-2 space-y-2 pt-4">
-    { Object.values(state.productsData).map((categoryArr, i) => {
-      return (
-        <div key={Math.random()}
-      className="group flex flex-col gap-2 rounded-lg bg-neutral-50 p-5 text-white"
-      tabIndex={i}
-      >
-      <div className="flex cursor-pointer items-center justify-between">
-      <span className='name_category_accordion'>{categoryArr[0]?.category}</span>
-      <Image
-      src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png"
-      width={30} height={30}
-      alt='icon'
-      className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180"
+          <div className="m-2 space-y-2 pt-4">
+          { Object.values(state.productsData).map((categoryArr, i) => {
+            return (
+              <div key={Math.random()}
+              className="group flex flex-col gap-2 rounded-lg bg-neutral-50 p-5 text-white"
+              tabIndex={i}
+              >
+              <div className="flex cursor-pointer items-center justify-between">
+              <span className='name_category_accordion'>{categoryArr[0]?.category}</span>
+              <Image
+              src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png"
+              width={30} height={30}
+              alt='icon'
+              className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180"
 
-      />
-      </div>
-      <div
-      className="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
-      >
-        {categoryArr.map((singleObj) => {
-          return (
-                <div className={styles.accordion_main_div_makeorder} key={singleObj.id}>
+              />
+              </div>
+              <div
+              className="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
+              >
+              {categoryArr.map((singleObj) => {
+                return (
+                  <div className={styles.accordion_main_div_makeorder} key={singleObj.id}>
                   <div className='grid grid-cols-2 gap-4 '>
-                    <div className="">
-                    <h1 className=' h1_accordion_title text-stone-700' >{singleObj.title} </h1>
+                  <div className="">
+                  <h1 className=' h1_accordion_title text-stone-700' >{singleObj.title} </h1>
 
-                    </div>
-                    <div>
-                    <button onClick={ () => { setDataOnClickModifyButton(singleObj); setSingleProductSelected(singleObj) }} className="middle mb-8 mr-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Modify</button>
-                    <button onClick={() => deleteProductApi(singleObj)} className="middle mb-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Delete</button>
-                    </div>
-                    <div>
-
-                    </div>
+                  </div>
+                  <div>
+                  <button onClick={ () => { setDataOnClickModifyButton(singleObj); setSingleProductSelected(singleObj) }} className="middle mb-8 mr-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Modify</button>
+                  <button onClick={() => deleteProductApi(singleObj)} className="middle mb-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Delete</button>
+                  </div>
+                  <div>
 
                   </div>
 
-                </div>
+                  </div>
 
-          )
-        })
+                  </div>
 
-        }
+                )
+              })
 
-      </div>
-      </div>
-      )
-    }) }
+              }
 
-    </div>
+              </div>
+              </div>
+            )
+          }) }
+
+            </div>
 
   )
 }
@@ -200,9 +208,11 @@ function filterProductsByCategory (obj, prop) {
 }
 // ______ACTION______START_____
 export const insertProductsOnStore = (data) => ({
+
   type: 'STORE_PRODUCTS',
   payload: data
-})
+}
+)
 
 export const deleteProduct = (data) => ({
   type: 'DELETE_PRODUCT',
@@ -224,40 +234,40 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(SimpleAccordion)
 
 /*
-const setDataOnClickModifyButton = (singleProduct) => {
+          const setDataOnClickModifyButton = (singleProduct) => {
 
-    function dataURLtoFile (dataurl, filename) {
-      const arr = dataurl.split(','); const mime = arr[0].match(/:(.*?);/)[1]
-      const bstr = atob(arr[1]); let n = bstr.length; const u8arr = new Uint8Array(n)
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n)
-      }
-      return new File([u8arr], filename, { type: mime })
-    }
+            function dataURLtoFile (dataurl, filename) {
+              const arr = dataurl.split(','); const mime = arr[0].match(/:(.*?);/)[1]
+              const bstr = atob(arr[1]); let n = bstr.length; const u8arr = new Uint8Array(n)
+              while (n--) {
+                u8arr[n] = bstr.charCodeAt(n)
+              }
+              return new File([u8arr], filename, { type: mime })
+            }
 
-    // Usage example:
+            // Usage example:
 
-    if (singleProduct.img !== '') {
-      const file = dataURLtoFile(singleProduct.img, `${singleProduct.title}.png`)
-      setProduct({
-        title: singleProduct.title,
-        description: singleProduct.description,
-        category: singleProduct.category,
-        price: singleProduct.price,
-        img: file,
-        id: singleProduct.id
+            if (singleProduct.img !== '') {
+              const file = dataURLtoFile(singleProduct.img, `${singleProduct.title}.png`)
+              setProduct({
+                title: singleProduct.title,
+                description: singleProduct.description,
+                category: singleProduct.category,
+                price: singleProduct.price,
+                img: file,
+                id: singleProduct.id
 
-      })
+              })
 
-    }else{
+            }else{
 
-      setProduct({
-        title: singleProduct.title,
-        description: singleProduct.description,
-        category: singleProduct.category,
-        price: singleProduct.price,
-        id: singleProduct.id
+              setProduct({
+                title: singleProduct.title,
+                description: singleProduct.description,
+                category: singleProduct.category,
+                price: singleProduct.price,
+                id: singleProduct.id
 
-      })
-    }
-*/
+              })
+            }
+            */

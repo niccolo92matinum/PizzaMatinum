@@ -3,7 +3,7 @@ function adminData (state = {}, action) {
     case 'STORE_ID_EMAIL':
 
       return action.payload
-
+      
     default:
       return state
   }

@@ -4,11 +4,27 @@ import { connect } from 'react-redux'
 import { useSession } from 'next-auth/react'
 import TableDashboard from '../../components/tabledashboard'
 import Modal from '../../components/modaldetailsadmin'
+import { useRouter } from 'next/navigation'
 
-function Dashboard ({ state, insertOrderAdminRedux }) {
+function Dashboard ({ state, insertOrderAdminRedux, setIdEmailToStore }) {
   const [showModal, setShowModal] = useState(false)
 
   const { data: session, status } = useSession()
+  const { push } = useRouter()
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      setIdEmailToStore(
+        {
+          email: session.user.email,
+          ID: session.admin.rows[0].id,
+          restaurantId: session.restaurantId,
+          ingredients: session.ingredients
+        })
+    } else if (status === 'unauthenticated') {
+      push('/Admin/Login')
+    }
+  }, [status])
 
   const restaurantIdAdmin = state.adminData.restaurantId
 
@@ -32,6 +48,7 @@ function Dashboard ({ state, insertOrderAdminRedux }) {
         console.log(error)
       }
     }
+
     // chiedi a Sergio Sta cosa
     if (session?.accessToken) {
       getAllOrdersApi()
@@ -82,12 +99,18 @@ export const insertOrderAdminRedux = (data) => ({
   payload: data
 })
 
+export const setIdEmailToStore = (data) => ({
+  type: 'STORE_ID_EMAIL',
+  payload: data
+})
+
 const mapStateToProps = (state) => ({
   state
 })
 
 const mapDispatchToProps = {
-  insertOrderAdminRedux
+  insertOrderAdminRedux,
+  setIdEmailToStore
 
 }
 
