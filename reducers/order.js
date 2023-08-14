@@ -2,7 +2,7 @@ function order (state = [], action) {
   switch (action.type) {
     case 'INSERT_SINGLE_ORDER':
 
-      return [...state, action.payload]
+      return action.payload
 
     case 'MODIFY_QUANTITY_ORDER':
     

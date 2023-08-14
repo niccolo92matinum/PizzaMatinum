@@ -10,7 +10,7 @@ import styles from '../styles/makeorder.module.css'
 
 function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrderRedux, mergeAllOrderWithSameId, setShow, show, modifyQuantityOrderRedux }) {
   const [counter, setCounter] = useState(0)
-
+  console.log(state)
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
@@ -38,109 +38,77 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
       quantity: counter
 
     }
-    // merge del nuovo prodotto con quelli esistenti
-    const mergeNewOrderWithOrders = [...orders, newOrder]
 
-    // nel caso in cui io vado ad aggiungere un prodotto cambiando gli ingredienti non devo fare il merge
-    // in pratica prendo gli elementi con lo stesso id e vedo se l'array degli ingredienti è uguale
-    const checkOrderWithSameIdAndIngredients = () => {
-      const sortIngredient = (arr) => {
-        const ingSort = arr.sort(function (a, b) {
-          const textA = a.label.toUpperCase()
-          const textB = b.label.toUpperCase()
-          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
-        })
-        return ingSort
-      }
-
-      const checkIfOrdersAreEqual = orders.map((singleOrder) => {
-        const sortedIngredientSingleOrder = sortIngredient(singleOrder.ingredients)
-        const sortedIngredientNewOrder = sortIngredient(newOrder.ingredients)
-
-        console.log(sortedIngredientSingleOrder, sortedIngredientNewOrder, 'sorted')
-
-        if (singleOrder.id === newOrder.id) {
-          const x = JSON.stringify(sortedIngredientSingleOrder) === JSON.stringify(sortedIngredientNewOrder)
-          return x
-        }
-        return false
+    const sortIngredient = (arr) => {
+      const ingSort = arr.sort(function (a, b) {
+        const textA = a.label.toUpperCase()
+        const textB = b.label.toUpperCase()
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
       })
-
-      const equalOrderWithEqualIngredient = checkIfOrdersAreEqual.includes(true)
-
-      return equalOrderWithEqualIngredient
+      return ingSort
     }
 
-    console.log(checkOrderWithSameIdAndIngredients(), 'prova')
+    let newArray = [...orders]
+    let stopMap = true
 
-    const arrVuot = []
-    const booleanVerify = checkOrderWithSameIdAndIngredients()
-    // controllo se ci sono elementi con lo stesso id , se ci sono vado a sommare le quantità di ogni singolo elemento
-    mergeNewOrderWithOrders.map((sing) => {
-      // pusho il primo ordine nell' arrVuoto
-      if (arrVuot.length === 0) {
-        console.log('cazzo')
-        arrVuot.push(sing)
-      } else {
-        console.log('cazzo1')
-        // dal secondo ordine in poi controllo se l'ultimo ordine inserito nell'arrayVuot abbia lo stesso id di quello che
-        // sto per inserire
-        const arrObjectsWihSameId = arrVuot.filter(x => x.id === sing.id)
+    const checkIfIdIsPresent = newArray.map((obj) => {
+      return obj.id === newOrder.id
+    })
 
-        if (arrObjectsWihSameId.length > 0) {
-          if (booleanVerify) {
-            console.log('cazzo3')
-            // se la condizione appena detta è vera prendo il quantity dell'ultimo obj
-            const getAllQuantity = arrObjectsWihSameId.map(x => x.quantity).slice(-1)[0]
-            // e lo sommo all'odine che sto ciclando(sing)
-            const totalSum = getAllQuantity + sing.quantity
-            // merge dell'odine che sto ciclando con il value quantity nuovo
-            const objWithNewQuantity = { ...sing, ...{ quantity: totalSum } }
-            // pusho nell'arrayVuot
-            arrVuot.push(objWithNewQuantity)
-          } else {
-            arrVuot.push(sing)
-          }
-        } else {
-          console.log('cazzo4')
-          // 'ultimo ordine inserito nell'arrayVuot non ha lo stesso id di quello ciclato
-          // inserisco quello ciclato senza modifiche
-          arrVuot.push(sing)
+  
+
+    const idIsPresent = checkIfIdIsPresent.includes(true)
+
+
+
+
+
+
+    const sortedIngredientNewOrder = sortIngredient(newOrder.ingredients)
+
+    if (orders.length === 0) {
+      console.log('dentro')
+      newArray = [newOrder]
+      insertOrderRedux(newArray)
+    } else {
+      const checkIfOrdersAreEqual = orders.map((singleOrder, i) => {
+        console.log(orders.length, 'ppp')
+
+        const sortedIngredientSingleOrder = sortIngredient(singleOrder.ingredients)
+        if (singleOrder.id === newOrder.id && JSON.stringify(sortedIngredientSingleOrder) === JSON.stringify(sortedIngredientNewOrder)) {
+          const newQuantity = singleOrder.quantity + newOrder.quantity
+          console.log('dentro2')
+
+          newArray[i].quantity = newQuantity
+          insertOrderRedux(newArray)
+          stopMap = false
+        } else if ((singleOrder.id === newOrder.id && JSON.stringify(sortedIngredientSingleOrder) !== JSON.stringify(sortedIngredientNewOrder)) && stopMap) {
+          console.log('dentro3')
+          const final = [...newArray, newOrder]
+          insertOrderRedux(final)
+        } else if (singleOrder.id !== newOrder.id && !idIsPresent) {
+          const final = [newOrder, ...newArray]
+          insertOrderRedux(final)
+          console.log('dentro4')
         }
-      }
-      return arrVuot
-    })
 
-    function group (arr, key) {
-      return [...arr.reduce((acc, o) =>
-        acc.set(o[key], (acc.get(o[key]) || []).concat(o))
-      , new Map()).values()]
+        return singleOrder
+      })
+      console.log(checkIfOrdersAreEqual)
     }
-    // raccolgo tutti gli ordini in array diversi in base all'id
-    const groupById = group(arrVuot, 'id')
-    // prendo per ogni array l'elemento con la quantity maggiore
-    console.log(groupById, 'grouped')
-    const final = groupById.map((x) => {
-      return x.reduce((prev, current) => (prev.quantity > current.quantity) ? prev : current)
-    })
 
-    // vado a inserire gli ordini nello store Redux
-    mergeAllOrderWithSameId(final)
-
-    // new part
-    setCounter(0)
-    setProductsChoosen({})
+    // console.log(mergeNewOrder, 'new', checkSameIdOrder)
   }
 
   useEffect(() => {
     setCounter(0)
   }, [productsChoosen])
 
-  const ordersSortedByTitle = orders.sort(function (a, b) {
+  /* const ordersSortedByTitle = orders.sort(function (a, b) {
     const textA = a.title.toUpperCase()
     const textB = b.title.toUpperCase()
     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
-  })
+  }) */
 
   // una volta fatto l'ordine viene dato all'utente la possibilità di cambiare le quantità dei prodotti ordinati
   // andando ad apportare le modifiche nello stato redux
@@ -258,7 +226,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
                   ? <div className={styles.div_cartpage_leftside_nested}>
 
 <ul className="list-none ">
-{ordersSortedByTitle.map((order) => {
+{state.order.map((order) => {
   return (
 <div key={Math.random()}>
     <li key={order.orderId} className="pb-3 pt-4 sm:pb-4">
@@ -270,6 +238,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
        </div>
        <div className="ml-4 mr-4 w-2/5 ">
           <p className={styles.p_title_product_cartpage}>
+
           {order.title}
           </p>
 
