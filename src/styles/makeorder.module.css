@@ -8,19 +8,37 @@
   }
 
   .container_accordion_makeorder{
-    padding-left: 15%;
-    padding-right: 15%;
+
+   width:100%;
+   padding: 0% 35% 0% 15%;
+  
+  
+   
+  }
+
+  .container_categories{
+  
+    margin-left: 5%;
+    border-left-color: gray;
+    border-left-width: 1px;
+    width: 10%;
+    height: 100%;
+    margin-top: 200px;
+    position: fixed;
+    overflow: auto;
   }
 
   .card_makeorder{
-    width: 60%;
+    margin-right: 15%;
     background-color: #FAFAFA;
     box-shadow: 5px 10px #ccc;
     border-radius: 50px 20px;
+   
+    
     
   }
 .image_card_makeorder{
-border-radius:  50px 20px 0px 0px;
+
 }
 
 .h2_accordion_title{
@@ -29,9 +47,9 @@ border-radius:  50px 20px 0px 0px;
 }
 
 .h2_card_title{
-  color: #0E66A6;
-  margin-top: 20px;
-  font-size: 30px;
+  
+
+  font-size: 20px;
   font-family: --monser;
   
 }
@@ -98,6 +116,84 @@ border-radius:  50px 20px 0px 0px;
     color: red;
     font-size: 60px;
   }
+
+  .button_accordion{
+    padding: 8px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .p_accordion_card{
+    font-size: 20px;
+   margin-top: 20px
+  }
+
+
+  .button_accordion:hover {
+    background-color: #3e8e41;
+ }
+ .button_accordion:active {
+    transform: scale(0.95);
+ }
+ .button_accordion:focus {
+    outline: none;
+ }
+
+
+ @media screen and (max-width: 500px) {
+  .p_accordion_card {
+     font-size: 16px;
+  }
+}
+
+.accordion_container_card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+.div_singlecategory{
+  display:flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
+
+}
+
+.div_singlecategory:hover{
+  border-left-width: 2px;
+  border-left-color: black;
+  margin-left: -1px;
+}
+
+.div_singleproduct{
+  background-color: #FAFAFA;
+  margin: 10px 0px 10px 0px;
+  padding: 10px 0px 10px 0px;
+  border-radius:20px;
+  cursor: pointer;
+  border-color:#F6F6F6;
+  border-width: 2px;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.main_container_card{
+  margin-left: 70%;
+
+  width: 30%;
+  height: 100%;
+  padding-top: 200px;
+  position: fixed;
+  overflow: auto;
+}
+
   /*.prova{
     position: absolute;
     -webkit-animation: linear;

@@ -51,6 +51,7 @@
     "redux-saga": "^1.2.3",
     "serverless-mysql": "^1.5.5",
     "stripe": "^12.11.0",
+    "swiper": "^10.2.0",
     "tw-elements": "^1.0.0-beta2"
   },
   "devDependencies": {

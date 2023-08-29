@@ -3,12 +3,19 @@ import styles from '../../styles/makeorder.module.css'
 import Navbar from '../../components/Navbar'
 import AccordionOrder from '../../components/accordion'
 import CardMakeOrder from '../../components/card'
+import CategoryList from '../../components/categorylist'
 import { connect } from 'react-redux'
 import { useRouter } from 'next/router'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
   const [productsChoosen, setProductsChoosen] = useState({})
   const [show, setShow] = useState(false)
+  const [ingredients, setIngredients] = useState([])
+
+ 
+
+ 
 
   const router = useRouter()
   useEffect(() => {
@@ -39,7 +46,7 @@ function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
       // inserisco  gli ingredienti nello store redux
 
       await insertIngredientsRedux(final)
-
+      setIngredients(final)
       return final
     } catch (error) {
       return { error: 'Not allowed get Ingredients' }
@@ -58,7 +65,7 @@ function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
 
       const final = await response.json()
       const finalProduct = await convertBufferIngredient(final.product)
-      console.log(finalProduct, 'dio porco')
+
       const prod = await filterProductsByCategory(finalProduct, 'category')
 
       await insertProductsOnStore(prod)
@@ -103,23 +110,37 @@ function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
     }, {})
   }
 
+  const categoryToPass = Object.keys(state.productsData)
+
+  const productsData = state.productsData
+
   return (
         <>
         <Navbar></Navbar>
+        <div className={styles.container_categories}>
+                <CategoryList categoryToPass={categoryToPass}></CategoryList>
+         </div>
+         <div className={styles.main_container_card}>
+                <CardMakeOrder
+                productsChoosen={productsChoosen}
+                setProductsChoosen={setProductsChoosen}
+                setShow={setShow}
+                show={show}
+                ingredients={ingredients}
+                ></CardMakeOrder>
+            </div>
 
-        <div className='main flex justify-center pt-36 ' >
+            <div className=" flex  place-content-center  pt-48">
 
-            <div className="place-content-center  w-1/2  pt-8">
               <div className={styles.container_accordion_makeorder}>
-              <AccordionOrder showProductOnChoosen={showProductOnChoosen} setShow={setShow} ></AccordionOrder>
+              <AccordionOrder 
+              showProductOnChoosen={showProductOnChoosen}
+              setShow={setShow}
+              productsData={productsData}
+               ></AccordionOrder>
               </div>
 
             </div>
-            <div className="rigth w-1/2 pt-8">
-                <CardMakeOrder productsChoosen={productsChoosen} setProductsChoosen={setProductsChoosen} setShow={setShow} show={show}></CardMakeOrder>
-            </div>
-
-        </div>
 
         </>
   )

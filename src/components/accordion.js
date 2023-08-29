@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
+
 import { useState, useEffect } from 'react'
 import styles from '../styles/makeorder.module.css'
 import Image from 'next/image'
 
-function AccordionOrder ({ showProductOnChoosen, state, setShow }) {
+function AccordionOrder ({ showProductOnChoosen, setShow, productsData }) {
   const [isClient, setIsClient] = useState(false)
 
   // Ensure that the component renders the same content server-side as it does during the initial
@@ -13,63 +14,42 @@ function AccordionOrder ({ showProductOnChoosen, state, setShow }) {
     setIsClient(true)
   }, [])
 
-  
   if (isClient) {
     return (
-        <div className="m-2 space-y-2">
-        { Object.values(state.productsData).map((categoryArr, i) => {
+      <div className="m-2 space-y-2">
+        { Object.values(productsData).map((categoryArr, i) => {
+          // console.log(categoryArr,'000')
           return (
-            <div key={Math.random()}
-          className="group flex flex-col gap-2 rounded-lg bg-neutral-50 p-5 text-white"
-          tabIndex={i}
-          >
-          <div className="flex cursor-pointer items-center justify-between">
-          <span className='name_category_accordion'>{categoryArr[0].category}</span>
-          <Image
-          src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png"
-          width={30} height={30}
-          alt="icon nav"
-          className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180"
+            <div key={i} >
+              <div className="">
+              <h1 className="text-3xl">{categoryArr[0].category}</h1>
+              </div>
 
-          />
-          </div>
-          <div
-          className="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
-          >
-            {categoryArr.map((singleObj) => {
-              return (
-                    <div className={styles.accordion_main_div_makeorder} key={singleObj.id}>
-                      <div className='grid grid-cols-2 gap-4 '>
-                        <div className="grid grid-cols-2  gap-4">
-                        <h1 className=' h1_accordion_title text-stone-700' >{singleObj.title} </h1>
-                        <h2 className={styles.h2_accordion_title} >{singleObj.price} €</h2>
-                        </div>
-                        <div>
-                        <button onClick={() => { showProductOnChoosen(singleObj); setShow(true) }} className="middle mb-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Order</button>
-                        </div>
+               {categoryArr.map((singleProduct) => {
+                 const arrLabel = singleProduct.ingredients?.map(single => single.label)
+                 const stringAllLabelIngredients = arrLabel?.toString()
+
+                 return (
+                    <div key={Math.random()} onClick={() => { showProductOnChoosen(singleProduct); setShow(true) }} className={styles.div_singleproduct}>
+                      <div>
+                        <h1 className="text-2xl">{singleProduct.title}</h1>
+                         {stringAllLabelIngredients && <p>{stringAllLabelIngredients}</p>}
+                        <p>da {singleProduct.price} €</p>
+                      </div>
+                      <div className="mr-5">
+                      { singleProduct.img && <Image className="w-20 h-20  m-auto rounded-bl-3xl rounded-br-3xl rounded-tl-3xl rounded-tr-3xl  " width={30} height={30} src={singleProduct.img} alt="Neil image"/>}
 
                       </div>
 
-                   {/*
-                   <div>
-                    <p className='bg-red-300 0'>{singleObj.description}</p>
-                    </div>
-                   */}
-
                     </div>
 
-              )
-            })
+                 )
+               })}
+            </div>
 
-            }
-
-          </div>
-          </div>
           )
-        }) }
-
+        })}
         </div>
-
     )
   } else {
     return (
@@ -84,13 +64,4 @@ function AccordionOrder ({ showProductOnChoosen, state, setShow }) {
   }
 }
 
-
-
-
-const mapStateToProps = (state) => ({
-  state
-})
-
-
-
-export default connect(mapStateToProps, null)(AccordionOrder)
+export default connect(null, null)(AccordionOrder)
