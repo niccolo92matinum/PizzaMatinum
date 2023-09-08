@@ -14,15 +14,24 @@ function AccordionOrder ({ showProductOnChoosen, setShow, productsData }) {
     setIsClient(true)
   }, [])
 
+  const prova = (e) => {
+    const x = e
+    console.log(x, 'xxx')
+  }
+
+  useEffect(() => {
+    // window.addEventListener('scroll', prova)
+  }, [])
+
   if (isClient) {
     return (
-      <div className="m-2 space-y-2">
+      <div className="space-y-2 overflow-y-scroll h-5/6">
         { Object.values(productsData).map((categoryArr, i) => {
           // console.log(categoryArr,'000')
           return (
             <div key={i} >
-              <div className="">
-              <h1 className="text-3xl">{categoryArr[0].category}</h1>
+              <div className="sticky top-0 rounded-[8px]  bg-uno">
+              <h1 className="text-4xl pl-4">{categoryArr[0].category}</h1>
               </div>
 
                {categoryArr.map((singleProduct) => {
@@ -31,10 +40,10 @@ function AccordionOrder ({ showProductOnChoosen, setShow, productsData }) {
 
                  return (
                     <div key={Math.random()} onClick={() => { showProductOnChoosen(singleProduct); setShow(true) }} className={styles.div_singleproduct}>
-                      <div>
-                        <h1 className="text-2xl">{singleProduct.title}</h1>
+                      <div className="p-4">
+                        <h1 className="font-bold text-2xl">{singleProduct.title}</h1>
                          {stringAllLabelIngredients && <p>{stringAllLabelIngredients}</p>}
-                        <p>da {singleProduct.price} €</p>
+                        <p className="font-bold" >da {singleProduct.price} €</p>
                       </div>
                       <div className="mr-5">
                       { singleProduct.img && <Image className="w-20 h-20  m-auto rounded-bl-3xl rounded-br-3xl rounded-tl-3xl rounded-tr-3xl  " width={30} height={30} src={singleProduct.img} alt="Neil image"/>}

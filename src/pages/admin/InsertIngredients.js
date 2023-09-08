@@ -188,8 +188,9 @@ function InsertIngredients ({ state, addIngrendientRedux, deleteIngredeintRedux,
         {isClient &&
          <div>
          {arrIngredients.map((singleIngredient) => {
+         
            return (
-                 <div key={singleIngredient.id} className="flex flex-row">
+                 <div key={singleIngredient.value} className="flex flex-row">
                       <div>
                          <h1>{singleIngredient.label} </h1>
                       </div>

@@ -46,6 +46,8 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
   const [singleProductSelected, setSingleProductSelected] = useState({})
   const [modify, setModify] = useState(false)
 
+  // const [witchModal, setWitchModal] = useState('')
+
   // const [showModal, setShowModal] = useState(false)
   // <Modalmodify setShowModal={setShowModal} showModal={showModal}></Modalmodify>
 
@@ -65,8 +67,8 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
   // funzione che inserisce il prodotto nello store redux prima del rendering
   // cosi da poter aggiornare l'accordion senza chiamre l'endpoint ogni volta
   const insertInstantlyObjInStore = (store, objtoPush) => {
-   // const getOnlyIdsIngredients = objtoPush.ingredients.map(ingredient => ingredient.value)
-    //objtoPush.ingredients = JSON.stringify(getOnlyIdsIngredients)
+    // const getOnlyIdsIngredients = objtoPush.ingredients.map(ingredient => ingredient.value)
+    // objtoPush.ingredients = JSON.stringify(getOnlyIdsIngredients)
 
     const allCategoryStore = Object.keys(store.productsData)
 
@@ -139,9 +141,9 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
     const deleteObj = state.productsData[productSelected.category].filter((singleObj) => {
       return singleObj.id !== productSelected.id
     })
-   // const getOnlyValueIngredients = newProduct.ingredients.map(ingredient => ingredient.value)
+    // const getOnlyValueIngredients = newProduct.ingredients.map(ingredient => ingredient.value)
 
-   // newProduct.ingredients = JSON.stringify(getOnlyValueIngredients)
+    // newProduct.ingredients = JSON.stringify(getOnlyValueIngredients)
     const prevState = state.productsData
 
     const arrVuoto = []
@@ -282,8 +284,11 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
     }
   }, [state.adminData.ID])
 
+  const router = useRouter()
 
- 
+  const rootFunction = (path) => {
+    router.push(path)
+  }
 
   // ________ end code modal ingredient ______
 
@@ -350,8 +355,8 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
               </div>
               <div className="cursor-pointer mt-4">
 
-                <FontAwesomeIcon onClick={() => { setWitchModal('add'); setShowModal(true) }} icon={faPlus} beat style={{ color: '#ff0000' }} />
-                <FontAwesomeIcon className="mt-4" onClick={() => { setWitchModal('remove'); setShowModal(true) }} icon={faMinus} beat style={{ color: '#ff0000' }} />
+                <FontAwesomeIcon onClick={() => { rootFunction('/Admin/InsertIngredients') }} icon={faPlus} beat style={{ color: '#ff0000' }} />
+               {/* <FontAwesomeIcon className="mt-4" onClick={() => { setWitchModal('remove'); setShowModal(true) }} icon={faMinus} beat style={{ color: '#ff0000' }} /> */}
 
                  </div>
 

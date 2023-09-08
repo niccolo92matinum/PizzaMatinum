@@ -6,16 +6,12 @@ import CardMakeOrder from '../../components/card'
 import CategoryList from '../../components/categorylist'
 import { connect } from 'react-redux'
 import { useRouter } from 'next/router'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import Image from 'next/image'
 
 function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
   const [productsChoosen, setProductsChoosen] = useState({})
   const [show, setShow] = useState(false)
   const [ingredients, setIngredients] = useState([])
-
- 
-
- 
 
   const router = useRouter()
   useEffect(() => {
@@ -116,11 +112,37 @@ function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
 
   return (
         <>
+
         <Navbar></Navbar>
-        <div className={styles.container_categories}>
+
+        <div className="grid pt-20  relative mx-auto place-items-center">
+        <Image
+          src="/img/makeimg.svg"
+          width={400} height={400}
+          alt="icon nav"
+
+          />
+
+          <h1 className="text-due font-bold  text-4xl pt-14">Nome del ristorante</h1>
+        </div>
+
+            <div className=" flex  overflow-y-scroll  grid-cols-3 place-content-center pt-4">
+
+            <div className={styles.container_categories}>
                 <CategoryList categoryToPass={categoryToPass}></CategoryList>
          </div>
-         <div className={styles.main_container_card}>
+              <div className={styles.container_accordion_makeorder}>
+
+             <AccordionOrder
+              showProductOnChoosen={showProductOnChoosen}
+              setShow={setShow}
+              productsData={productsData}
+
+               ></AccordionOrder>
+
+              </div>
+
+              <div className={styles.main_container_card}>
                 <CardMakeOrder
                 productsChoosen={productsChoosen}
                 setProductsChoosen={setProductsChoosen}
@@ -129,16 +151,6 @@ function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
                 ingredients={ingredients}
                 ></CardMakeOrder>
             </div>
-
-            <div className=" flex  place-content-center  pt-48">
-
-              <div className={styles.container_accordion_makeorder}>
-              <AccordionOrder 
-              showProductOnChoosen={showProductOnChoosen}
-              setShow={setShow}
-              productsData={productsData}
-               ></AccordionOrder>
-              </div>
 
             </div>
 

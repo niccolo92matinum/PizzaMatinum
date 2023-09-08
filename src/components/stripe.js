@@ -20,7 +20,7 @@ export default function PreviewPage () {
   <>
 
       <div className="flex flex-col items-center pt-4">
-        <button form="myform" type="submit" role="link" className="button_cartpage_left middle none center rounded-lg bg-red-600 py-2 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+        <button form="myform" type="submit" role="link" className="button_cartpage_left middle none center rounded-lg bg-tre py-2 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
           Checkout
         </button>
       </div>

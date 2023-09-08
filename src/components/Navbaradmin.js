@@ -29,7 +29,8 @@ function Navbaradmin ({ state, setIdEmailToStore }) {
 
      <div className={styles.texts}>
       {session?.admin
-        ? <div className={styles.text}>{session?.user.name}</div>
+        ? <div className={styles.text}>
+          <p className="text-black">{session?.user.name}</p></div>
         : <Link href="/" className="flex items-center ">
       <Image src="/img/PiazzaDelivery.svg" width={30} height={30} className=" mr-3 w-52 h-24" alt="Flowbite Logo"/>
   </Link>

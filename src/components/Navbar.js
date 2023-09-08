@@ -23,23 +23,44 @@ function Navbar ({ state, setIdEmailToStore }) {
   }, [orders])
 
   const homePage = router.pathname
+
+  // sticky nav
+  const [stickyClass, setStickyClass] = useState('')
+
+  function stickNavbar () {
+    const windowHeight = window.scrollY
+
+    if (windowHeight > 150) {
+      setStickyClass('sticky-nav')
+    } else {
+      setStickyClass('')
+    }
+  }
+
+  const prova = (e) => {
+    const x = e
+    console.log(x, 'xxx')
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', stickNavbar)
+  }, [])
+
   return (
 
-<nav className="bg-sky-700 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
-  <Link href="/" className="flex items-center ">
-      <Image src="/img/PiazzaDelivery.svg" width={30} height={30} alt='icon' className=" mr-3 w-52 h-24" alt="Flowbite Logo"/>
+<nav onScroll={(e) => { prova(e) }} className="fixed w-full z-20 top-0 left-0 h-20">
+  <div className="max-w-screen-xl flex flex-wrap place-items-center justify-between m-auto ">
+
+  <Link href="/" className="grid place-items-center h-20 pl-4">
+      <Image src="/img/logoT.png"width={0}
+  height={0}
+  sizes="100vw" alt='icon' className= {`mr-3 w-52 ${stickyClass}`} alt="Flowbite Logo"/>
   </Link>
+
   {homePage === '/'
     ? <div className="flex md:order-2">
     <Link href="/User/cartpage" passHref>
-       <div >
-        <div >
 
-         <div ></div>
-
-        </div>
-       </div>
       </Link>
 
     </div>
@@ -47,7 +68,7 @@ function Navbar ({ state, setIdEmailToStore }) {
   <Link href="/User/cartpage" passHref>
      <div className={styles.item}>
       <div className={styles.cart}>
-       <Image src="/img/cart.png" alt="" width={30} height={30} width={30} height={30} alt='icon' />
+       <Image src="/img/newCart.png" alt="" width={30} height={30} width={30} height={30} alt='icon' />
        <div className={styles.counter}>{counter}</div>
 
       </div>
@@ -59,10 +80,10 @@ function Navbar ({ state, setIdEmailToStore }) {
   <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
     <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border md:flex-row md:space-x-8 md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
       <li className="  transition duration-500 hover:scale-125 ">
-        <Link href="#" className="block py-2 pl-3 pr-4 text-white rounded hover:bg-red-600 md:hover:bg-transparent md:hover:text-red-600 md:p-0 md:dark:hover:text-red-600 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Menu</Link>
+        <Link href="#" className={`block py-2 pl-3 pr-4 text-prova rounded  md:p-0 ${stickyClass}`} aria-current="page">Menu</Link>
       </li>
       <li className="transition duration-500 hover:scale-125 ">
-        <Link href="#" className="block py-2 pl-3 pr-4 text-white rounded hover:bg-red-600 md:hover:bg-transparent md:hover:text-red-600 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</Link>
+        <Link href="#" className={`block py-2 pl-3 pr-4 text-prova rounded  md:p-0  ${stickyClass}`}>About</Link>
       </li>
 
     </ul>

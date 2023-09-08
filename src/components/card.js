@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faTrash, faCirclePlus, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faTrash, faCirclePlus, faCircle, faChevronDown, faChevronUp, faPlus, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { createId } from '@paralleldrive/cuid2'
 
 import styles from '../styles/makeorder.module.css'
@@ -27,9 +27,11 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
   useEffect(() => {
     setCounter(0)
     // setMakePrice(productsChoosen.price)
+    setArrayExtra([])
+    setExtra(0)
     setAddedIngredients([])
     setMakePrice(0)
-  }, [productsChoosen])
+  }, [show])
 
   const router = useRouter()
 
@@ -45,19 +47,20 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
       title: product.title,
       description: product.description,
       category: product.category,
-      price: product.price,
+      price: makePrice,
       img: product.img,
       id: product.id,
-      ingredients: product.ingredients,
+      ingredients: [...arrayExtra, ...product.ingredients || []],
       quantity: counter,
-      orderId: createId()
+      orderId: createId(),
+      time: Date.now()
 
     }
-
+    console.log(arrayExtra, 'arrayextra')
     const sortIngredient = (arr) => {
       const ingSort = arr?.sort(function (a, b) {
-        const textA = a.label.toUpperCase()
-        const textB = b.label.toUpperCase()
+        const textA = a.time
+        const textB = b.time
         return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
       })
       return ingSort
@@ -75,7 +78,6 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
     const sortedIngredientNewOrder = sortIngredient(newOrder.ingredients)
 
     if (orders.length === 0) {
-      console.log('dentro')
       newArray = [newOrder]
       insertOrderRedux(newArray)
     } else {
@@ -83,9 +85,11 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
         const sortedIngredientSingleOrder = sortIngredient(singleOrder.ingredients)
         if (singleOrder.id === newOrder.id && JSON.stringify(sortedIngredientSingleOrder) === JSON.stringify(sortedIngredientNewOrder)) {
           const newQuantity = singleOrder.quantity + newOrder.quantity
+          const newPrice = singleOrder.price + newOrder.price
           console.log('dentro2')
 
           newArray[i].quantity = newQuantity
+          newArray[i].price = newPrice
           insertOrderRedux(newArray)
           stopMap = false
         } else if ((singleOrder.id === newOrder.id && JSON.stringify(sortedIngredientSingleOrder) !== JSON.stringify(sortedIngredientNewOrder)) && stopMap) {
@@ -122,7 +126,12 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
       // prendo il prodotto selezionato
 
       // +1 o -1 sulla quantity
+      // commenta
       order.quantity = order.quantity + num
+      const newQuantity = order.quantity + 1
+      const newPrice = order.price / newQuantity
+      console.log('dentro1', newQuantity)
+      order.price = order.price - newPrice
       // aggiorno lo store con  tutti i prodotti selezionati  meno quello che sto modificando + il prodotto modificato
       const newState = [...ordersWithoutModifiedSingleOrder, order]
 
@@ -132,20 +141,21 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
       const takeOffOrder2 = orders.filter((singleObj) => {
         return singleObj.orderId !== order.orderId
       })
+      console.log('dentro2')
       modifyQuantityOrderRedux(takeOffOrder2)
     }
   }
 
-  const sortOrderByDescription = (arr) => {
+  const sortOrderByTime = (arr) => {
     const ingSort = arr.sort(function (a, b) {
-      const textA = a.description.toUpperCase()
-      const textB = b.description.toUpperCase()
+      const textA = a.time
+      const textB = b.time
       return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
     })
     return ingSort
   }
 
-  const ordersSorted = sortOrderByDescription(state.order)
+  const ordersSorted = sortOrderByTime(state.order)
 
   const [activeIndex, setActiveIndex] = useState([])
 
@@ -199,7 +209,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
 
   const calculateExtraAdd = (ingredient) => {
     // inserisco in extraArray tutti gli ingredienti aggiunti
-    setArrayExtra([...arrayExtra, ingredient])
+    setArrayExtra([...arrayExtra, { ...ingredient, status: 'added' }])
 
     if (counter > 1) {
       // se i prodotti sono piu di 1
@@ -220,11 +230,19 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
     setArrayExtra(newArr)
 
     // se i prodotti sono piu di 1
-    setExtra((prev) => {
-      const result = Number(ingredient.price) * counter
-      const result2 = Number(prev) - result
-      return result2
-    })
+    if (counter === 0 && extra !== 0) {
+      setExtra((prev) => {
+        const result = Number(ingredient.price)
+        const result2 = Number(prev) - result
+        return result2
+      })
+    } else {
+      setExtra((prev) => {
+        const result = Number(ingredient.price) * counter
+        const result2 = Number(prev) - result
+        return result2
+      })
+    }
   }
 
   const changePriceByPlusButton = (priceProduct) => {
@@ -269,17 +287,17 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
             return result
           })
           // somma di ogni singolo prezzo (ingrediente) moltiplicato per la quantita del prodotto
-          const sum = arrNumber.reduce((a, b) => Number(a) + (Number(b) ), 0)
+          const sum = arrNumber.reduce((a, b) => Number(a) + (Number(b) * newCounter), 0)
+          const singleSum = arrNumber.reduce((a, b) => Number(a) + (Number(b)), 0)
           // update extra prezzo
           setExtra(sum)
           // calcolo del nuovo prezzo dell'intero ordine
-          const price = Number(priceProduct) 
+          const price = Number(priceProduct)
           // aggingo l'extra al prezzo dell'intero ordine
 
-          const priceWithoutExtra = Number(makePrice) - Number(sum)
+          const priceWithoutExtra = Number(makePrice) - Number(singleSum)
           const final = priceWithoutExtra - price
 
-         console.log(price, '00', priceWithoutExtra,  sum, makePrice, arrNumber)
           return final
         })
       }
@@ -288,9 +306,11 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
   }
 
   const onButtonPlusIngredient = (addedIngredients, ingredient) => {
-    setAddedIngredients([...addedIngredients, ingredient.value])
-    changePriceAdd(ingredient.price)
-    calculateExtraAdd(ingredient)
+    if (counter > 0) {
+      setAddedIngredients([...addedIngredients, ingredient.value])
+      changePriceAdd(ingredient.price)
+      calculateExtraAdd(ingredient)
+    }
   }
   const onDeleteButtonIngredien = (ingredient) => {
     deleteIngtredient(ingredient)
@@ -298,24 +318,27 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
     calculateExtraOff(ingredient)
   }
 
+  const totalPriceOrder = state.order.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.price,
+    0
+  )
+
   if (show) {
     return (
 
-        <div className={styles.card_makeorder}>
-        <div className="grid-col-2 pb-4 pt-4 ">
-        <div className="grid  place-items-center w-10/12 absolute">
-        <h2 className={styles.h2_card_title}>{productsChoosen.title} </h2>
-        </div>
+        <div className=" rounded-lg mx-8 border-2 bg-white border-uno drop-shadow-xl">
+        <div className="pt-2 ">
         <div className="grid  place-items-end pr-4 relative">
 
-        <button onClick={() => { setShow(false); setAddedIngredients([]) }} type="button" className=" float-right bg-white rounded-md  inline-flex items-center justify-center text-red-700 hover:text-white hover:bg-red-700 ">
-        <span className="sr-only">Close menu</span>
+<button onClick={() => { setShow(false); setAddedIngredients([]) }} type="button"
+ className="flex cursor-pointer middle  none center rounded-lg  font-sans  transition-all duration-500 hover:shadow-tre hover:scale-125  disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+<FontAwesomeIcon icon={faCircleXmark} size="2xl" style={{ color: '#ff8551' }} />
 
-        <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-        </button>
+</button>
 
+</div>
+        <div className="grid  place-items-center  ">
+        <h2 className="font-bold text-lg">{productsChoosen.title} </h2>
         </div>
 
         </div>
@@ -329,19 +352,20 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
         {productsChoosen.ingredients &&
           <div className="flex flex-col items-center ">
 
-          <div>
+          <div className="pt-4">
           <p className="font-bold"> da {productsChoosen.price}  €</p>
           </div>
-          <div>
-          <p>{ingredientsProductChoosenString}</p>
+          <div className="pt-4">
+          <p className="font-extralight text-xs">{ingredientsProductChoosenString}</p>
           </div>
 
           <div className="flex justify-between w-full">
           <div>
-          <h2>Extra</h2>
+          <h2 className="font-bold text-lg pl-4">Extra</h2>
           </div>
           <div>
-          <p>+ {extra} €</p>
+            {extra > 0 ? <p className="pr-12 font-extralight">+ {extra} €</p> : null}
+          
           </div>
           </div>
           <div className="w-full">
@@ -351,9 +375,9 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
               const booleanColor = addedIngredients.includes(ingredient.value)
               return (
 
-                <div key={ingredient.value} className=" flex border-t-2 border-t-stone-300 w-full py-2">
+                <div key={ingredient.value} className="  flex border-t-2 border-t-stone-300 w-full py-2">
                 <button onClick={() => { !booleanColor && onButtonPlusIngredient(addedIngredients, ingredient) }} className="pl-4 pr-4">
-                <FontAwesomeIcon icon={booleanColor ? faCircle : faCirclePlus} style={booleanColor ? { color: '#21a642' } : { color: '#ff0000' } } />
+                <FontAwesomeIcon icon={booleanColor ? faCircle : faCirclePlus} style={booleanColor ? { color: '#9BCDD2' } : { color: '#FF8551' } } />
                 </button>
                 <p>
                 {ingredient.label}
@@ -366,7 +390,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
                  <div className="pl-4">
 
                  <button onClick={() => { onDeleteButtonIngredien(ingredient) }}>
-                   <FontAwesomeIcon icon={faTrash} style={{ color: '#f50000' }} />
+                   <FontAwesomeIcon icon={faTrash} style={{ color: '#FF8551' }} />
                  </button>
                </div>
 
@@ -390,7 +414,7 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
           <div className="flex flex-col items-center ml-28">
           <button type="button"
           className=" border-sky-100 border-2 middle  none center rounded-lg bg-white py-3 px-4 font-sans text-xs font-bold uppercase text-sky-600  shadow-md shadow-sky-600/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-sky-600/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-           onClick={() => { changePriceByMinusButton(productsChoosen.price) }}>-</button>
+           onClick={() => { counter > 0 && changePriceByMinusButton(productsChoosen.price) }}>-</button>
           </div>
           <div className="flex items-center justify-center">
           <p className="">{counter}</p>
@@ -405,8 +429,9 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
 
           <div className="flex flex-col items-center mt-12">
           {counter > 0 &&
-           <div className=" flex cursor-pointer middle  none center rounded-lg bg-red-600 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" onClick={() => { onClickCheckYourOrder(productsChoosen); setShow(false) }}>
-            <p>Add to Order</p>
+           <div className=" flex cursor-pointer middle  none center rounded-lg bg-tre py-3 px-4 font-sans text-xs font-bold uppercase text-white  transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-tre focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+           onClick={() => { onClickCheckYourOrder(productsChoosen); setShow(false) }}>
+            <p>Aggiungi all'ordine</p>
             <p className="pl-8">{makePrice} €</p>
             </div> }
           </div>
@@ -420,47 +445,69 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
     return (
             <>
 
-            <div className="mr-20">
-            <div className=" flex flex-col items-center m-auto" >
-            <h1 className={styles.h1_cartpage}>MAKE YOUR ORDER</h1>
+            <div className="ml-4  bg-quattro ">
+            <div className=" flex flex-col-2 justify-around m-auto " >
+              <div>
+              <h1 className={styles.h1_cartpage}>Il tuo ordine</h1>
+              </div>
+            <div>
+              <h1 className={styles.h1_cartpage}>{isClient ? totalPriceOrder : 0} € </h1>
+            </div>
 
             </div>
-            <div className={styles.div_cartpage_leftside}>
+
+            <div className="flex flex-col items-center pt-4 ">
+                      <button className=" middle mt-18   none center rounded-lg bg-tre py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none "
+                      onClick={() => rootFunction('/User/cartpage')}>
+                        VAI AL PAGAMENTO
+                     </button>
+
+            </div>
+
             {isClient
-              ? <div className={styles.div_cartpage_leftside_nested}>
+              ? <div className="px-4">
 
-              <ul className="list-none ">
+              <ul className="list-none overflow-scroll h-[450px] ">
               { ordersSorted.map((order, index) => {
-                const priceEachOrder = order.price * order.quantity
+                const priceEachOrder = order.price
+
+                const ingredientVisible = order.ingredients?.filter(x => x.status === 'added')
+
+                // rendo invisibile il buttone per mostrare gli ingredienti se il prodotto non ha ingredienti
+                const buttonDown = ingredientVisible.length > 0
+                  ? <button className="bg-quattro" onClick={() => handleClickOpen(index)}>
+              <FontAwesomeIcon icon={faChevronDown} style={{ color: '#ff8551' }} />
+              </button>
+                  : null
+                // rendo invisibile il buttone per nascondere gli ingredienti se il prodotto non ha ingredienti
+                const buttonUp = ingredientVisible.length > 0
+                  ? <button className="bg-quattro" onClick={() => handleClickClose(index)}>
+                  <FontAwesomeIcon icon={faChevronUp} style={{ color: '#ff8551' }} />
+                  </button>
+                  : null
+
                 return (
-                  <div key={order.orderId} >
+                  <div className="bg-white rounded-lg border-2 border-grey-200 m-2" key={order.orderId} >
                   <li className="pb-3 pt-4 sm:pb-4">
-                  <div className="flex items-center">
-                  <div className="flex-shrink-0 w-1/5 h-20">
+                  <div className="flex items-center grid-cols-2">
 
-                  { order.img && <Image className="w-20 h-20  m-auto rounded-full" width={30} height={30} src={order.img} alt="Neil image"/>}
+                  <div className="flex  ml-4 mr-4 w-8/12 ">
+                  <div className="flex  grid place-items-center rounded-full w-8 h-8 bg-due">
 
-                  </div>
-                  <div className="flex grid-cols-2 ml-4 mr-4 w-2/5 ">
-                  <div className="flex justify-start">
-
-                  <p className={styles.p_title_product_cartpage}>{order.quantity} </p>
+                  <p className="font-light text-base ">{order.quantity} </p>
 
                   </div>
-                  <div className=" ml-4  ">
-                  <p className={styles.p_title_product_cartpage}>{order.title} </p>
+                  <div className="flex  grid place-items-center  ml-4  ">
+                  <p className="font-light text-base">{order.title} </p>
 
                   </div>
 
-                  <div>
-
                   </div>
-                  </div>
-                  <div className="ml-4 mr-4 ">
+                  <div className="ml-4 mr-4  w-3/12  ">
                   <div className="flex grid-cols-2" >
-                  <h5>{priceEachOrder} $</h5>
+                  <h5 className="font-light text-base">{priceEachOrder} €</h5>
                   <button className="pl-4" onClick={() => changeQuantityOrder(order, -1)}>
-                  <FontAwesomeIcon icon={faTrash} style={{ color: '#f50000' }} />
+                  <FontAwesomeIcon icon={faTrash} style={{ color: '#FF8551' }} />
                   </button>
 
                   </div>
@@ -468,31 +515,37 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
                   {/* qui c'erano i bottoni */}
                   </div>
                   </div>
-                  <div>
 
-                  <div key={order.orderId} >
-                  <button className={styles.button_accordion} onClick={() => handleClickOpen(index)}>Show Ingredients</button>
-                  <button className={styles.button_accordion} onClick={() => handleClickClose(index)}>Hide Ingredeints</button>
+                  <div className="" key={order.orderId} >
+                    <div className="w-full grid place-items-center">
+
+                    {!activeIndex.includes(index)
+                      ? buttonDown
+                      : buttonUp }
+                      </div>
                   {
-                    order.ingredients?.map((x) => {
-                      const check = activeIndex.includes(index)
-                      return (
+
+                  ingredientVisible?.map((x) => {
+                    const check = activeIndex.includes(index)
+
+                    return (
                         <div key={Math.random()}>
-                        {check && <div>
-                          <p className={styles.p_accordion_card}>{x.label}</p>
-                          <p>{x.price}</p>
+                        {check && <div className="grid grid-cols-3">
+
+                          <div className="grid place-items-center"><FontAwesomeIcon icon={faPlus} style={{ color: '#FF8551' }} /></div>
+                          <div> <p className="text-sm ">{x.label}</p></div>
+                          <div><p className="text-sm ">{x.price} € </p></div>
+
                           </div> }
                           </div>
 
-                      )
-                    })
+                    )
+                  })
                       }
 
                       </div>
-
-                      </div>
                       </li>
-                      <hr className="bg-sky-700 h-0.5"/>
+
                       </div>
                 )
               })}
@@ -503,15 +556,11 @@ function CardMakeOrder ({ state, productsChoosen, setProductsChoosen, insertOrde
 
                     </div>
                     {(isClient && state.order.length > 0)
-                      ? <div className="flex flex-col items-center">
-                      <button onClick={() => rootFunction('/User/cartpage')}className=" middle mt-12   none center rounded-lg bg-red-600 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">CART</button>
-
-                      </div>
+                      ? null
                       : <div className="flex flex-col items-center pt-8">
                       <FontAwesomeIcon className={styles.arrow_card} icon={faArrowLeft} beatFade />
                       </div>}
 
-                      </div>
                       </>
     )
   }

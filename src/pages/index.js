@@ -1,9 +1,14 @@
 import Navbar from '../components/Navbar'
+import Carousel from '../components/carousel'
+import Footer from '../components/footer'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { createId } from '@paralleldrive/cuid2'
 import { connect } from 'react-redux'
 import { useRouter } from 'next/router'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 function Home ({ state, insertRestaurantIdRedux }) {
   const [restaurants, setRestaurants] = useState([])
@@ -41,39 +46,100 @@ function Home ({ state, insertRestaurantIdRedux }) {
   }
 
   const onButtonMakeOrder = () => {
-    const objRest = restaurants.filter((singleObj) => {
-      return singleObj.restaurantid === idRe
-    })
+    if (idRe) {
+      const objRest = restaurants.filter((singleObj) => {
+        return singleObj.restaurantid === idRe
+      })
 
-    const idToInsert = objRest[0].restaurantid
-    insertRestaurantIdRedux(idToInsert)
+      const idToInsert = objRest[0].restaurantid
+      insertRestaurantIdRedux(idToInsert)
 
-    router.push('User/MakeOrder')
+      router.push('User/MakeOrder')
+    }
   }
 
   return (
-    <div className="div_background">
-      <Image src="/img/sky.jpg" width={30} height={30} className="img_index" alt="Flowbite Logo"/>
+    <div>
+{/* sfondo  inizio  */}
+      <div className="div_img_indexpage  ">
+         <div className="screen1"></div>
 
-     <Navbar></Navbar>
-
-     <div className="grid  place-items-center  pt-56" >
+      </div>
+{/* sfondo  fine  */}
       <div>
-     {restaurants.length >0 ?<h1 className="h1_index_page">Choose your restaurant</h1>: <h1>Loading..</h1>}
+         <Navbar></Navbar>
       </div>
 
-     <select value={idRe || 0} onChange={(e) => { handlerOnSelect(e) } } className="block appearance-none w-1/2 bg-blue-50 border-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-200 focus:bg-blue-100" id="grid-state" required>
-      <option></option>
-      {restaurants.map((singleObj) => {
-        return (
-         <option value={singleObj.restaurantid} key={createId()} >{singleObj.restaurantname}</option>
-        )
-      })}
+      <div className="grid grid-cols-3 w-2/3 mt-20  relative mx-auto place-items-center">
+      
+        <div>
+        <Image
+          src="/img/sushi.svg"
+          width={200} height={200}
+          alt="icon nav"
 
-         </select>
-         <button onClick={() => onButtonMakeOrder()} className="  middle mt-20   none center rounded-lg bg-red-600 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Make order</button>
-     </div>
-     </div>
+          />
+        </div>
+        <div>
+        <Image
+          src="/img/dio.png"
+          width={200} height={200}
+          alt="icon nav"
+
+          />
+        </div>
+        <div>
+        <Image
+          src="/img/spaghett.png"
+          width={200} height={200}
+          alt="icon nav"
+
+          />
+        </div>
+     
+      </div>
+
+      <div className="" >
+         <div className="grid w-2/3  mx-auto place-items-center  bg-white pb-24  rounded-lg shadow-2xl ">
+
+            <div>
+               {restaurants?.length > 0 ? <h1 className="h1_index_page">Choose your restaurant</h1> : <h1 className="h1_index_page">Loading..</h1>}
+            </div>
+
+            <div className="flex content-center w-2/3 border-2 border-gray-200 bg-white rounded-full">
+
+              <div className="w-11/12 pl-4">
+                  <select value={idRe || 0} onChange={(e) => { handlerOnSelect(e) } } className="w-full block appearance-none  py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey-200 focus:bg-blue-100" id="grid-state" required>
+                    <option></option>
+                      {restaurants?.map((singleObj) => {
+                        return (
+                                    <option className="tag_option_index" value={singleObj.restaurantid} key={createId()} >{singleObj.restaurantname}</option>
+                        )
+                      })}
+                  </select>
+              </div>
+              <div className="flex items-center justify-center w-1/12 pr-2">
+                  <button className="  middle   none center  px-6 py-4 mr-4 rounded-full  font-sans text-xs font-bold uppercase bg-tre shadow-md shadow-pink-500/20 transition-all duration-500 "
+                      onClick={() => onButtonMakeOrder()}>
+                      <FontAwesomeIcon icon={faMagnifyingGlass} style={{ color: '#fafafa' }} />
+                  </button>
+              </div>
+            </div>
+
+          </div>
+          <div className=" grid   mx-auto place-items-center  mt-36 py-12 bg-white">
+              <h2 className="div_h2_index">Rendi i tuoi ordini più veloci </h2>
+          </div>
+      </div>
+
+      <div>
+      <Carousel></Carousel>
+      </div>
+      <div>
+       <Footer></Footer>
+      </div>
+
+    </div>
 
   )
 }
