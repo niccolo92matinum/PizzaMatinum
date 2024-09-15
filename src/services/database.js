@@ -6,7 +6,7 @@ import { createClient } from '@vercel/postgres'
 export const insertProduct = async (product) => {
   const client = createClient()
   await client.connect()
-  
+
   const strngIngredients = JSON.stringify(product.ingredients)
   
   const final = await client.sql`
@@ -61,6 +61,7 @@ export const deleteProductById = async (id) => {
 export const modifyProduct = async (product) => {
   const client = createClient()
   await client.connect()
+ 
   const strngIngredients = JSON.stringify(product.ingredients)
   const final = await client.sql`
   UPDATE Products

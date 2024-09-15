@@ -17,26 +17,29 @@ function Home ({ state, insertRestaurantIdRedux }) {
   const router = useRouter()
   
   // _______API_________start
-  useEffect(() => {
-    const getAllRestaurantsApi = async () => {
-      try {
-        const response = await fetch(
-          '/api/restaurant',
-          {
-            method: 'GET',
-            'Content-Type': 'application/json'
-          }
-          )
-          
-          const final = await response.json()
-          
-          setRestaurants(final.restaurants)
-          
-          return final
-        } catch (error) {
-          return { error: 'get List of restaurants failed' }
+
+
+  const getAllRestaurantsApi = async () => {
+    try {
+      const response = await fetch(
+        '/api/restaurant',
+        {
+          method: 'GET',
+          'Content-Type': 'application/json'
         }
+        )
+        
+        const final = await response.json()
+        
+        setRestaurants(final.restaurants)
+        
+        return final
+      } catch (error) {
+        return { error: 'get List of restaurants failed' }
       }
+    }
+  useEffect(() => {
+  
       getAllRestaurantsApi()
     }, [])
     // _____API_________end
