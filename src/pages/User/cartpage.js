@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 import { useEffect, useState } from 'react'
+import Navbar from '../../components/Navbar'
+import Image from 'next/image'
 
 function CartPage ({ state, modifyQuantityOrderRedux }) {
   const [isClient, setIsClient] = useState(false)

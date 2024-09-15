@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { useSession, signOut, signIn } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+import Image from 'next/image'
 
 function Navbaradmin ({ state, setIdEmailToStore }) {
   const { data: session } = useSession()

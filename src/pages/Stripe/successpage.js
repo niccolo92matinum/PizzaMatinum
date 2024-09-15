@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { useEffect } from 'react'
+import Navbar from '../../components/Navbar'
 
 function SuccessPage ({ state, resetOrder, resetUserData }) {
   

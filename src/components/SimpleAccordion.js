@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { useSession } from 'next-auth/react'
 import styles from '../styles/makeorder.module.css'
 import { faTrash, faRotate } from '@fortawesome/free-solid-svg-icons'
+import Image from 'next/image'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function SimpleAccordion ({ state, setProduct, setModify, modify, insertProductsOnStore, deleteProduct, setSingleProductSelected }) {
   const { data: session, status } = useSession()

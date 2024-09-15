@@ -1,3 +1,7 @@
+import Navbar from '../components/Navbar'
+import Carousel from '../components/carousel'
+import Footer from '../components/footer'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { createId } from '@paralleldrive/cuid2'
 import { connect } from 'react-redux'
@@ -23,7 +27,9 @@ function Home ({ state, insertRestaurantIdRedux }) {
             'Content-Type': 'application/json'
           }
           )
+          
           const final = await response.json()
+          
           setRestaurants(final.restaurants)
           
           return final
