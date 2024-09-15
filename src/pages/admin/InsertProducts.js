@@ -303,29 +303,29 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
 
          <form className="w-full" id='Form-Insert-Product' onSubmit={(e) => { insertProductApi(e); modifyProductApi(e); clearStateProduct() }}>
          <div className='flex flex-wrap place-content-center pb-4 '>
-          <h1 className={styles.h1_insertproduct}>Products Details</h1>
+          <h1 className="text-black text-4xl font bold pb-8">Dettagli del prodotto</h1>
           </div>
 
           <div className="">
-          <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2 " htmlFor="grid-first-name">
+          <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2 " htmlFor="grid-first-name">
                    Title
             </label>
-            <input value={product.title || ''} onChange={(e) => setProduct({ ...product, ...{ title: e.target.value } })} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-grey-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="title" type="text" placeholder="Title" required/>
+            <input value={product.title || ''} onChange={(e) => setProduct({ ...product, ...{ title: e.target.value } })} className="appearance-none block w-full bg-white text-gray-700 border border-grey-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="title" type="text" placeholder="Title" required/>
           </div>
 
           <div>
-          <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2 mt-8" htmlFor="grid-last-name">
+          <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2 mt-8" htmlFor="grid-last-name">
                    Description
             </label>
-            <textarea value={product.description || ''} onChange={(e) => setProduct({ ...product, ...{ description: e.target.value } })} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Insert Description" required/>
+            <textarea value={product.description || ''} onChange={(e) => setProduct({ ...product, ...{ description: e.target.value } })} className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Insert Description" required/>
           </div>
 
           <div className="w-2/6">
-          <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2 mt-8" htmlFor="grid-state">
+          <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2 mt-8" htmlFor="grid-state">
                    Category
            </label>
 
-            <select value={product.category || ''} onChange={(e) => setProduct({ ...product, ...{ category: e.target.value } })} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" required>
+            <select value={product.category || ''} onChange={(e) => setProduct({ ...product, ...{ category: e.target.value } })} className="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" required>
              <option>Dish</option>
              <option>Pizza</option>
              <option>Drink</option>
@@ -335,13 +335,13 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
             </select>
           </div>
 
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-sky-700">
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black">
              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
 
           </div>
             <div className=" flex flex-row pt-3 pb-3 mt-4 " hidden={hiddenMultiSelect}>
               <div className="w-full mr-4">
-              <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2" htmlFor="grid-state">
+              <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2" htmlFor="grid-state">
                  Ingredient
            </label>
              <Select
@@ -355,7 +355,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
               </div>
               <div className="cursor-pointer mt-4">
 
-                <FontAwesomeIcon onClick={() => { rootFunction('/Admin/InsertIngredients') }} icon={faPlus} beat style={{ color: '#ff0000' }} />
+                <FontAwesomeIcon onClick={() => { rootFunction('/Admin/InsertIngredients') }} icon={faPlus} beat style={{ color: '#ff8551' }} />
                {/* <FontAwesomeIcon className="mt-4" onClick={() => { setWitchModal('remove'); setShowModal(true) }} icon={faMinus} beat style={{ color: '#ff0000' }} /> */}
 
                  </div>
@@ -363,17 +363,17 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
             </div>
 
             <div className="w-2/6 mt-4">
-            <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2" htmlFor="grid-city">
+            <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2" htmlFor="grid-city">
                    Price
            </label>
-           <input value={product.price || ''} onChange={(e) => setProduct({ ...product, ...{ price: e.target.value } })} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" min='1' placeholder="Insert Price" required/>
+           <input value={product.price || ''} onChange={(e) => setProduct({ ...product, ...{ price: e.target.value } })} className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" min='1' placeholder="Insert Price" required/>
             </div>
 
             <div className='pt-4  w-3/6 mt-4'>
-           <label className="block uppercase tracking-wide text-sky-700 text-xs font-bold mb-2" htmlFor="grid-city">
+           <label className="block uppercase tracking-wide text-black text-xs font-bold mb-2" htmlFor="grid-city">
                   {modify ? 'Change Image' : 'Insert Image'}
            </label>
-           <input onChange={(e) => { convertImgSetToProduct(e.target.files[0]) }} accept="image/jpeg, image/png" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="file" />
+           <input onChange={(e) => { convertImgSetToProduct(e.target.files[0]) }} accept="image/jpeg, image/png" className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="file" />
           </div>
 
           <div className="flex flex-col items-center mt-8">
@@ -382,7 +382,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
     form='Form-Insert-Product'
     style={modify ? { display: 'none' } : {} }
     type='submit'
-    className="middle  none center rounded-lg bg-red-600 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+    className=" flex cursor-pointer middle  none center rounded-lg bg-tre py-3 px-4 font-sans text-xs font-bold uppercase text-white  transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-tre focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
     data-ripple-light="true"
    >
            Insert
@@ -392,7 +392,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
     style={!modify ? { display: 'none' } : {} }
 
     type='submit'
-    className="middle  none center rounded-lg bg-red-600 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+    className=" flex cursor-pointer middle  none center rounded-lg bg-tre py-3 px-4 font-sans text-xs font-bold uppercase text-white  transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-tre focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
    >
            Modify Product
    </button>
@@ -404,7 +404,7 @@ function InsertProducts ({ state, modifyProductRedux, insertProductRedux, setIdE
         {/* comntainer destra */}
         <div className='rigth w-1/2 pr-4   '>
          <div className="flex flex-wrap place-content-center pb-4">
-         <h1 className={styles.h1_insertproduct}>Check all your Products</h1>
+         <h1 className="text-black text-4xl font bold pb-8" >Prodotti inseriti</h1>
          </div>
 
       <SimpleAccordion setProduct={setProduct} setModify={setModify} modify={modify} setSingleProductSelected={setSingleProductSelected} ></SimpleAccordion>

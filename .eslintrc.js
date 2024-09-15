@@ -16,12 +16,15 @@ module.exports = {
   plugins: [
     'react'
   ],
-  rules: {
+  rules: off
+
+}
+
+/* {
+   
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-react': 'off',
     'react/prop-types': 'off',
     'next-line multiline-ternary': 'off',
     'react/jsx-uses-vars': [2]
-  }
-
-}
+  } */

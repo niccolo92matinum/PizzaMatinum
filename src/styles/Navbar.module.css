@@ -69,12 +69,7 @@ background-color: white;
   color: white;
 }
 
-.listItem {
-  margin: 20px;
-  font-weight: 500;
-  color:black;
-  cursor: pointer;
-}
+
 
 .cart{
     position: relative;

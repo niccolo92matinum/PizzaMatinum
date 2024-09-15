@@ -111,7 +111,8 @@ function Home ({ state, insertRestaurantIdRedux }) {
               <div className="w-11/12 pl-4">
                   <select value={idRe || 0} onChange={(e) => { handlerOnSelect(e) } } className="w-full block appearance-none  py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey-200 focus:bg-blue-100" id="grid-state" required>
                     <option></option>
-                      {restaurants?.map((singleObj) => {
+                    
+                      {restaurants?.length > 0 && restaurants?.map((singleObj) => {
                         return (
                                     <option className="tag_option_index" value={singleObj.restaurantid} key={createId()} >{singleObj.restaurantname}</option>
                         )

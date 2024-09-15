@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { useSession } from 'next-auth/react'
 import styles from '../styles/makeorder.module.css'
 import Image from 'next/image'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faRotate } from '@fortawesome/free-solid-svg-icons'
 
 function SimpleAccordion ({ state, setProduct, setModify, modify, insertProductsOnStore, deleteProduct, setSingleProductSelected }) {
   const { data: session, status } = useSession()
@@ -42,7 +44,6 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
 
           const final = await response.json()
           const finalProduct = await convertBufferIngredient(final.product)
-          console.log(finalProduct, 'dio porco')
           const prod = await filterProductsByCategory(finalProduct, 'category')
 
           await insertProductsOnStore(prod)
@@ -62,11 +63,12 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
       if (singleCategory.ingredients !== null) {
         const buf = singleCategory.ingredients.data
 
-        const str = String.fromCharCode.apply(String, buf)
+        const str = String.fromCharCode(...buf)
         const obj = JSON.parse(str)
 
-        singleCategory.ingredients = obj
+       singleCategory.ingredients = obj
       }
+      return singleCategory
     })
     return objProducts
   }
@@ -97,20 +99,6 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
     }
   }
 
-  /*
-      const modifyProductApi = async () => {
-        const response = await fetch(
-          '/api/products'
-          ,
-          {
-            method: 'PUT',
-            'Content-Type': 'application/json',
-            Authorization: session.accessToken
-
-          }
-          )
-        }
-        */
   // ____________API________end_____
 
   const setDataOnClickModifyButton = (singleProduct) => {
@@ -123,7 +111,7 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
             const createOptionsObj = options.filter(s => s.value === num)
             vu.push(...createOptionsObj)
           }) */
-    console.log(singleProduct.ingredients, 'sin')
+
     setProduct({
       title: singleProduct.title,
       description: singleProduct.description,
@@ -137,58 +125,66 @@ function SimpleAccordion ({ state, setProduct, setModify, modify, insertProducts
     })
   }
 
+  const sortOrderByTitle = (arr) => {
+    const ingSort = arr.sort(function (a, b) {
+      const textA = a.title.toUpperCase()
+      const textB = b.title.toUpperCase()
+      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0
+    })
+    return ingSort
+  }
+
   return (
-          <div className="m-2 space-y-2 pt-4">
-          { Object.values(state.productsData).map((categoryArr, i) => {
-            return (
-              <div key={Math.random()}
-              className="group flex flex-col gap-2 rounded-lg bg-neutral-50 p-5 text-white"
-              tabIndex={i}
-              >
-              <div className="flex cursor-pointer items-center justify-between">
-              <span className='name_category_accordion'>{categoryArr[0]?.category}</span>
-              <Image
-              src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png"
-              width={30} height={30}
-              alt='icon'
-              className="h-2 w-3 transition-all duration-500 group-focus:-rotate-180"
+    <div className="space-y-2 overflow-y-scroll h-5/6">
+    { Object.values(state.productsData).map((categoryArr, i) => {
+      const productOrdered = sortOrderByTitle(categoryArr)
+      // console.log(categoryArr,'000')
+      return (
+        <div key={i} >
+          <div className="sticky top-0 rounded-[8px]  bg-uno">
+          <h1 className="text-4xl pl-4">{categoryArr[0].category}</h1>
+          </div>
 
-              />
-              </div>
-              <div
-              className="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000"
-              >
-              {categoryArr.map((singleObj) => {
-                return (
-                  <div className={styles.accordion_main_div_makeorder} key={singleObj.id}>
-                  <div className='grid grid-cols-2 gap-4 '>
-                  <div className="">
-                  <h1 className=' h1_accordion_title text-stone-700' >{singleObj.title} </h1>
+          
+
+           {productOrdered.map((singleProduct) => {
+             const arrLabel = singleProduct.ingredients?.map(single => single.label)
+             const stringAllLabelIngredients = arrLabel?.toString()
+
+             return (
+                <div key={Math.random()} onClick={() => { }} className={styles.div_singleproduct}>
+                  <div className="p-4 w-1/2 ">
+                    <h1 className="font-bold text-2xl">{singleProduct.title}</h1>
+                     {stringAllLabelIngredients && <p>{stringAllLabelIngredients}</p>}
+                    <p className="font-bold" >da {singleProduct.price} €</p>
+                  </div>
+                  <div className="flex grid-cols-2 w-1/8 ">
+                    <div className="pr-4 pt-4 text-2xl" onClick={ () => { setDataOnClickModifyButton(singleProduct); setSingleProductSelected(singleProduct) }}>
+                    <FontAwesomeIcon icon={faRotate} style={{ color: '#ff8551' }} 
+                    className=" transition-all duration-500 hover:scale-125   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                     />
+                    </div>
+                    <div className="pr-4  pt-4 text-2xl" onClick={() => deleteProductApi(singleProduct)} >
+                    <FontAwesomeIcon icon={faTrash} style={{ color: '#ff8551' }} 
+                   className=" transition-all duration-500 hover:scale-125   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"/>
+                    </div>
+                 
 
                   </div>
-                  <div>
-                  <button onClick={ () => { setDataOnClickModifyButton(singleObj); setSingleProductSelected(singleObj) }} className="middle mb-8 mr-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Modify</button>
-                  <button onClick={() => deleteProductApi(singleObj)} className="middle mb-8 none center rounded-lg bg-red-600 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ">Delete</button>
-                  </div>
-                  <div>
+                  <div className="mr-5 w-1/3">
+                  { singleProduct.img && <Image className="w-20 h-20  m-auto rounded-bl-3xl rounded-br-3xl rounded-tl-3xl rounded-tr-3xl  " width={30} height={30} src={singleProduct.img} alt="Neil image"/>}
 
                   </div>
 
-                  </div>
+                </div>
 
-                  </div>
+             )
+           })}
+        </div>
 
-                )
-              })
-
-              }
-
-              </div>
-              </div>
-            )
-          }) }
-
-            </div>
+      )
+    })}
+    </div>
 
   )
 }
@@ -233,41 +229,3 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(SimpleAccordion)
 
-/*
-          const setDataOnClickModifyButton = (singleProduct) => {
-
-            function dataURLtoFile (dataurl, filename) {
-              const arr = dataurl.split(','); const mime = arr[0].match(/:(.*?);/)[1]
-              const bstr = atob(arr[1]); let n = bstr.length; const u8arr = new Uint8Array(n)
-              while (n--) {
-                u8arr[n] = bstr.charCodeAt(n)
-              }
-              return new File([u8arr], filename, { type: mime })
-            }
-
-            // Usage example:
-
-            if (singleProduct.img !== '') {
-              const file = dataURLtoFile(singleProduct.img, `${singleProduct.title}.png`)
-              setProduct({
-                title: singleProduct.title,
-                description: singleProduct.description,
-                category: singleProduct.category,
-                price: singleProduct.price,
-                img: file,
-                id: singleProduct.id
-
-              })
-
-            }else{
-
-              setProduct({
-                title: singleProduct.title,
-                description: singleProduct.description,
-                category: singleProduct.category,
-                price: singleProduct.price,
-                id: singleProduct.id
-
-              })
-            }
-            */

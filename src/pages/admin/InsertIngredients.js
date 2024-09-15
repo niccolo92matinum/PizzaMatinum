@@ -147,33 +147,38 @@ function InsertIngredients ({ state, addIngrendientRedux, deleteIngredeintRedux,
         <div className='main  flex justify-center pt-8 '>
 
         <div className='left  place-content-center  w-1/2 pl-28 pr-28 '>
-        <h1>Create Ingredient</h1>
-        <form onSubmit={(e) => addIngredientByAdmin(e) } className="w-full max-w-sm">
+          <div className="">
+          <h1 className="text-bleck font-bold text-2xl pb-4 text-center">
+          Crea il tuo ingrediente
+          </h1>
+          </div>
+        
+        <form onSubmit={(e) => addIngredientByAdmin(e) } className="w-full ">
 
 <div className="md:flex md:items-center mb-6">
 <div className="w-1/4">
-  <label className="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+  <label className="block text-black font-bold md:text-left mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
     Name
   </label>
 </div>
 <div className="md:w-3/4">
-  <input value={ingredient.label || ''} onChange={(e) => handleIngredient(e, 'label')} className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" required type="text" />
+  <input value={ingredient.label || ''} onChange={(e) => handleIngredient(e, 'label')} className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-due" id="inline-full-name" required type="text" />
 </div>
 </div>
 <div className="md:flex md:items-center mb-6">
 <div className="md:w-1/4">
-  <label className="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" htmlFor="">
+  <label className="block text-black font-bold md:text-left mb-1 md:mb-0 pr-4" htmlFor="">
     Perice
   </label>
 </div>
-<div className="md:w-3/4">
-  <input value={ingredient.price || ''} onChange={(e) => handleIngredient(e, 'price')} className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" min="1" max="300" type="number" required placeholder="price"/>
+<div className="w-1/4">
+  <input value={ingredient.price || ''} onChange={(e) => handleIngredient(e, 'price')} className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-due" id="inline-password" min="1" max="300" type="number" required placeholder="price"/>
 </div>
 
 </div>
-<div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+<div className="flex items-center justify-center p-6  rounded-b">
 
-<button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+<button className=" flex cursor-pointer middle  none center rounded-lg bg-tre py-3 px-4 font-sans text-xs font-bold uppercase text-white  transition-all duration-500 hover:scale-125 hover:shadow-lg hover:shadow-tre focus:opacity-[0.85]  focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="submit">
                  Save
   </button>
@@ -184,21 +189,22 @@ function InsertIngredients ({ state, addIngrendientRedux, deleteIngredeintRedux,
         </div>
 
         <div className='left  place-content-center  w-1/2 pl-28 pr-28 '>
-        <h1>Check all your Ingredients</h1>
+        <h1 className="text-bold text-2xl font-bold pb-4">Ingredienti Inseriti</h1>
         {isClient &&
          <div>
          {arrIngredients.map((singleIngredient) => {
          
            return (
-                 <div key={singleIngredient.value} className="flex flex-row">
-                      <div>
-                         <h1>{singleIngredient.label} </h1>
+                 <div key={singleIngredient.value} className="flex flex-row bg-white w-1/2 rounded-lg px-4 mb-4">
+                      <div className="w-1/3">
+                         <h1 className="text-center font-light">{singleIngredient.label} </h1>
                       </div>
-                     <div className="pl-14">
-                         <h2>{singleIngredient.price}€</h2>
+                     <div className="pl-14 w-1/3 ">
+                         <h2 className="text-center font-light">{singleIngredient.price}€</h2>
                      </div>
-                     <div className="pl-14 cursor-pointer">
-                     <FontAwesomeIcon onClick={() => deleteIngredient(singleIngredient.value) } icon={faTrash} style={{ color: '#ff0000' }} />
+                     <div className="pl-14 cursor-pointer w-1/3">
+                     <FontAwesomeIcon onClick={() => deleteIngredient(singleIngredient.value) } icon={faTrash} style={{ color: '#ff8551' }} 
+                     className="text-xl hover:scale-110"/>
                      </div>
 
                  </div>

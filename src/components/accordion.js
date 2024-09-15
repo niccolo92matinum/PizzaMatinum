@@ -14,10 +14,7 @@ function AccordionOrder ({ showProductOnChoosen, setShow, productsData }) {
     setIsClient(true)
   }, [])
 
-  const prova = (e) => {
-    const x = e
-    console.log(x, 'xxx')
-  }
+  
 
   useEffect(() => {
     // window.addEventListener('scroll', prova)
