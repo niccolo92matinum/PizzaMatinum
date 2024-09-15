@@ -1,9 +1,6 @@
-import Navbaradmin from '../../components/Navbaradmin'
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { useSession } from 'next-auth/react'
-import TableDashboard from '../../components/tabledashboard'
-import Modal from '../../components/modaldetailsadmin'
 import { useRouter } from 'next/navigation'
 
 function Dashboard ({ state, insertOrderAdminRedux, setIdEmailToStore }) {

@@ -2,7 +2,6 @@ import { useSession } from 'next-auth/react'
 import { connect } from 'react-redux'
 import { useState } from 'react'
 import { createId } from '@paralleldrive/cuid2'
-import Select from 'react-select'
 
 function ModalIngredients ({ showModal, setShowModal, witchModal, state, addIngrendientRedux, deleteIngredeintRedux }) {
   console.log(state)

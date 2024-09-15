@@ -1,7 +1,4 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import styles from '../styles/Navbar.module.css'
-
 import { connect } from 'react-redux'
 import { useSession, signOut, signIn } from 'next-auth/react'
 import { useState, useEffect } from 'react'

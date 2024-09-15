@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 import { useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { createId } from '@paralleldrive/cuid2'
-import Image from 'next/image'
 
 const stripePromise = loadStripe(
   process.env.stripe_public_key

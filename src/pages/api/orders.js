@@ -5,7 +5,7 @@ export default async function handler (request, response) {
     try {
       const orders = await getAllOrdersByRestaurantId(request.query.idrestaurant)
       const final = orders.rows
-
+      
       response.status(200).json({ orders: final })
     } catch (err) {
       response.status(500).send({ message: ['Get not available'], err })
@@ -13,10 +13,10 @@ export default async function handler (request, response) {
   } else if (request.method === 'POST') {
     try {
       const orderId = request.body
-
-
+      
+      
       await changeOrderStatus2(orderId)
-
+      
       response.status(200).json('Status Changed')
     } catch (err) {
       response.status(500).json('Action FAILED')
@@ -24,9 +24,9 @@ export default async function handler (request, response) {
   } else if (request.method === 'DELETE') {
     try {
       const orderId = request.query.orderid
-
+      
       await deleteOrderByAdmin(orderId)
-
+      
       response.status(200).json('Order Deleted')
     } catch (err) {
       response.status(500).json('Action FAILED')

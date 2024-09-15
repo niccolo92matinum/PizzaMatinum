@@ -1,5 +1,5 @@
 import createSagaMiddleware from 'redux-saga'
-import rootReducer from 'reducers'
+import rootReducer from './reducers'
 import configurePersist from './configurePersist'
 import { logger } from 'redux-logger'
 import { applyMiddleware, createStore, compose } from 'redux'

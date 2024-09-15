@@ -15,24 +15,23 @@ export const config = {
 }
 
 const handler = async (req, res) => {
-  
   if (req.method === 'POST') {
     const buf = await buffer(req)
     const sig = req.headers['stripe-signature']
     let stripeEvent
-
+    
     try {
       stripeEvent = stripe.webhooks.constructEvent(buf, sig, webhookSecret)
     } catch (err) {
       res.status(400).send(`Webhook Error: ${err.message}`)
       return
     }
-
+    
     if (stripeEvent.type === 'checkout.session.completed') {
       const session = stripeEvent.data.object
-
+      
       changeOrderStatus(session.metadata.orderId)
-
+      
       res.json({ received: true })
     } else {
       res.setHeader('Allow', 'POST')

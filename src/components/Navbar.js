@@ -1,7 +1,5 @@
-import Image from 'next/image'
 import styles from '../styles/Navbar.module.css'
 import { connect } from 'react-redux'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
