@@ -1,5 +1,6 @@
 const getStoreToBeSaved = (store, doNotSave = []) => {
   const storeToBeSaved = { ...store }
+  console.log('getstore')
   // eslint-disable-next-line no-restricted-syntax
   for (const key of Object.keys(store)) {
     if (doNotSave.includes(key)) {
