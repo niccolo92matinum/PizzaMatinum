@@ -121,7 +121,16 @@ function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
         src="/img/makeimg.svg"
         width={400}
         height={400}
+        
+        alt="makeimg"
+        
+        />
+        
+        <Image
+        src="/img/paymentImg2.svg"
+        width={300} height={300}
         alt="icon nav"
+        
         />
         </div>
         
