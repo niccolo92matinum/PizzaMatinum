@@ -20,6 +20,7 @@ function Home ({ state, insertRestaurantIdRedux }) {
 
 
   const getAllRestaurantsApi = async () => {
+    console.log('ciao')
     try {
       const response = await fetch(
         '/api/restaurant',
