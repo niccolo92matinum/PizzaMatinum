@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-duplicates
-import { createClient } from '@vercel/postgres'
+import { createClient, sql } from '@vercel/postgres'
+import { NextResponse } from 'next/server'
 
 // const client = await db.connect()
 
@@ -73,14 +74,33 @@ export const modifyProduct = async (product) => {
 }
 
 export const getAllRestaurants = async () => {
+  console.log(1111)
   const client = createClient()
   await client.connect()
+  console.log(2222)
   const final = await client.sql`
   select * from restaurants
   `
   return final
 }
 
+/*
+export async function getAllRestaurants (request) {
+  console.log('new3')
+  const { searchParams } = new URL(request.url)
+  console.log(searchParams)
+  const restaurants = searchParams.get('restaurants')
+
+  try {
+    if (!restaurants) throw new Error('not foun')
+    const result = await sql`select * from restaurants;`
+    return NextResponse.json({ result }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 })
+  }
+
+}
+*/
 export const insertOrder = async (order) => {
   const parseOrder = JSON.parse(order)
   
