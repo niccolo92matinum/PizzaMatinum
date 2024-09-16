@@ -43,7 +43,7 @@ function Navbar ({ state, setIdEmailToStore }) {
 <nav className="fixed w-full z-20 top-0 left-0 h-20">
   <div className="max-w-screen-xl flex flex-wrap place-items-center justify-between m-auto ">
   <Link href="/" className="grid place-items-center h-20 pl-4">
-      <Image src="/img/logoT.png"width={0}
+      <Image src="/img/logoT.png" width={0}
   height={0}
   sizes="100vw" alt='icon' className= {`mr-3 w-52 ${stickyClass}`} alt="Flowbite Logo"/>
   </Link>

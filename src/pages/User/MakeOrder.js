@@ -119,8 +119,6 @@ function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
         <Image
           src="/img/makeimg.svg"
           width={400} height={400}
-          alt="icon nav"
-
           />
 
           <h1 className="text-due font-bold  text-4xl pt-14">Nome del ristorante</h1>
