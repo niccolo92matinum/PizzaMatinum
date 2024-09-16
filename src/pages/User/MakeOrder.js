@@ -118,20 +118,14 @@ function MakeOrder ({ state, insertProductsOnStore, insertIngredientsRedux }) {
         <div className="grid pt-20  relative mx-auto place-items-center">
         <div>
         <Image
-        src="/img/makeimg.svg"
+        src="/img/makePageImg.svg"
         width={400}
         height={400}
-        
-        alt="makeimg"
-        
-        />
-        
-        <Image
-        src="/img/paymentImg2.svg"
-        width={300} height={300}
-        alt="icon nav"
+        alt="sacco"
         
         />
+        
+      
         </div>
         
         <h1 className="text-due font-bold  text-4xl pt-14">Nome del ristorante</h1>
